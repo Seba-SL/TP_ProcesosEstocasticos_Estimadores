@@ -55,18 +55,83 @@ citestyle=apa
 \titleformat{\section}[hang]{\normalfont\Large\bfseries}{\thesection}{1em}{}
 
 \begin{document}
-	\setcounter{page}{1}
-	\begin{minipage}[h]{1\textwidth}
+	
+	% ---------------- PORTADA ----------------
+	\begin{titlepage}
+		\centering
 		
-		\title{\includegraphics[height = 1.5cm]{img/logofiuba.png} % Logo en la izquierda del encabezado  
-			\\(TA132) Procesos Estocásticos \\Trabajo Práctico  : Taller de estimación }
-		\author{106213 Sebastián Lazo  (slazo@fi.uba.ar) \\ ----- Steling Perez, Kevin JesusT (-----) }
-		\date{23 de Noviembre 2026}
-		\maketitle
+		% Logo institucional
+		\vspace*{0.8cm}
+		\includegraphics[height=1.5cm]{img/logofiuba.png}
 		
-	\end{minipage}
-
+		\vspace{1cm}
+		
+		% Información de la materia
+		{\Large \textsc{(TA132) Procesos Estocásticos}\par}
+		
+		\vspace{0.8cm}
+		
+		{\large Trabajo Práctico\par}
+		
+		\vspace{0.5cm}
+		
+		% Título principal
+		\rule{0.85\textwidth}{0.6pt}
+		
+		\vspace{0.7cm}
+		
+		{\Huge\bfseries Taller de estimación\par}
+		
+		\vspace{0.7cm}
+		
+		\rule{0.85\textwidth}{0.6pt}
+		
+		\vspace{2cm}
+		
+		% Autores
+		{\Large\bfseries Autores\par}
+		
+		\vspace{0.7cm}
+		
+		{\large
+			106213  Sebastián Lazo\\
+			\texttt{slazo@fi.uba.ar}\\[0.6cm]
+			Kevin Jesús Sterling Pérez\\
+			\texttt{-----}
+			\par}
+		
+		\vfill
+		
+		% Información institucional
+		\rule{0.6\textwidth}{0.4pt}
+		
+		\vspace{0.5cm}
+		
+		{\large Facultad de Ingeniería\\
+			Universidad de Buenos Aires\par}
+		
+		\vspace{0.8cm}
+		
+		{\large 23 de noviembre de 2026\par}
+		
+		\vspace{0.5cm}
+		
+	\end{titlepage}
  \newpage
  
- \section{Introducción}
+ \section*{Introducción}
+ 
+ El informe describe el desarrollo de un taller dentro del ámbito de la materia Procesos estocásticos en el cual se abarca a nivel teórico y práctico la metodología de estimación de procesos aleatorios. Se encuentra dividido en tres actividades principales, en la primera actividad, utilizando bibliografía especifica, se estudian, simulan y analizan diferentes ejemplos, la segunda actividad se utiliza un \textit{paper} acerca de la modulación OFDM se relaciona con lo previo y se propone un experimento numérico que permita evaluar la bondad de dichas aproximaciones. La actividad tres finalmente es el desarrollo del informe.
+ 
+ 
+ 
+ \section*{Actividad 1: Análisis y simulación de sistemas de filtrado óptimo}
+ 
+ \section*{Actividad 2}
+ 
+ 
+ 
+ \section*{Conclusión}
+ 
+ 
 \end{document}
