@@ -319,16 +319,46 @@ Finalmente, dado que $x(n)$ y $d(n)$ son conjuntamente ESA, entonces $\mathbb{E}
 
 
 \begin{equation}
-	\mathbb{E}\Bigl \{  d(n)[x^*(n-m)]\Bigr \} -  \sum_{m=0}^{p} w(m)\, r_x(k-m) \Bigr \} = 0
+  r_{dx}(k)  -  \sum_{m=0}^{p} w(m)\, r_x(k-m) \Bigr \} = 0
 \end{equation}
 
 
 \begin{equation}
-	\mathbb{E}\Bigl \{  d(n)[x^*(n-m)]\Bigr \} -  r_{dx}(k) \Bigr \} = 0
+  \sum_{m=0}^{p} w(m)\, r_x(k-m)  =  r_{dx}(k)
+\end{equation}
+que es un conjunto de $p$ ecuaciones lineales en las $p$ incógnitas $w(k)$, $k = 0, 1, \dots, p-1$. En forma matricial, utilizando la simetría conjugada de la secuencia de autocorrelación, $r_x(-k) = r_x^*(k)$, la ecuación se convierte en un sistema lineal matricial:
+
+\begin{equation}
+	\begin{bmatrix}
+		r_x(0)     & r_x^*(1)   & \cdots & r_x^*(p-1) \\
+		r_x(1)     & r_x(0)     & \cdots & r_x^*(p-2) \\
+		r_x(2)     & r_x(1)     & \cdots & r_x^*(p-3) \\
+		\vdots     & \vdots     &        & \vdots     \\
+		r_x(p-1)   & r_x(p-2)   & \cdots & r_x(0)
+	\end{bmatrix}
+	\begin{bmatrix}
+		w(0) \\
+		w(1) \\
+		w(2) \\
+		\vdots \\
+		w(p-1)
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		r_{dx}(0) \\
+		r_{dx}(1) \\
+		r_{dx}(2) \\
+		\vdots \\
+		r_{dx}(p-1)
+	\end{bmatrix}
 \end{equation}
 
 
+Comprimiendo las matrices con la notación $\mathbf{R}_x$ , $\mathbf{w} $ y $ \mathbf{r}_{dx}$:
 
+\begin{equation}
+	\boxed{\mathbf{R}_x \mathbf{w} = \mathbf{r}_{dx}}
+\end{equation}
  
  \subsubsection*{7.2.1 : Ejemplo de filtro y simulación}
  
