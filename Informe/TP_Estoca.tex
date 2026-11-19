@@ -218,6 +218,76 @@ Se debe diseñar un filtro lineal invariante en el tiempo LTI, $W(z)$, que filtr
 \end{itemize}
 
 
+\subsubsection*{7.2 : Filtros Wiener de respuesta al impulso finita (FIR)}
+
+Se considera el tipo de filtros de Wiener FIR $W(z)$, obteniendo el MMSE, para esta sección se asumen nuevamente $x(n)$ y $d(n)$ procesos ESA y con funciones de autocorrelación conocidas $r_x(k)$ , $r_{d}(k)$ y la función de auto-correlación cruzada $r_{dx}(k)$.
+
+El error mínimo cuadrado es definido como:
+
+\begin{equation}
+	MSE = \mathbb{E}[|d(n)- \hat{d}(n)|^2] =  \mathbb{E}[|e(n)|^2]
+\end{equation}
+
+Donde se obtiene la estimación por medio de la salida del filtro Wiener $\hat{d}(n)$ = $w(n) \ast x(n) $. 
+ 
+Se puede deducir que para minimizar el error se debe encontrar y pensando el error como una función de $MSE(w[k])$, siendo $w[k]$ el $k$-ésimo coeficiente del filtro un numero complejo y $w^*[k]$ su conjugado, los puntos estacionarios de dicha función, los mínimos locales y globales, deben satisfacer la siguiente condición: 
+ 
+ \begin{equation}
+ 		\frac{\partial MSE(w[k])}{\partial w^*[k]} = 0 
+ \end{equation}
+
+ Utilizando: 
+ \begin{equation}
+ 	|e(n)|^{2} = e(n)\cdot e^{\ast} (n) 
+ \end{equation}
+
+
+  
+ \begin{equation}
+ 	\frac{\partial MSE(w[k])}{\partial w^*[k]} = \frac{\partial }{\partial w^*[k]}  \mathbb{E}[|e(n)|^2] =\frac{\partial }{\partial w^*[k]}  \mathbb{E}[e(n)\cdot e^{\ast} (n) ]  = 0 
+ \end{equation}
+	
+  Con 
+  \begin{equation}
+  	e(n) = d(n) - \sum_{m=0}^{p} w(m)\,x(n-m)
+  \end{equation}
+  
+  \begin{equation}
+  	e^*(n) = d^*(n) - \sum_{m=0}^{p} w^*(m)\,x^*(n-m)
+  \end{equation}
+	
+
+	
+  Se desplaza la derivada dentro de la esperanza y afecta solo a $	e^*(n) $:
+
+  
+	\begin{equation}
+		\mathbb{E}\Bigl[e(n)\cdot\frac{\partial e^{\ast}(n)}{\partial w^*[k]}\Bigr] = 0
+	\end{equation}
+
+Desarrollando la derivada:
+
+\begin{equation}
+	\frac{\partial e^{\ast}(n)}{\partial w^*[k]} = \frac{	\partial }{\partial w^*[k]}[d^*(n) - \sum_{m=0}^{p} w^*(m)\,x^*(n-m)]
+\end{equation}
+
+Donde en la sumatoria sobrevive solo el termino $w^*(m) =w^*(k)$
+
+\begin{equation}
+	\frac{\partial e^{\ast}(n)}{\partial w^*[k]} = \frac{	\partial }{\partial w^*[k]}[d^*(n) -  w^*(k)\,x^*(n-m)]
+\end{equation}
+
+Derivando se descarta $d^{\ast}(n)$ obteniendo:
+
+\begin{equation}
+	\frac{\partial e^{\ast}(n)}{\partial w^*[k]} = - x^*(n-m)
+\end{equation}
+ 
+ \subsubsection*{7.2.1 : Ejemplo de filtro y simulación}
+ 
+ 
+ \subsubsection*{7.2.6 : Cancelación de ruido y simulación}
+ 
  
  \section*{Actividad 2}
  
