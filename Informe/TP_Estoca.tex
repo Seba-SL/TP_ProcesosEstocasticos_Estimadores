@@ -354,10 +354,23 @@ que es un conjunto de $p$ ecuaciones lineales en las $p$ incógnitas $w(k)$, $k 
 \end{equation}
 
 
-Comprimiendo las matrices con la notación $\mathbf{R}_x$ , $\mathbf{w} $ y $ \mathbf{r}_{dx}$:
+Comprimiendo los vectores y la matriz con la notación $\mathbf{R}_x$ , $\mathbf{w} $ y $ \mathbf{r}_{dx}$:
 
 \begin{equation}
 	\boxed{\mathbf{R}_x \mathbf{w} = \mathbf{r}_{dx}}
+\end{equation}
+
+De esta expresión se puede despejar los coeficientes del vector $\mathbf{w} $:
+
+\begin{equation}
+	\boxed{ \mathbf{w} = \mathbf{R}_x^{-1}\mathbf{r}_{dx}}
+\end{equation}
+
+Llegando así a la misma expresión presentada en la introducción. Para obtener las estimaciones: 
+
+
+\begin{equation}
+	\boxed{ \hat{d}(n) = \mathbf{w}^T \cdot x(n) }
 \end{equation}
  
  \subsubsection*{7.2.1 : Ejemplo de filtro y simulación}
