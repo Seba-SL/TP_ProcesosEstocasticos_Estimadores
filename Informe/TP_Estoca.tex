@@ -282,6 +282,53 @@ Derivando se descarta $d^{\ast}(n)$ obteniendo:
 \begin{equation}
 	\frac{\partial e^{\ast}(n)}{\partial w^*[k]} = - x^*(n-m)
 \end{equation}
+
+Volviendo a introducirlo dentro de la esperanza quitando el signo al multiplicar ambos lados por -1:
+
+\begin{equation}
+	\mathbb{E}\Bigl \{ e(n)\cdot [x^*(n-m)]\Bigr \} = 0
+\end{equation}
+
+Utilizando la descripción de $e(n)$ previa:
+
+\begin{equation}
+	\mathbb{E}\Bigl \{ \Bigl (d(n) - \sum_{m=0}^{p} w(m)\,x(n-m) \Bigr )\cdot [x^*(n-m)] \Bigr \} = 0
+\end{equation}
+
+
+\begin{equation}
+	\mathbb{E}\Bigl \{  d(n)[x^*(n-m)] - \sum_{m=0}^{p} w(m)\,x(n-m)[x^*(n-m)] \Bigr \} = 0
+\end{equation}
+
+
+
+
+\begin{equation}
+	\mathbb{E}\Bigl \{  d(n)[x^*(n-m)]\Bigr \} - \mathbb{E} \Bigl \{ \sum_{m=0}^{p} w(m)\,x(n-m)[x^*(n-m)] \Bigr \} = 0
+\end{equation}
+
+
+
+\begin{equation}
+	\mathbb{E}\Bigl \{  d(n)[x^*(n-m)]\Bigr \} -  \sum_{m=0}^{p} w(m)\, \mathbb{E} \Bigl \{ x(n-m)[x^*(n-m)] \Bigr \} = 0
+\end{equation}
+
+
+Finalmente, dado que $x(n)$ y $d(n)$ son conjuntamente ESA, entonces $\mathbb{E} \{x(n- m )x*(n-k)\} =r_x(k-m)$ y $\mathbb{E} \{d(n)x*(n-k)\} = r_{dx}(k)$ y la ecuación se convierte en : 
+
+
+
+\begin{equation}
+	\mathbb{E}\Bigl \{  d(n)[x^*(n-m)]\Bigr \} -  \sum_{m=0}^{p} w(m)\, r_x(k-m) \Bigr \} = 0
+\end{equation}
+
+
+\begin{equation}
+	\mathbb{E}\Bigl \{  d(n)[x^*(n-m)]\Bigr \} -  r_{dx}(k) \Bigr \} = 0
+\end{equation}
+
+
+
  
  \subsubsection*{7.2.1 : Ejemplo de filtro y simulación}
  
