@@ -1,0 +1,72 @@
+\documentclass[a4paper]{article}
+\usepackage[margin=1.5cm,top=1.5cm,bottom=1.5cm,a4paper]{geometry}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{titlesec} % Required for customizing section titles
+\usepackage[margin=1.5cm,top=1.5cm, bottom=1.5cm]{geometry} % Ajusta los márgenes aquí
+\usepackage{multicol} % Required for multicols environment
+\usepackage{parskip}
+\usepackage{etoolbox}
+\usepackage{tcolorbox}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{dingbat}
+\usepackage{booktabs} 
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage[spanish]{babel}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+	language=Matlab,
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{blue},
+	commentstyle=\color{gray},
+	numbers=left,
+	numberstyle=\tiny,
+	frame=single
+}
+
+\addto\captionsspanish{
+	\renewcommand{\tablename}{Tabla}
+}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+\usetikzlibrary{babel}
+
+\usepackage{csquotes}
+
+\usepackage[
+backend=biber,
+style=apa,
+citestyle=apa
+]{biblatex}
+
+\addbibresource{referencias.bib}
+
+
+
+
+
+% Personalización de la sección para que comience desde la izquierda
+\titleformat{\section}[hang]{\normalfont\Large\bfseries}{\thesection}{1em}{}
+
+\begin{document}
+	\setcounter{page}{1}
+	\begin{minipage}[h]{1\textwidth}
+		
+		\title{\includegraphics[height = 1.5cm]{img/logofiuba.png} % Logo en la izquierda del encabezado  
+			\\(TA132) Procesos Estocásticos \\Trabajo Práctico  : Taller de estimación }
+		\author{106213 Sebastián Lazo  (slazo@fi.uba.ar) \\ ----- Steling Perez, Kevin JesusT (-----) }
+		\date{23 de Noviembre 2026}
+		\maketitle
+		
+	\end{minipage}
+
+ \newpage
+ 
+ \section{Introducción}
+\end{document}

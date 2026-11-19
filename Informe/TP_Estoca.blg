@@ -1,0 +1,9 @@
+[0] Config.pm:306> INFO - This is Biber 2.18
+[0] Config.pm:309> INFO - Logfile is 'TP_Estoca.blg'
+[103] biber:340> INFO - === jue nov 19, 2026, 11:53:26
+[127] Biber.pm:418> INFO - Reading 'TP_Estoca.bcf'
+[228] Biber.pm:978> INFO - Found 0 citekeys in bib section 0
+[294] bbl.pm:654> INFO - Writing 'TP_Estoca.bbl' with encoding 'UTF-8'
+[294] bbl.pm:757> INFO - Output to TP_Estoca.bbl
+[294] Biber.pm:130> WARN - The file 'TP_Estoca.bcf' does not contain any citations!
+[295] Biber.pm:132> INFO - WARNINGS: 1
