@@ -158,7 +158,7 @@ Siendo:
 
 \subsection*{Estimación}
 
-Dados dos procesos estocásticos $X(n)$ e $Y(n)$ ESA. La estimación consiste en inferir realización desconocidas de $X(n)$ conociendo un conjunto de realizaciones de $\textbf{Y}(n)$ de nomenclatura $\vec{y}(n)$ durante una ventana de tiempo $n \in I$. El estimador es la función $g(\vec{y}(n))$, preferentemente lineal, que relaciona estas realizaciones de $Y(n)$ con los valores estimados de $X(n)$. La fidelidad de la estimación se obtiene conociendo el error cuadrático mínimo y buscando la función $g(\vec{y}(n))$ que minimice el error, se puede demostrar que la estimación lineal que cumple esto es: 
+Dados dos procesos estocásticos $X(n)$ e $Y(n)$ ESA. La estimación consiste en inferir realización desconocidas de $X(n)$ conociendo un conjunto de realizaciones de $\textbf{Y}(n)$ de nomenclatura $\vec{y}(n)$ durante una ventana de tiempo $n \in I$. El estimador es la función $g(\vec{y}(n))$, preferentemente lineal, que relaciona estas realizaciones de $Y(n)$ con los valores estimados de $X(n)$. La fidelidad de la estimación se obtiene conociendo el error cuadrático mínimo (MSE \textit{mean squared error} )y buscando la función $g(\vec{y}(n))$ que minimice el error (MMSE \textit{minimum mean squared error} ), se puede demostrar que la estimación lineal que cumple esto es: 
 
 \begin{equation}
 	\hat{x}(n) = [R_Y^{-1} \cdot r_{XY}]^{T} \cdot \vec{y}(n)
@@ -174,8 +174,10 @@ Siendo:
  \section*{Actividad 1: Análisis y simulación de sistemas de filtrado óptimo }
  Se utiliza la bibliografía \cite{hayes1996} en donde se menciona la estimación en el ámbito de las señales, tomando cada proceso estocástico como un conjunto de señales relacionadas con variables aleatorias. La estimación de una señal teniendo valores de otra es uno de los mas importantes desafíos en el procesamiento de señales y abarca interesantes aplicaciones.
  
+ Se toma como ejemplo la recuperación de una señal que se envío a través de un medio no ideal en una comunicación digital. En situaciones simples, es posible utilizar filtros clásicos, como los pasabajos, pasaaltos o pasabandas, para recuperar la señal. Sin embargo, estos filtros no necesariamente proporcionan la mejor estimación posible. Por este motivo, la bibliografía introduce el diseño de filtros digitales óptimos, entre ellos el filtro de Wiener y el filtro de Kalman discreto.
  
  \section*{Actividad 2}
+ 
  
  
  
