@@ -156,6 +156,8 @@ Siendo:
 	R_{XX}[n_1, n_2] = \mathbb{E}\{X[n_1] X^*[n_2]\} = \iint_{-\infty}^{\infty} x_1 x_2^* \, f_{X[n_1], X[n_2]}(x_1, x_2) \, dx_1 \, dx_2
 \end{equation}
 
+
+
 \subsection*{Estimación}
 
 Dados dos procesos estocásticos $X(n)$ e $Y(n)$ ESA. La estimación consiste en inferir realización desconocidas de $X(n)$ conociendo un conjunto de realizaciones de $\textbf{Y}(n)$ de nomenclatura $\vec{y}(n)$ durante una ventana de tiempo $n \in I$. El estimador es la función $g(\vec{y}(n))$, preferentemente lineal, que relaciona estas realizaciones de $Y(n)$ con los valores estimados de $X(n)$. La fidelidad de la estimación se obtiene conociendo el error cuadrático mínimo (MSE \textit{mean squared error} )y buscando la función $g(\vec{y}(n))$ que minimice el error (MMSE \textit{minimum mean squared error} ), se puede demostrar que la estimación lineal que cumple esto es: 
@@ -395,10 +397,103 @@ De esta forma en el libro se presentan en la siguiente tabla las ecuaciones cono
 \begin{equation}
 	\boxed{MMSE  = r_d(0) - \mathbf{r}_{dx}^H \mathbf{R}_x^{-1} \mathbf{r}_{dx}}
 \end{equation}
- 
+
+
+Observando los resultados previos, se pueden obtener los valores de $\mathbf{w}$ mediante el ruido $v(n)$ presentado en la introducción ($x(n) = d(n) + v(n)$). Se obtienen la relación de sus funciones de autocorrelación.
+
+
+\begin{align}
+	r_{dx}(k) &= E\{d(n)x^*(n-k)\} \nonumber \\
+	&= E\{d(n)d^*(n-k)\} + E\{d(n)v^*(n-k)\} \nonumber \\
+	&= r_d(k)
+\end{align}
+
+A continuación, dado que:
+
+\begin{align}
+	r_x(k) &= E\{x(n+k)x^*(n)\} \nonumber \\
+	&= E\bigl\{[d(n+k) + v(n+k)][d(n) + v(n)]^*\bigr\}
+\end{align}
+
+\begin{equation}
+	r_x(k) = r_d(k) + r_v(k)
+\end{equation}
+
+Formando las matrices con todos los valores de k, se obtiene :
+
+\begin{equation}
+	\boxed{ r_d = [\mathbf{R}_d +  \mathbf{R}_v] \cdot \mathbf{w} }
+\end{equation}
+
+
+
  \subsubsection*{7.2.1 : Ejemplo de filtro y simulación}
  
  
+ Sea $d(n)$ un proceso $\mathrm{AR}$ con secuencia de autocorrelación
+ 
+ 
+ \begin{equation}
+ 	r_d(k) = \alpha^{|k|}
+ \end{equation}
+ con $0 < \alpha < 1$, y suponiendo que $d(n)$ se observa en presencia de ruido blanco no correlacionado, $v(n)$, que tiene una varianza $\sigma_v^2$:
+ \begin{equation}
+ 	x(n) = d(n) + v(n)
+ \end{equation}
+ 
+ Diseñemos un filtro de Wiener FIR de primer orden para reducir el ruido en $x(n)$. Con
+ \begin{equation}
+ 	W(z) = w(0) + w(1)z^{-1}
+ \end{equation}
+ las ecuaciones de Wiener-Hopf son
+ \begin{equation}
+ 	\begin{bmatrix}
+ 		r_x(0) & r_x(1) \\
+ 		r_x(1) & r_x(0)
+ 	\end{bmatrix}
+ 	\begin{bmatrix}
+ 		w(0) \\
+ 		w(1)
+ 	\end{bmatrix}
+ 	=
+ 	\begin{bmatrix}
+ 		r_{dx}(0) \\
+ 		r_{dx}(1)
+ 	\end{bmatrix}
+ \end{equation}
+ 
+ Dado que se supone que $d(n)$ y $v(n)$ no están correlacionados, entonces
+ \begin{equation}
+ 	r_{dx}(k) = r_d(k) = \alpha^{|k|}
+ \end{equation}
+ y
+ \begin{equation}
+ 	r_x(k) = r_d(k) + r_v(k) = \alpha^{|k|} + \sigma_v^2 \delta(k)
+ \end{equation}
+ 
+ Por lo tanto, las ecuaciones de Wiener-Hopf se convierten en[
+ 
+ \begin{equation}
+ 	\begin{bmatrix}
+ 		1 + \sigma_v^2 & \alpha \\
+ 		\alpha & 1 + \sigma_v^2
+ 	\end{bmatrix}
+ 	\begin{bmatrix}
+ 		w(0) \\
+ 		w(1)
+ 	\end{bmatrix}
+ 	=
+ 	\begin{bmatrix}
+ 		1 \\
+ 		\alpha
+ 	\end{bmatrix}
+ \end{equation}
+
+
+
+
+\subsubsection*{7.2.2 : Predicción lineal}
+
  \subsubsection*{7.2.6 : Cancelación de ruido y simulación}
  
  
