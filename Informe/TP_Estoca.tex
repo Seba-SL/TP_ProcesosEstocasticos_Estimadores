@@ -372,6 +372,29 @@ Llegando así a la misma expresión presentada en la introducción. Para obtener
 \begin{equation}
 	\boxed{ \hat{d}(n) = \mathbf{w}^T \cdot x(n) }
 \end{equation}
+
+De esta forma en el libro se presentan en la siguiente tabla las ecuaciones conocidas como ecuaciones de Wiener-Hopf y las relaciones obtenidas.
+
+
+\begin{table}[H]
+	\centering
+	\caption{The Wiener-Hopf Equations for the FIR Wiener Filter and the Minimum Mean-Square Error}
+	\begin{tabular}{ll}
+		\toprule
+		\textit{Wiener-Hopf equations} & \\
+		& $\displaystyle \sum_{l=0}^{p-1} w(l)\,r_x(k - l) = r_{dx}(k) \quad ; \quad k = 0, 1, \dots, p-1$ \\[12pt]
+		\textit{Correlations} & \\
+		& $r_x(k) = E\{x(n)\,x^*(n - k)\}$ \\
+		& $r_{dx}(k) = E\{d(n)\,x^*(n - k)\}$ \\[10pt]
+		\textit{Minimum error} & \\
+		& $\displaystyle \xi_{\min} = r_d(0) - \sum_{l=0}^{p-1} w(l)\,r_{dx}^*(l)$ \\[10pt]
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{equation}
+	\boxed{MMSE  = r_d(0) - \mathbf{r}_{dx}^H \mathbf{R}_x^{-1} \mathbf{r}_{dx}}
+\end{equation}
  
  \subsubsection*{7.2.1 : Ejemplo de filtro y simulación}
  
