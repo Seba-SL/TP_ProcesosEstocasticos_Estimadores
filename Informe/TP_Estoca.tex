@@ -6,6 +6,7 @@
 \usepackage{multicol} % Required for multicols environment
 \usepackage{parskip}
 \usepackage{etoolbox}
+\usepackage{bm}
 \usepackage{tcolorbox}
 \usepackage{float}
 \usepackage{amsmath}
@@ -18,6 +19,11 @@
 \usepackage[spanish]{babel}
 \usepackage{listings}
 \usepackage{xcolor}
+
+\usepackage[backend=biber,style=ieee,citestyle=ieee]{biblatex}
+
+\addbibresource{referencias.bib}
+
 
 \lstset{
 	language=Matlab,
@@ -39,13 +45,6 @@
 
 \usepackage{csquotes}
 
-\usepackage[
-backend=biber,
-style=apa,
-citestyle=apa
-]{biblatex}
-
-\addbibresource{referencias.bib}
 
 
 
@@ -123,9 +122,58 @@ citestyle=apa
  
  El informe describe el desarrollo de un taller dentro del ámbito de la materia Procesos estocásticos en el cual se abarca a nivel teórico y práctico la metodología de estimación de procesos aleatorios. Se encuentra dividido en tres actividades principales, en la primera actividad, utilizando bibliografía especifica, se estudian, simulan y analizan diferentes ejemplos, la segunda actividad se utiliza un \textit{paper} acerca de la modulación OFDM se relaciona con lo previo y se propone un experimento numérico que permita evaluar la bondad de dichas aproximaciones. La actividad tres finalmente es el desarrollo del informe.
  
+ \subsection*{Contexto}
+ 
+Un proceso aleatorio (o estocástico) es una familia de variables aleatorias ${X(t, \omega) : t \in T}$ definida sobre un mismo espacio de probabilidad $(\Omega, F, P)$, indexada por un parámetro t en un conjunto T (usualmente el tiempo) o n perteneciente al conjunto $\mathbb{Z}$ describiendo usualmente tiempo discreto:
+
+
+\begin{equation}
+	 \{X(t, \omega) : t \in T,\, \omega \in \Omega\}, \qquad X : T \times \Omega \to \mathbb{R}^d
+\end{equation}
  
  
- \section*{Actividad 1: Análisis y simulación de sistemas de filtrado óptimo}
+\begin{equation}
+	\{X[n, \omega] : n \in \mathbb{Z},\, \omega \in \Omega\}, \qquad X : \mathbb{Z} \times \Omega \to \mathbb{R}^d
+\end{equation}
+
+
+Un proceso estocástico estacionario en sentido amplio (ESA) es un proceso aleatorio $\{X[n]\}$ si se cumple simultáneamente:
+
+\begin{equation}
+	\mu_X[n] = \mathbb{E}\{X[n]\} = \mu_X, \qquad \forall n \in \mathbb{Z}
+\end{equation}
+
+\begin{equation}
+	R_{XX}[n_1, n_2] = \mathbb{E}\{X[n_1]X^*[n_2]\} = R_{XX}[n_1 - n_2] = R_{XX}[k]
+\end{equation}
+
+Siendo:
+\begin{equation}
+	\mu_X[n] = \mathbb{E}\{X[n]\} = \int_{-\infty}^{\infty} x \, f_{X[n]}(x) \, dx
+\end{equation}
+
+\begin{equation}
+	R_{XX}[n_1, n_2] = \mathbb{E}\{X[n_1] X^*[n_2]\} = \iint_{-\infty}^{\infty} x_1 x_2^* \, f_{X[n_1], X[n_2]}(x_1, x_2) \, dx_1 \, dx_2
+\end{equation}
+
+\subsection*{Estimación}
+
+Dados dos procesos estocásticos $X(n)$ e $Y(n)$ ESA. La estimación consiste en inferir realización desconocidas de $X(n)$ conociendo un conjunto de realizaciones de $\textbf{Y}(n)$ de nomenclatura $\vec{y}(n)$ durante una ventana de tiempo $n \in I$. El estimador es la función $g(\vec{y}(n))$, preferentemente lineal, que relaciona estas realizaciones de $Y(n)$ con los valores estimados de $X(n)$. La fidelidad de la estimación se obtiene conociendo el error cuadrático mínimo y buscando la función $g(\vec{y}(n))$ que minimice el error, se puede demostrar que la estimación lineal que cumple esto es: 
+
+\begin{equation}
+	\hat{x}(n) = [R_Y^{-1} \cdot r_{XY}]^{T} \cdot \vec{y}(n)
+\end{equation}
+
+Siendo: 
+
+\begin{equation}
+	r_{XY} = \mathbb{E}[X(n)\cdot \textbf{Y}(n)]  \quad \wedge \quad R_{Y} = \mathbb{E}[\textbf{Y}(n)\cdot \textbf{Y}^T(n)]
+\end{equation}
+
+
+ \section*{Actividad 1: Análisis y simulación de sistemas de filtrado óptimo }
+ Se utiliza la bibliografía \cite{hayes1996} en donde se menciona la estimación en el ámbito de las señales, tomando cada proceso estocástico como un conjunto de señales relacionadas con variables aleatorias. La estimación de una señal teniendo valores de otra es uno de los mas importantes desafíos en el procesamiento de señales y abarca interesantes aplicaciones.
+ 
  
  \section*{Actividad 2}
  
@@ -133,5 +181,7 @@ citestyle=apa
  
  \section*{Conclusión}
  
+ 
+\printbibliography
  
 \end{document}

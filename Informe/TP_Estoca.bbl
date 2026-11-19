@@ -16,5 +16,34 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{hayes1996}{book}{}
+      \name{author}{1}{}{%
+        {{hash=aeb344dba90627b75ed37aa1295973b1}{%
+           family={Hayes},
+           familyi={H\bibinitperiod},
+           given={Monson\bibnamedelima H.},
+           giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {John Wiley \& Sons}%
+      }
+      \strng{namehash}{aeb344dba90627b75ed37aa1295973b1}
+      \strng{fullhash}{aeb344dba90627b75ed37aa1295973b1}
+      \strng{bibnamehash}{aeb344dba90627b75ed37aa1295973b1}
+      \strng{authorbibnamehash}{aeb344dba90627b75ed37aa1295973b1}
+      \strng{authornamehash}{aeb344dba90627b75ed37aa1295973b1}
+      \strng{authorfullhash}{aeb344dba90627b75ed37aa1295973b1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Statistical Digital Signal Processing and Modeling}
+      \field{year}{1996}
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 
