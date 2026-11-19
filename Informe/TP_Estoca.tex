@@ -186,21 +186,37 @@ Siendo:
 
  Se asume $d(n)$ y $v(n)$ como procesos ESA, Wiener considera el problema de diseño de la misma forma que se menciona en la introducción del informe, buscando minimizar el error cuadrático medio mediante un filtro $W(z)$.
 
-\begin{tikzpicture}[transform shape]
-	% Paths, nodes and wires:
-	\node[shape=rectangle, draw, line width=1pt, minimum width=4.215cm, minimum height=2.215cm] at (27.375, 24.125){} node[anchor=center, align=center, text width=3.777cm, inner sep=6.7pt] at (27.375, 24.125){\Huge $W(z)$};
-	\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (21.625, 24.25){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (20.5, 24.875){\Huge $x(n)$\\};
-	\draw[line width=2pt, -latex] (22.75, 24.125) |- (25.25, 24.125);
-	\draw[line width=2pt, -latex] (29.5, 24.125) |- (32, 24.125);
-	\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (30.625, 24.875){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (29.5, 25.5){\huge $\hat{d}(n)$\\};
-	\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (32.75, 27.625){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (31.625, 28.25){\huge $d(n)$\\};
-	\draw[line width=2pt, -latex] (32.49, 27.115) -| (32.49, 24.615);
-	\draw[line width=2pt, -latex] (32.98, 24.125) |- (35.48, 24.125);
-	\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (36.875, 24.125){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (35.75, 24.75){\huge $e(n)$\\};
-	\node[shape=rectangle, minimum width=0.965cm, minimum height=0.465cm] at (31.75, 23.75){} node[anchor=north west, align=left, text width=0.577cm, inner sep=6pt] at (31.25, 24){\Huge -};
-	\node[shape=rectangle, minimum width=0.965cm, minimum height=0.465cm] at (33.25, 24.75){} node[anchor=north west, align=left, text width=0.668cm, inner sep=4.7pt] at (32.75, 25){\Large +};
-	\node[shape=circle, draw, line width=1pt, minimum width=0.715cm](N1) at (32.5, 24.125){} node[anchor=center] at (N1.text){$+$};
-\end{tikzpicture}
+\begin{figure}[H]
+	\begin{tikzpicture}[transform shape]
+		% Paths, nodes and wires:
+		\node[shape=rectangle, draw, line width=1pt, minimum width=4.215cm, minimum height=2.215cm] at (27.375, 24.125){} node[anchor=center, align=center, text width=3.777cm, inner sep=6.7pt] at (27.375, 24.125){\Huge $W(z)$};
+		\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (21.625, 24.25){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (20.5, 24.875){\Huge $x(n)$\\};
+		\draw[line width=2pt, -latex] (22.75, 24.125) |- (25.25, 24.125);
+		\draw[line width=2pt, -latex] (29.5, 24.125) |- (32, 24.125);
+		\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (30.625, 24.875){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (29.5, 25.5){\huge $\hat{d}(n)$\\};
+		\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (32.75, 27.625){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (31.625, 28.25){\huge $d(n)$\\};
+		\draw[line width=2pt, -latex] (32.49, 27.115) -| (32.49, 24.615);
+		\draw[line width=2pt, -latex] (32.98, 24.125) |- (35.48, 24.125);
+		\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (36.875, 24.125){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (35.75, 24.75){\huge $e(n)$\\};
+		\node[shape=rectangle, minimum width=0.965cm, minimum height=0.465cm] at (31.75, 23.75){} node[anchor=north west, align=left, text width=0.577cm, inner sep=6pt] at (31.25, 24){\Huge -};
+		\node[shape=rectangle, minimum width=0.965cm, minimum height=0.465cm] at (33.25, 24.75){} node[anchor=north west, align=left, text width=0.668cm, inner sep=4.7pt] at (32.75, 25){\Large +};
+		\node[shape=circle, draw, line width=1pt, minimum width=0.715cm](N1) at (32.5, 24.125){} node[anchor=center] at (N1.text){$+$};
+	\end{tikzpicture}
+\end{figure}
+
+
+Se debe diseñar un filtro lineal invariante en el tiempo LTI, $W(z)$, que filtre una señal dada, $x(n)$, para producir la estimación mínima de la media cuadrática, $\hat{d}(n)$, de otra señal, $d(n)$. Dependiendo de cómo se relacionen las señales $x(n)$ y $d(n)$, se pueden plantear varios problemas diferentes e importantes dentro de un marco de filtrado de Wiener. Se considerarán en la bibliografía:
+
+\begin{itemize}
+	\item \textbf{Filtrado:} Este es el problema clásico de la introducción, en el que se nos da $x(n) = d(n) + v(n)$ y el objetivo es estimar $d(n)$ utilizando un filtro causal, es decir, estimar $d(n)$ a partir de los valores actuales y pasados de $x(n)$.
+	
+	\item \textbf{Suavizado (\textit{smoothing}):} Esto es lo mismo que el problema de filtrado, excepto que se permite que el filtro no sea causal. Un filtro de suavizado de Wiener, por ejemplo, puede diseñarse para estimar $d(n)$ a partir de $x(n) = d(n) + v(n)$ utilizando todos los datos disponibles.
+	
+	\item \textbf{Predicción:} Si $d(n) = x(n + 1)$ y $W(z)$ es un filtro causal, entonces el filtro de Wiener se convierte en un predictor lineal. En este caso, el filtro debe producir una predicción (estimación) de $x(n + 1)$ en términos de una combinación lineal de valores anteriores de $x(n)$.
+	
+	\item \textbf{Deconvolución:} Cuando $x(n) = d(n) \ast g(n) + v(n)$, donde $g(n)$ es la respuesta de muestra unitaria de un filtro LTI, el filtro de Wiener se convierte en un filtro de deconvolución.
+\end{itemize}
+
 
  
  \section*{Actividad 2}
