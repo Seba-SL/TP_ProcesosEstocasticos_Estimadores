@@ -1,0 +1,135 @@
+import numpy as np
+from scipy import signal
+import matplotlib.pyplot as plt
+
+alphas =[0.1, 0.25 , 0.5, 0.75 , 0.9]
+
+sigma_v = 1 
+
+p_cantidad_realizaciones = 2
+N =2
+
+#Ruido gaussiano blanco
+v = np.random.normal(0, sigma_v, p_cantidad_realizaciones)  
+
+#Procesos AR(1) d(n)
+def generar_ar1(N: int, alpha: float, rng: np.random.Generator) -> np.ndarray:
+    """
+    Genera d(n) = alpha*d(n-1) + u(n) con Var(u) = 1 - alpha^2 para que
+    en régimen estacionario r_d(0) = 1 y r_d(k) = alpha^{|k|}.
+    """
+    sigma_u = np.sqrt(1.0 - alpha**2)
+    u = rng.normal(0.0, sigma_u, size=N)
+    d_arr = np.zeros(N)
+    d_arr[0] = rng.normal(0.0, 1.0)
+    for n in range(1, N):
+        d_arr[n] = alpha * d_arr[n - 1] + u[n]
+    return d_arr
+
+# Observaciones x(n)
+def x(n, alpha=alphas[0]):
+    return generar_ar1(n, alpha, np.random.default_rng() ) + v[n]
+
+
+##Obs: rd = rdx 
+def r_d(k, alpha=alphas[0]):
+    return alpha**(np.abs(k))
+
+def r_v(k: int) -> float:
+    # Ruido blanco: r_v(k) = sigma_v^2 * delta(k)
+    return float(sigma_v**2) if k == 0 else 0.0
+
+def r_x(k, alpha=alphas[0]):
+    return r_d(k, alpha) + r_v(k)
+
+
+
+def construir_matriz_rx(p= p_cantidad_realizaciones, alpha=alphas[0]) -> np.ndarray:
+  
+    # Determinamos tipo complejo si r_x o sus conjugados son complejos
+    dtype = np.complex128 if np.iscomplexobj(r_x) else np.float64
+    R_x = np.zeros((p, p), dtype=dtype)
+
+    for i in range(p):
+        for j in range(p):
+            if i >= j:
+                R_x[i, j] = r_x(i - j, alpha)
+            else:
+                R_x[i, j] = np.conj(r_x(j - i, alpha))
+
+    return R_x
+
+
+
+
+def construir_matriz_rd(p= p_cantidad_realizaciones, alpha=alphas[0]) -> np.ndarray:
+  
+    # Determinamos tipo complejo si r_x o sus conjugados son complejos
+    dtype = np.complex128 if np.iscomplexobj(r_x) else np.float64
+    R_x = np.zeros((p, p), dtype=dtype)
+
+    for i in range(p):
+        for j in range(p):
+            if i >= j:
+                R_x[i, j] = r_x(i - j, alpha)
+            else:
+                R_x[i, j] = np.conj(r_x(j - i, alpha))
+
+    return R_x
+
+
+
+def construir_vector_rdx(p=p_cantidad_realizaciones, alpha=alphas[0]) -> np.ndarray:
+    r_dx_vec = np.zeros((p, 1), dtype=np.float64)
+    for i in range(p):
+        r_dx_vec[i, 0] = r_d(i, alpha)
+    return r_dx_vec
+
+
+def resolver_wiener(p: int, alpha: float) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    R_x = construir_matriz_rx(p, alpha)
+    r_dx = construir_vector_rdx(p, alpha)
+    # Resuelve R_x * w = r_dx
+    w = np.linalg.solve(R_x, r_dx)
+    return w, R_x, r_dx
+
+
+def estimar_d_producto_interno(w: np.ndarray, x: np.ndarray) -> np.ndarray:
+    """
+    Evalúa explícitamente d_hat(n) = w^T * x_vec(n) para cada muestra n,
+    donde x_vec(n) = [x(n), x(n-1), ..., x(n-p+1)]^T.
+    """
+    p_len = len(w)
+    d_hat = np.zeros(len(x), dtype=np.float64)
+    x_pad = np.concatenate([np.zeros(p_len - 1), x])
+    for n in range(len(x)):
+        # Toma [x(n), x(n-1), ..., x(n-p+1)] en orden de retardo creciente
+        x_vec = x_pad[n : n + p_len][::-1]
+        d_hat[n] = float(np.dot(w, x_vec))
+    return d_hat
+
+
+w,R_x,R_dx= resolver_wiener(p_cantidad_realizaciones, alphas[0])
+
+hat_n  = estimar_d_producto_interno(w, [x(n, alphas[0]) for n in range(N)])
+
+d = generar_ar1(N, alphas[0], np.random.default_rng())
+
+print("Matriz de autocorrelación R_x:")
+print(R_x)
+
+print("Vector de autocorrelación R_dx:")
+print(R_dx)
+
+
+print("Coeficientes de w(k):")
+print(w)
+
+
+
+print("d(n):")
+print(d)
+
+
+print("estimacion hat d(n):")
+print(hat_n)

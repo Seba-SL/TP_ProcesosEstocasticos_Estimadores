@@ -20,6 +20,23 @@
 \usepackage{listings}
 \usepackage{xcolor}
 
+
+\lstset{
+	language=Python,
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{blue}\bfseries,
+	commentstyle=\color{gray}\itshape,
+	stringstyle=\color{teal},
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	stepnumber=1,
+	numbersep=8pt,
+	frame=single,
+	breaklines=true,
+	tabsize=4,
+	showstringspaces=false
+}
+
 \usepackage[backend=biber,style=ieee,citestyle=ieee]{biblatex}
 
 \addbibresource{referencias.bib}
@@ -489,6 +506,45 @@ Formando las matrices con todos los valores de k, se obtiene :
  	\end{bmatrix}
  \end{equation}
 
+
+
+Despejando  $\mathbf{w} = 	\begin{bmatrix}
+	w(0) \\
+	w(1)
+\end{bmatrix}$
+
+
+\begin{equation}
+	\begin{bmatrix}
+		w(0) \\
+		w(1)
+	\end{bmatrix}
+	=
+	\frac{1}{(1 + \sigma_v^2)^2 - \alpha^2}
+	\begin{bmatrix}
+		1 + \sigma_v^2 - \alpha^2 \\
+		\alpha\sigma_v^2
+	\end{bmatrix}
+\end{equation}
+
+Por lo tanto, el filtro de Wiener es
+\begin{equation}
+	W(z) = \frac{1}{(1 + \sigma_v^2)^2 - \alpha^2}\bigl[(1 + \sigma_v^2 - \alpha^2) + \alpha\sigma_v^2 z^{-1}\bigr]
+\end{equation}
+
+
+\paragraph{Simulación}
+
+Utilizamos un código en \textit{Python} para obtener distintos filtros Wiener $W(z)$ para distintos valores $\alpha$ y compararlo con un filtro pasa bajos clásico.
+
+Se utilizan librerías para el manejo algebraico, procesamiento de señales y visualización de los gráficos 2D.
+\begin{lstlisting}[caption={Librerias utilizadas}, label={lst:wiener_ar1}]
+
+import numpy as np
+from scipy import signal
+import matplotlib.pyplot as plt
+
+\end{lstlisting}
 
 
 
