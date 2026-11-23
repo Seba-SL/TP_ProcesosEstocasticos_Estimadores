@@ -191,19 +191,19 @@ Siendo:
 
 
  \section*{Actividad 1: Análisis y simulación de sistemas de filtrado óptimo }
- Se utiliza la bibliografía \cite{hayes1996} en donde se menciona la estimación en el ámbito de las señales, tomando cada proceso estocástico como un conjunto de señales relacionadas con variables aleatorias. La estimación de una señal teniendo valores de otra es uno de los mas importantes desafíos en el procesamiento de señales y abarca interesantes aplicaciones.
+ Se utiliza la bibliografía \cite{hayes1996} en donde se menciona la estimación en el ámbito de las señales, tomando cada proceso estocástico como un conjunto de señales relacionadas con variables aleatorias. 
  
  Se toma como ejemplo la recuperación de una señal que se envío a través de un medio no ideal en una comunicación digital. En situaciones simples, es posible utilizar filtros clásicos, como los pasabajos, pasaaltos o pasabandas, para recuperar la señal. Sin embargo, estos filtros no necesariamente proporcionan la mejor estimación posible. Por este motivo, la bibliografía introduce el diseño de filtros digitales óptimos, entre ellos el filtro de Wiener y el filtro de Kalman discreto.
  
  \subsection*{Filtros Wiener}
  
- Norbert Wiener investiga el problema del diseño de filtros para producir una estimación óptima de la señal desde una observación con ruido. Se define $x(n)$ como la observación con ruido, $d(n)$ la señal a recuperar, $\hat{d}(n)$ la estimación obtenida y $v(n)$ el ruido y $e(n) = d(n) - \hat{d}(n)$ como el error en la estimación.
+ Se introduce a Norbert Wiener quien investigo el problema del diseño de filtros para producir una estimación óptima de la señal desde una observación con ruido. Se define $x(n)$ como la observación con ruido, $d(n)$ la señal a recuperar, $\hat{d}(n)$ la estimación obtenida, $v(n)$ el ruido y $e(n) = d(n) - \hat{d}(n)$ como el error en la estimación.
  
  \begin{equation}
  	x(n) = d(n) + v(n)
  \end{equation}
 
- Se asume $d(n)$ y $v(n)$ como procesos ESA, Wiener considera el problema de diseño de la misma forma que se menciona en la introducción del informe, buscando minimizar el error cuadrático medio mediante un filtro $W(z)$.
+ Se asume $d(n)$ y $v(n)$ como procesos ESA, Wiener considera el problema de diseño de forma similar a como se menciona en la introducción del informe, buscando minimizar el error cuadrático medio mediante un filtro $W(z)$.
 
 \begin{figure}[H]
 	\begin{tikzpicture}[transform shape]
@@ -385,7 +385,7 @@ De esta expresión se puede despejar los coeficientes del vector $\mathbf{w} $:
 	\boxed{ \mathbf{w} = \mathbf{R}_x^{-1}\mathbf{r}_{dx}}
 \end{equation}
 
-Llegando así a la misma expresión presentada en la introducción. Para obtener las estimaciones: 
+Llegando así a la misma expresión presentada en la introducción pero utilizando el enfoque de cálculo diferencial en lugar de el principio de ortogonalidad. Para obtener las estimaciones se hace uso de la expresión: 
 
 
 \begin{equation}
@@ -447,22 +447,41 @@ Formando las matrices con todos los valores de k, se obtiene :
  \subsubsection*{7.2.1 : Ejemplo de filtro y simulación}
  
  
- Sea $d(n)$ un proceso $\mathrm{AR}$ con secuencia de autocorrelación
+ Sea $d(n)$ un proceso $\mathrm{AR}$ (autorregresivo de orden N = 1), el cual se modela como la salida de un sistema LTI excitado por un proceso blanco $B(n)$ que cumple la ecuación en diferencias:
  
+ \begin{equation}
+ 	 \sum_{i = 0 }^{N} a_i \cdot d(n-i) =  B(n)
+ \end{equation}
+ 
+ 
+  \begin{equation}
+ 	  a_0 \cdot d(n) + a_1 \cdot d(n-i) =  B(n)
+ \end{equation}
+ 
+ 
+ 
+ Con secuencia de auto correlación:
  
  \begin{equation}
  	r_d(k) = \alpha^{|k|}
  \end{equation}
- con $0 < \alpha < 1$, y suponiendo que $d(n)$ se observa en presencia de ruido blanco no correlacionado, $v(n)$, que tiene una varianza $\sigma_v^2$:
+
+
+
+ con $0 < \alpha < 1$, dado que la autocorrelación en cero es la varianza del proceso el mismo tendrá varianza unitaria y suponiendo que $d(n)$ se observa en presencia de ruido blanco no correlacionado, $v(n)$, que tiene una varianza $\sigma_v^2$:
+ 
  \begin{equation}
  	x(n) = d(n) + v(n)
  \end{equation}
  
- Diseñemos un filtro de Wiener FIR de primer orden para reducir el ruido en $x(n)$. Con
+ Diseñemos un filtro de Wiener FIR de primer orden para reducir el ruido en $x(n)$. Utilizando las herramientas vistas anteriormente encontraremos el que minimice el error cuadrático medio esperado. El filtro se determina por la expresión en diferencias con sus coeficientes : 
+ 
  \begin{equation}
  	W(z) = w(0) + w(1)z^{-1}
  \end{equation}
+ 
  las ecuaciones de Wiener-Hopf son
+ 
  \begin{equation}
  	\begin{bmatrix}
  		r_x(0) & r_x(1) \\
@@ -545,6 +564,273 @@ from scipy import signal
 import matplotlib.pyplot as plt
 
 \end{lstlisting}
+
+
+Se definen las constantes a utilizar a lo largo del código.
+
+\begin{lstlisting}[caption={Definición de constantes.}, label={lst:wiener_ar1_constantes}]
+	alphas = [0.1, 0.3, 0.4, 0.5, 0.9]
+	sigma_v = 1.0
+	p = 2          # Cantidad de coeficientes del filtro Wiener
+	N = 10000      # Cantidad de muestras de la simulacion
+\end{lstlisting}
+
+Luego se definen las funciones a utilizar, para formar las diferentes funciones de autocovarianza, vectores y matrices a utilizar.
+
+\begin{lstlisting}[caption={Definicion de funciones.}, label={lst:wiener_ar1_funciones}]
+	def generar_ar1(alpha: float, N: int, rng: np.random.Generator) -> np.ndarray:
+	"""
+	Genera d(n) = alpha*d(n-1) + u(n) con Var(u) = 1 - alpha**2 para que
+	en regimen estacionario r_d(0) = 1 y r_d(k) = alpha**|k|.
+	"""
+	sigma_u = np.sqrt(1.0 - alpha**2)
+	u = rng.normal(loc=0.0, scale=sigma_u, size=N)
+	
+	d = np.zeros(N, dtype=np.float64)
+	d[0] = rng.normal(loc=0.0, scale=1.0)
+	
+	for n in range(1, N):
+	d[n] = alpha * d[n - 1] + u[n]
+	
+	return d
+	
+	
+	def r_d(k: int, alpha: float) -> float:
+	return float(alpha ** np.abs(k))
+	
+	
+	def r_v(k: int) -> float:
+	return float(sigma_v**2) if k == 0 else 0.0
+	
+	
+	def r_x(k: int, alpha: float) -> float:
+	return r_d(k, alpha) + r_v(k)
+	
+	
+	def construir_matriz_rx(p: int, alpha: float) -> np.ndarray:
+	R_x = np.zeros((p, p), dtype=np.float64)
+	for i in range(p):
+	for j in range(p):
+	R_x[i, j] = r_x(i - j, alpha)
+	return R_x
+	
+	
+	def construir_vector_rdx(p: int, alpha: float) -> np.ndarray:
+	return np.array([r_d(i, alpha) for i in range(p)], dtype=np.float64)
+	
+	
+	def resolver_wiener(p: int, alpha: float) -> tuple[np.ndarray, float]:
+	R_x = construir_matriz_rx(p, alpha)
+	r_dx = construir_vector_rdx(p, alpha)
+	w = np.linalg.solve(R_x, r_dx)
+	mse_teorico = r_d(0, alpha) - float(np.dot(r_dx, w))
+	return w, mse_teorico
+	
+	
+	def verificar_caso_alpha_08() -> None:
+	"""
+	Verifica analitica y numericamente que para alpha=0.8 y sigma_v**2=1.0
+	los coeficientes del filtro FIR de 2 taps son w(0) aprox 0.4048 y w(1) aprox 0.2381,
+	es decir, W(e^{jw}) = 0.4048 + 0.2381 * e^{-jw}.
+	"""
+	global sigma_v
+	sigma_v_anterior = sigma_v
+	sigma_v = 1.0  # Asegura sigma_v**2 = 1.0 para esta verificacion puntual
+	
+	w_calc, mse_teorico = resolver_wiener(p=2, alpha=0.8)
+	w_esperado = np.array([17.0 / 42.0, 5.0 / 21.0])
+	w_redondeado_libro = np.array([0.4048, 0.2381])
+	
+	coincide_exacto = np.allclose(w_calc, w_esperado, atol=1e-12)
+	coincide_libro = np.allclose(w_calc, w_redondeado_libro, atol=1e-4)
+	
+	print("\n--- Verificacion puntual (alpha = 0.8, sigma_v**2 = 1.0) ---")
+	print(f"w calculado en codigo : w(0) = {w_calc[0]:.6f}, w(1) = {w_calc[1]:.6f}")
+	print(f"w teorico exacto      : w(0) = {w_esperado[0]:.6f}, w(1) = {w_esperado[1]:.6f}")
+	print(f"W(e^{{jw}}) expresado   : {w_calc[0]:.4f} + {w_calc[1]:.4f} * e^(-jw)")
+	print(f"MSE minimo teorico    : {mse_teorico:.6f}")
+	print(f"Coincide con fraccion exacta (17/42, 5/21): {coincide_exacto}")
+	print(f"Coincide con valores del enunciado (4 dec.): {coincide_libro}\n")
+	
+	sigma_v = sigma_v_anterior
+	
+	
+	def estimar_d_producto_interno(w: np.ndarray, x: np.ndarray) -> np.ndarray:
+	p_len = len(w)
+	d_hat = np.zeros(len(x), dtype=np.float64)
+	x_pad = np.concatenate([np.zeros(p_len - 1), x])
+	
+	for n in range(len(x)):
+	x_vec = x_pad[n : n + p_len][::-1]
+	d_hat[n] = float(np.dot(w, x_vec))
+	
+	return d_hat
+\end{lstlisting}
+
+
+Luego en el código principal se efectúa paso a paso el calculo de cada filtro, y se gráfican los módulos de cada filtro, comparación de señales estimadas con la original, evolución temporal del error, y bondad de cada estimación comparadas en gráfico de barras.
+
+
+\begin{lstlisting}[caption={Inicialización y preparación de figuras en \texttt{main}.}, label={lst:main_init}]
+	def main() -> None:
+	rng = np.random.default_rng(42)
+	v = rng.normal(0.0, sigma_v, size=N)
+	
+	verificar_caso_alpha_08()
+	
+	# Filtro pasabajos clasico de igual cantidad de coeficientes
+	h_lp = signal.firwin(numtaps=p, cutoff=0.25)
+	
+	w_grid = np.linspace(0.0, np.pi, 512)
+	_, H_lp_freq = signal.freqz(h_lp, worN=w_grid)
+	
+	fig_mag, ax_mag = plt.subplots(figsize=(7.5, 4.5))
+	fig_est, ax_est = plt.subplots(figsize=(8.5, 4.5))
+	fig_err, ax_err = plt.subplots(figsize=(8.5, 4.5))
+	fig_mse, ax_mse = plt.subplots(figsize=(8.5, 4.8))
+	
+	burn_in = 50
+	idx = np.arange(100, 160)
+	
+	mse_teoricos = []
+	mse_wiener_sim = []
+	mse_lp_sim = []
+	mse_sin_filtrar = []
+\end{lstlisting}
+
+
+Para cada valor de $\alpha$, se calcula el filtro de Wiener, se genera el proceso AR(1), se aplican ambos filtros y se registran los errores y MSE.
+
+\begin{lstlisting}[caption={Bucle de evaluación para distintos valores de \texttt{alpha}.}, label={lst:main_loop}]
+	for alpha in alphas:
+	w, mse_teorico = resolver_wiener(p, alpha)
+	d = generar_ar1(alpha, N, rng)
+	x = d + v
+	
+	d_hat_wiener = estimar_d_producto_interno(w, x)
+	d_hat_lp = signal.lfilter(h_lp, [1.0], x)
+	
+	err_sin_filtrar = d - x
+	err_wiener = d - d_hat_wiener
+	err_lp = d - d_hat_lp
+	
+	mse_raw = float(np.mean(err_sin_filtrar[burn_in:] ** 2))
+	mse_w = float(np.mean(err_wiener[burn_in:] ** 2))
+	mse_lp = float(np.mean(err_lp[burn_in:] ** 2))
+	
+	mse_teoricos.append(mse_teorico)
+	mse_wiener_sim.append(mse_w)
+	mse_lp_sim.append(mse_lp)
+	mse_sin_filtrar.append(mse_raw)
+	
+	_, W_freq = signal.freqz(w, worN=w_grid)
+	ax_mag.plot(w_grid / np.pi, np.abs(W_freq), label=rf"Wiener $\alpha={alpha}$")
+	
+	if np.isclose(alpha, 0.9):
+	ax_est.plot(idx, x[idx], ":", color="gray", alpha=0.7, label=r"$x(n)$")
+	ax_est.plot(idx, d[idx], "k-", linewidth=2.0, label=r"$d(n)$")
+	ax_est.plot(idx, d_hat_wiener[idx], "--", label=r"$\hat{d}_W(n)$")
+	ax_est.plot(idx, d_hat_lp[idx], "-", label=r"$\hat{d}_{LP}(n)$")
+	
+	ax_err.plot(idx, err_sin_filtrar[idx], ":", color="gray", label=r"$d(n)-x(n)$")
+	ax_err.plot(idx, err_lp[idx], "-", label=r"$e_{LP}(n)$")
+	ax_err.plot(idx, err_wiener[idx], "-", label=r"$e_W(n)$")
+	ax_err.axhline(0, color="black", linewidth=0.8, linestyle="--")
+\end{lstlisting}
+
+Se configuran etiquetas, leyendas y ejes de las cuatro figuras comparativas y se invoca main() al ejecutar el script.
+\begin{lstlisting}[caption={Formato de gráficas y punto de entrada del script.}, label={lst:main_plots}]
+	ax_mag.plot(w_grid / np.pi, np.abs(H_lp_freq), "k-", linewidth=2.0, label=r"Pasabajos")
+	ax_mag.set_xlabel(r"Frecuencia normalizada ($\omega / \pi$)")
+	ax_mag.set_ylabel("Magnitud")
+	ax_mag.grid(True, alpha=0.3)
+	ax_mag.legend(fontsize=8)
+	
+	ax_est.set_xlabel("Muestra $n$")
+	ax_est.set_ylabel("Amplitud")
+	ax_est.grid(True, alpha=0.3)
+	ax_est.legend(fontsize=8, ncol=2)
+	
+	ax_err.set_xlabel("Muestra $n$")
+	ax_err.set_ylabel("Error $e(n)$")
+	ax_err.grid(True, alpha=0.3)
+	ax_err.legend(fontsize=8.5)
+	
+	x_pos = np.arange(len(alphas))
+	width = 0.26
+	ax_mse.bar(x_pos - width, mse_sin_filtrar, width, label="Sin filtrar")
+	ax_mse.bar(x_pos, mse_lp_sim, width, label="Pasabajos")
+	ax_mse.bar(x_pos + width, mse_wiener_sim, width, label="Wiener sim.")
+	ax_mse.plot(x_pos + width, mse_teoricos, "ko", label="Wiener teor.")
+	ax_mse.set_xticks(x_pos)
+	ax_mse.set_xticklabels([rf"$\alpha={a}$" for a in alphas])
+	ax_mse.set_ylabel("MSE")
+	ax_mse.grid(True, axis="y", alpha=0.3)
+	ax_mse.legend(fontsize=8.5)
+	
+	plt.show()
+	
+	
+	if __name__ == "__main__":
+	main()
+\end{lstlisting}
+
+
+
+\paragraph{Resultados obtenidos}
+Para $\alpha = 0.8$ y $\sigma_v^2 = 1.0$, la resolución numérica de las ecuaciones de Wiener-Hopf arroja $w(0) = 0.404762$ y $w(1) = 0.238095$, coincidiendo con los valores teóricos exactos $w(0) = 17/42 \approx 0.404762$ y $w(1) = 5/21 \approx 0.238095$, así como con la expresión redondeada a cuatro decimales:
+\[
+W(e^{j\omega}) = 0.4048 + 0.2381 e^{-j\omega}.
+\]
+El error cuadrático medio mínimo teórico en este caso es $\mathrm{MSE}_{\min} = 0.404762$.
+
+
+\begin{table}[htbp]
+	\centering
+	\caption{Coeficientes del filtro FIR de Wiener y comparación de MSE para distintos valores de $\alpha$ ($\sigma_v^2 = 1.0$, $N = 10000$).}
+	\label{tab:wiener_ar1_resultados}
+	\begin{tabular}{cccccc}
+		\toprule
+		$\alpha$ & $w(0)$ & $w(1)$ & $\mathrm{MSE}_{\mathrm{te\acute{o}r.}}$ & $\mathrm{MSE}_{\mathrm{sim.}}$ & $\mathrm{MSE}_{\mathrm{LP}}$ \\
+		\midrule
+		$0.10$ & $0.4987$ & $0.0251$ & $0.49875$ & $0.51115$ & $0.96310$ \\
+		$0.30$ & $0.4885$ & $0.0767$ & $0.48849$ & $0.49553$ & $0.86698$ \\
+		$0.40$ & $0.4792$ & $0.1042$ & $0.47917$ & $0.48664$ & $0.81620$ \\
+		$0.50$ & $0.4667$ & $0.1333$ & $0.46667$ & $0.46820$ & $0.76700$ \\
+		$0.90$ & $0.3730$ & $0.2821$ & $0.37304$ & $0.37466$ & $0.56321$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/7_2_1_Filtering/1._Módulos_|W(e^{jw})|_vs_Pasabajos}
+	\caption{}
+	\label{fig:1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/7_2_1_Filtering/2._Señal_d(n)_y_estimaciones_(alpha=0.9)}
+	\caption{}
+	\label{fig:2}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_hat(n)}
+	\caption{}
+	\label{fig:3}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/7_2_1_Filtering/4._Comparación_de_MSE_por_alpha}
+	\caption{}
+	\label{fig:4}
+\end{figure}
+
 
 
 
