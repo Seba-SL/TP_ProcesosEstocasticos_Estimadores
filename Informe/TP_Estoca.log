@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.1.2)  23 NOV 2026 15:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.1.2)  23 NOV 2026 17:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1163,8 +1163,26 @@ Package pdftex.def Info: img/7_2_1_Filtering/4._Comparación_de_MSE_por_alpha.p
 ng  used on input line 825.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
  [10 <./img/7_2_1_Filtering/2._Señal_d(n)_y_estimaciones_(alpha=0.9).png> <./i
-mg/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_hat(n).png>] [11 <./img/7_
-2_1_Filtering/4._Comparación_de_MSE_por_alpha.png>] (./TP_Estoca.aux
+mg/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_hat(n).png>]
+<img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.3.png, id=77, 578.16pt x 3
+46.896pt>
+File: img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.3.png Graphic file (t
+ype png)
+<use img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.3.png>
+Package pdftex.def Info: img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.3.
+png  used on input line 834.
+(pdftex.def)             Requested size: 512.14963pt x 307.3073pt.
+<img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.9.png, id=78, 578.16pt x 3
+46.896pt>
+File: img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.9.png Graphic file (t
+ype png)
+<use img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.9.png>
+Package pdftex.def Info: img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.9.
+png  used on input line 841.
+(pdftex.def)             Requested size: 512.14963pt x 307.3073pt.
+ [11 <./img/7_2_1_Filtering/4._Comparación_de_MSE_por_alpha.png> <./img/7_2_1_
+Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.3.png>] [12 <./img/7_2_1_Filtering/PS
+D_x(n),_d(n)_y_v(n)_-_alpha=0.9.png>] (./TP_Estoca.aux
 LaTeX Info: Redefining \sptext on input line 9.
 LaTeX Info: Redefining \. on input line 9.
 LaTeX Info: Redefining \% on input line 9.
@@ -1174,10 +1192,10 @@ Package logreq Info: Writing requests to 'TP_Estoca.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 30905 strings out of 476091
- 603310 string characters out of 5794082
+ 30932 strings out of 476091
+ 604703 string characters out of 5794082
  2359330 words of memory out of 5000000
- 50825 multiletter control sequences out of 15000+600000
+ 50847 multiletter control sequences out of 15000+600000
  542872 words of font info for 114 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  83i,14n,89p,1198b,1799s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1205,10 +1223,10 @@ fb></usr/share/texmf/fonts/type1/public/cm-super/sfti1000.pfb></usr/share/texmf
 /fonts/type1/public/cm-super/sftt0900.pfb></usr/share/texmf/fonts/type1/public/
 cm-super/sftt1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pf
 b>
-Output written on TP_Estoca.pdf (12 pages, 802068 bytes).
+Output written on TP_Estoca.pdf (13 pages, 919799 bytes).
 PDF statistics:
- 194 PDF objects out of 1000 (max. 8388607)
- 114 compressed objects within 2 object streams
+ 202 PDF objects out of 1000 (max. 8388607)
+ 117 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 38 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 48 words of extra memory for PDF output out of 10000 (max. 10000000)
 
