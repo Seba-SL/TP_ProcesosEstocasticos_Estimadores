@@ -17,7 +17,7 @@
 *.vrb
 
 # PDF compilado del informe (descomentar si acuerdan no subirlo)
-# Informe/TP_Estoca.pdf
+Informe/TP_Estoca.pdf
 
 # Archivos del sistema operativo
 .DS_Store
