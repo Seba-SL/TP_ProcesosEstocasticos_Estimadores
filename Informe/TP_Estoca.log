@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.1.2)  23 NOV 2026 17:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.1.2)  23 NOV 2026 18:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1129,60 +1129,48 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 144
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1] [2] [3] [4]
 [5] [6] [7] [8]
-<img/7_2_1_Filtering/1._Módulos_|W(e^{jw})|_vs_Pasabajos.png, id=63, 987.2082p
-t x 471.9231pt>
-File: img/7_2_1_Filtering/1._Módulos_|W(e^{jw})|_vs_Pasabajos.png Graphic file
- (type png)
-<use img/7_2_1_Filtering/1._Módulos_|W(e^{jw})|_vs_Pasabajos.png>
-Package pdftex.def Info: img/7_2_1_Filtering/1._Módulos_|W(e^{jw})|_vs_Pasabaj
-os.png  used on input line 804.
+<img/7_2_1_Filtering/Modulos_comparacion.png, id=63, 987.2082pt x 471.9231pt>
+File: img/7_2_1_Filtering/Modulos_comparacion.png Graphic file (type png)
+<use img/7_2_1_Filtering/Modulos_comparacion.png>
+Package pdftex.def Info: img/7_2_1_Filtering/Modulos_comparacion.png  used on i
+nput line 804.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
-<img/7_2_1_Filtering/2._Señal_d(n)_y_estimaciones_(alpha=0.9).png, id=65, 987.
-2082pt x 471.9231pt>
-File: img/7_2_1_Filtering/2._Señal_d(n)_y_estimaciones_(alpha=0.9).png Graphic
- file (type png)
-<use img/7_2_1_Filtering/2._Señal_d(n)_y_estimaciones_(alpha=0.9).png>
-Package pdftex.def Info: img/7_2_1_Filtering/2._Señal_d(n)_y_estimaciones_(alp
-ha=0.9).png  used on input line 811.
+<img/7_2_1_Filtering/Comparacion_signals.png, id=65, 987.2082pt x 471.9231pt>
+File: img/7_2_1_Filtering/Comparacion_signals.png Graphic file (type png)
+<use img/7_2_1_Filtering/Comparacion_signals.png>
+Package pdftex.def Info: img/7_2_1_Filtering/Comparacion_signals.png  used on i
+nput line 811.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
- [9 <./img/7_2_1_Filtering/1._Módulos_|W(e^{jw})|_vs_Pasabajos.png>]
-<img/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_hat(n).png, id=70, 987.2
-082pt x 471.9231pt>
-File: img/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_hat(n).png Graphic 
-file (type png)
-<use img/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_hat(n).png>
-Package pdftex.def Info: img/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_
-hat(n).png  used on input line 818.
+ [9 <./img/7_2_1_Filtering/Modulos_comparacion.png>]
+<img/7_2_1_Filtering/comparacion_errores.png, id=70, 987.2082pt x 471.9231pt>
+File: img/7_2_1_Filtering/comparacion_errores.png Graphic file (type png)
+<use img/7_2_1_Filtering/comparacion_errores.png>
+Package pdftex.def Info: img/7_2_1_Filtering/comparacion_errores.png  used on i
+nput line 818.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
-<img/7_2_1_Filtering/4._Comparación_de_MSE_por_alpha.png, id=71, 987.2082pt x 
-471.9231pt>
-File: img/7_2_1_Filtering/4._Comparación_de_MSE_por_alpha.png Graphic file (ty
-pe png)
-<use img/7_2_1_Filtering/4._Comparación_de_MSE_por_alpha.png>
-Package pdftex.def Info: img/7_2_1_Filtering/4._Comparación_de_MSE_por_alpha.p
-ng  used on input line 825.
+<img/7_2_1_Filtering/Comparacion_MSE_Barras.png, id=71, 987.2082pt x 471.9231pt
+>
+File: img/7_2_1_Filtering/Comparacion_MSE_Barras.png Graphic file (type png)
+<use img/7_2_1_Filtering/Comparacion_MSE_Barras.png>
+Package pdftex.def Info: img/7_2_1_Filtering/Comparacion_MSE_Barras.png  used o
+n input line 825.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
- [10 <./img/7_2_1_Filtering/2._Señal_d(n)_y_estimaciones_(alpha=0.9).png> <./i
-mg/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_hat(n).png>]
-<img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.3.png, id=77, 578.16pt x 3
-46.896pt>
-File: img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.3.png Graphic file (t
-ype png)
-<use img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.3.png>
-Package pdftex.def Info: img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.3.
-png  used on input line 834.
+ [10 <./img/7_2_1_Filtering/Comparacion_signals.png> <./img/7_2_1_Filtering/com
+paracion_errores.png>]
+<img/7_2_1_Filtering/PSD_03.png, id=77, 578.16pt x 346.896pt>
+File: img/7_2_1_Filtering/PSD_03.png Graphic file (type png)
+<use img/7_2_1_Filtering/PSD_03.png>
+Package pdftex.def Info: img/7_2_1_Filtering/PSD_03.png  used on input line 834
+.
 (pdftex.def)             Requested size: 512.14963pt x 307.3073pt.
-<img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.9.png, id=78, 578.16pt x 3
-46.896pt>
-File: img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.9.png Graphic file (t
-ype png)
-<use img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.9.png>
-Package pdftex.def Info: img/7_2_1_Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.9.
-png  used on input line 841.
+<img/7_2_1_Filtering/PSD_09.png, id=78, 578.16pt x 346.896pt>
+File: img/7_2_1_Filtering/PSD_09.png Graphic file (type png)
+<use img/7_2_1_Filtering/PSD_09.png>
+Package pdftex.def Info: img/7_2_1_Filtering/PSD_09.png  used on input line 841
+.
 (pdftex.def)             Requested size: 512.14963pt x 307.3073pt.
- [11 <./img/7_2_1_Filtering/4._Comparación_de_MSE_por_alpha.png> <./img/7_2_1_
-Filtering/PSD_x(n),_d(n)_y_v(n)_-_alpha=0.3.png>] [12 <./img/7_2_1_Filtering/PS
-D_x(n),_d(n)_y_v(n)_-_alpha=0.9.png>] (./TP_Estoca.aux
+ [11 <./img/7_2_1_Filtering/Comparacion_MSE_Barras.png> <./img/7_2_1_Filtering/
+PSD_03.png>] [12 <./img/7_2_1_Filtering/PSD_09.png>] (./TP_Estoca.aux
 LaTeX Info: Redefining \sptext on input line 9.
 LaTeX Info: Redefining \. on input line 9.
 LaTeX Info: Redefining \% on input line 9.
@@ -1192,10 +1180,10 @@ Package logreq Info: Writing requests to 'TP_Estoca.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 30932 strings out of 476091
- 604703 string characters out of 5794082
+ 30897 strings out of 476091
+ 602119 string characters out of 5794082
  2359330 words of memory out of 5000000
- 50847 multiletter control sequences out of 15000+600000
+ 50823 multiletter control sequences out of 15000+600000
  542872 words of font info for 114 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  83i,14n,89p,1198b,1799s stack positions out of 10000i,1000n,20000p,200000b,200000s
