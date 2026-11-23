@@ -554,7 +554,7 @@ Por lo tanto, el filtro de Wiener es
 
 \paragraph{Simulación}
 
-Utilizamos un código en \textit{Python} para obtener distintos filtros Wiener $W(z)$ para distintos valores $\alpha$ y compararlo con un filtro pasa bajos clásico.
+Utilizamos un código en \textit{Python} para obtener distintos filtros Wiener $W(z)$ para distintos valores $\alpha$ y compararlo con un filtro pasa bajos clásico, en particular un filtro digital FIR (Respuesta Impulsiva Finita) pasabajos diseñado por el método de ventanas (por defecto una ventana de Hamming).
 
 Se utilizan librerías para el manejo algebraico, procesamiento de señales y visualización de los gráficos 2D.
 \begin{lstlisting}[caption={Librerias utilizadas}, label={lst:wiener_ar1}]
@@ -579,10 +579,7 @@ Luego se definen las funciones a utilizar, para formar las diferentes funciones 
 
 \begin{lstlisting}[caption={Definicion de funciones.}, label={lst:wiener_ar1_funciones}]
 	def generar_ar1(alpha: float, N: int, rng: np.random.Generator) -> np.ndarray:
-	"""
-	Genera d(n) = alpha*d(n-1) + u(n) con Var(u) = 1 - alpha**2 para que
-	en regimen estacionario r_d(0) = 1 y r_d(k) = alpha**|k|.
-	"""
+
 	sigma_u = np.sqrt(1.0 - alpha**2)
 	u = rng.normal(loc=0.0, scale=sigma_u, size=N)
 	
@@ -628,11 +625,7 @@ Luego se definen las funciones a utilizar, para formar las diferentes funciones 
 	
 	
 	def verificar_caso_alpha_08() -> None:
-	"""
-	Verifica analitica y numericamente que para alpha=0.8 y sigma_v**2=1.0
-	los coeficientes del filtro FIR de 2 taps son w(0) aprox 0.4048 y w(1) aprox 0.2381,
-	es decir, W(e^{jw}) = 0.4048 + 0.2381 * e^{-jw}.
-	"""
+	
 	global sigma_v
 	sigma_v_anterior = sigma_v
 	sigma_v = 1.0  # Asegura sigma_v**2 = 1.0 para esta verificacion puntual
@@ -785,7 +778,7 @@ W(e^{j\omega}) = 0.4048 + 0.2381 e^{-j\omega}.
 El error cuadrático medio mínimo teórico en este caso es $\mathrm{MSE}_{\min} = 0.404762$.
 
 
-\begin{table}[htbp]
+\begin{table}[H]
 	\centering
 	\caption{Coeficientes del filtro FIR de Wiener y comparación de MSE para distintos valores de $\alpha$ ($\sigma_v^2 = 1.0$, $N = 10000$).}
 	\label{tab:wiener_ar1_resultados}
@@ -803,31 +796,34 @@ El error cuadrático medio mínimo teórico en este caso es $\mathrm{MSE}_{\min}
 \end{table}
 
 
+
+En las siguientes figuras se encuentran los gráficos obtenidos, estos nos ayudan a visualizar de forma rápida el desempeño de cada filtro. 
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/7_2_1_Filtering/1._Módulos_|W(e^{jw})|_vs_Pasabajos}
-	\caption{}
+	\caption{Magnitudes de cada filtro comparadas.}
 	\label{fig:1}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/7_2_1_Filtering/2._Señal_d(n)_y_estimaciones_(alpha=0.9)}
-	\caption{}
+	\caption{Señal original junto con sus estimaciones.}
 	\label{fig:2}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_hat(n)}
-	\caption{}
+	\caption{Errores en función del tiempo, correspondientes a cada estimación.}
 	\label{fig:3}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/7_2_1_Filtering/4._Comparación_de_MSE_por_alpha}
-	\caption{}
+	\caption{Comparación en gráfico de barras de cada error cuadrático medio. }
 	\label{fig:4}
 \end{figure}
 

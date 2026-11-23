@@ -2,134 +2,221 @@ import numpy as np
 from scipy import signal
 import matplotlib.pyplot as plt
 
-alphas =[0.1, 0.25 , 0.5, 0.75 , 0.9]
+alphas = [0.1, 0.3, 0.4, 0.5, 0.9]
+sigma_v = 1.0
+p = 2          # Cantidad de coeficientes FIR: w(0), w(1)
+N = 10000      # Cantidad de muestras para la simulación
 
-sigma_v = 1 
 
-p_cantidad_realizaciones = 2
-N =2
-
-#Ruido gaussiano blanco
-v = np.random.normal(0, sigma_v, p_cantidad_realizaciones)  
-
-#Procesos AR(1) d(n)
-def generar_ar1(N: int, alpha: float, rng: np.random.Generator) -> np.ndarray:
+def generar_ar1(alpha: float, N: int, rng: np.random.Generator) -> np.ndarray:
     """
     Genera d(n) = alpha*d(n-1) + u(n) con Var(u) = 1 - alpha^2 para que
     en régimen estacionario r_d(0) = 1 y r_d(k) = alpha^{|k|}.
     """
     sigma_u = np.sqrt(1.0 - alpha**2)
-    u = rng.normal(0.0, sigma_u, size=N)
-    d_arr = np.zeros(N)
-    d_arr[0] = rng.normal(0.0, 1.0)
+    u = rng.normal(loc=0.0, scale=sigma_u, size=N)
+
+    d = np.zeros(N, dtype=np.float64)
+    d[0] = rng.normal(loc=0.0, scale=1.0)
+
     for n in range(1, N):
-        d_arr[n] = alpha * d_arr[n - 1] + u[n]
-    return d_arr
+        d[n] = alpha * d[n - 1] + u[n]
 
-# Observaciones x(n)
-def x(n, alpha=alphas[0]):
-    return generar_ar1(n, alpha, np.random.default_rng() ) + v[n]
+    return d
 
 
-##Obs: rd = rdx 
-def r_d(k, alpha=alphas[0]):
-    return alpha**(np.abs(k))
+def r_d(k: int, alpha: float) -> float:
+    return float(alpha ** np.abs(k))
+
 
 def r_v(k: int) -> float:
-    # Ruido blanco: r_v(k) = sigma_v^2 * delta(k)
     return float(sigma_v**2) if k == 0 else 0.0
 
-def r_x(k, alpha=alphas[0]):
+
+def r_x(k: int, alpha: float) -> float:
     return r_d(k, alpha) + r_v(k)
 
 
-
-def construir_matriz_rx(p= p_cantidad_realizaciones, alpha=alphas[0]) -> np.ndarray:
-  
-    # Determinamos tipo complejo si r_x o sus conjugados son complejos
-    dtype = np.complex128 if np.iscomplexobj(r_x) else np.float64
-    R_x = np.zeros((p, p), dtype=dtype)
-
+def construir_matriz_rx(p: int, alpha: float) -> np.ndarray:
+    R_x = np.zeros((p, p), dtype=np.float64)
     for i in range(p):
         for j in range(p):
-            if i >= j:
-                R_x[i, j] = r_x(i - j, alpha)
-            else:
-                R_x[i, j] = np.conj(r_x(j - i, alpha))
-
+            R_x[i, j] = r_x(i - j, alpha)
     return R_x
 
 
+def construir_vector_rdx(p: int, alpha: float) -> np.ndarray:
+    return np.array([r_d(i, alpha) for i in range(p)], dtype=np.float64)
 
 
-def construir_matriz_rd(p= p_cantidad_realizaciones, alpha=alphas[0]) -> np.ndarray:
-  
-    # Determinamos tipo complejo si r_x o sus conjugados son complejos
-    dtype = np.complex128 if np.iscomplexobj(r_x) else np.float64
-    R_x = np.zeros((p, p), dtype=dtype)
-
-    for i in range(p):
-        for j in range(p):
-            if i >= j:
-                R_x[i, j] = r_x(i - j, alpha)
-            else:
-                R_x[i, j] = np.conj(r_x(j - i, alpha))
-
-    return R_x
-
-
-
-def construir_vector_rdx(p=p_cantidad_realizaciones, alpha=alphas[0]) -> np.ndarray:
-    r_dx_vec = np.zeros((p, 1), dtype=np.float64)
-    for i in range(p):
-        r_dx_vec[i, 0] = r_d(i, alpha)
-    return r_dx_vec
-
-
-def resolver_wiener(p: int, alpha: float) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def resolver_wiener(p: int, alpha: float) -> tuple[np.ndarray, float]:
     R_x = construir_matriz_rx(p, alpha)
     r_dx = construir_vector_rdx(p, alpha)
-    # Resuelve R_x * w = r_dx
     w = np.linalg.solve(R_x, r_dx)
-    return w, R_x, r_dx
+    mse_teorico = r_d(0, alpha) - float(np.dot(r_dx, w))
+    return w, mse_teorico
 
+
+def verificar_caso_alpha_08() -> None:
+    """
+    Verifica analítica y numéricamente que para alpha=0.8 y sigma_v^2=1.0
+    los coeficientes del filtro FIR de 2 taps son w(0) ≈ 0.4048 y w(1) ≈ 0.2381,
+    es decir, W(e^{jw}) = 0.4048 + 0.2381 * e^{-jw}.
+    """
+    global sigma_v
+    sigma_v_anterior = sigma_v
+    sigma_v = 1.0  # Asegura sigma_v^2 = 1.0 para esta verificación puntual
+
+    w_calc, mse_teorico = resolver_wiener(p=2, alpha=0.8)
+    w_esperado = np.array([17.0 / 42.0, 5.0 / 21.0])  # valores exactos -> [0.4048, 0.2381] redondeados
+    w_redondeado_libro = np.array([0.4048, 0.2381])
+
+    coincide_exacto = np.allclose(w_calc, w_esperado, atol=1e-12)
+    coincide_libro = np.allclose(w_calc, w_redondeado_libro, atol=1e-4)
+
+    print("\n--- Verificación puntual (alpha = 0.8, sigma_v^2 = 1.0) ---")
+    print(f"w calculado en código : w(0) = {w_calc[0]:.6f}, w(1) = {w_calc[1]:.6f}")
+    print(f"w teórico exacto     : w(0) = {w_esperado[0]:.6f}, w(1) = {w_esperado[1]:.6f}")
+    print(f"W(e^{{jw}}) expresado   : {w_calc[0]:.4f} + {w_calc[1]:.4f} * e^(-jw)")
+    print(f"MSE mínimo teórico   : {mse_teorico:.6f}")
+    print(f"Coincide con fracción exacta (17/42, 5/21): {coincide_exacto}")
+    print(f"Coincide con valores del enunciado (4 dec.): {coincide_libro}\n")
+
+    sigma_v = sigma_v_anterior
 
 def estimar_d_producto_interno(w: np.ndarray, x: np.ndarray) -> np.ndarray:
-    """
-    Evalúa explícitamente d_hat(n) = w^T * x_vec(n) para cada muestra n,
-    donde x_vec(n) = [x(n), x(n-1), ..., x(n-p+1)]^T.
-    """
     p_len = len(w)
     d_hat = np.zeros(len(x), dtype=np.float64)
     x_pad = np.concatenate([np.zeros(p_len - 1), x])
+
     for n in range(len(x)):
-        # Toma [x(n), x(n-1), ..., x(n-p+1)] en orden de retardo creciente
         x_vec = x_pad[n : n + p_len][::-1]
         d_hat[n] = float(np.dot(w, x_vec))
+
     return d_hat
 
 
-w,R_x,R_dx= resolver_wiener(p_cantidad_realizaciones, alphas[0])
+def main() -> None:
+    rng = np.random.default_rng(42)
+    v = rng.normal(0.0, sigma_v, size=N)
 
-hat_n  = estimar_d_producto_interno(w, [x(n, alphas[0]) for n in range(N)])
+    verificar_caso_alpha_08()
 
-d = generar_ar1(N, alphas[0], np.random.default_rng())
+    # Filtro pasabajos clásico de igual cantidad de coeficientes (numtaps=p)
+    h_lp = signal.firwin(numtaps=p, cutoff=0.25)
 
-print("Matriz de autocorrelación R_x:")
-print(R_x)
+    w_grid = np.linspace(0.0, np.pi, 512)
+    _, H_lp_freq = signal.freqz(h_lp, worN=w_grid)
 
-print("Vector de autocorrelación R_dx:")
-print(R_dx)
+    # Ventana 1: Respuesta en frecuencia
+    fig_mag, ax_mag = plt.subplots(figsize=(7.5, 4.5), num="1. Módulos |W(e^{jw})| vs Pasabajos")
+
+    # Ventana 2: Señal y estimaciones (alpha=0.9)
+    fig_est, ax_est = plt.subplots(figsize=(8.5, 4.5), num="2. Señal d(n) y estimaciones (alpha=0.9)")
+
+    # Ventana 3 (NUEVA): Evolución temporal del error e(n) = d(n) - d_hat(n)
+    fig_err, ax_err = plt.subplots(figsize=(8.5, 4.5), num="3. Error temporal e(n) = d(n) - d_hat(n)")
+
+    # Ventana 4 (NUEVA): Comparación de MSE (bondad de estimación) para cada alpha
+    fig_mse, ax_mse = plt.subplots(figsize=(8.5, 4.8), num="4. Comparación de MSE por alpha")
+
+    burn_in = 50
+    idx = np.arange(100, 160)
+
+    mse_teoricos = []
+    mse_wiener_sim = []
+    mse_lp_sim = []
+    mse_sin_filtrar = []
+
+    print(f"{'alpha':>6} | {'w(0)':>8} | {'w(1)':>8} | {'MSE Teór.':>10} | {'MSE Sim.':>10} | {'MSE LP':>10}")
+    print("-" * 68)
+
+    for alpha in alphas:
+        w, mse_teorico = resolver_wiener(p, alpha)
+        d = generar_ar1(alpha, N, rng)
+        x = d + v
+
+        d_hat_wiener = estimar_d_producto_interno(w, x)
+        d_hat_lp = signal.lfilter(h_lp, [1.0], x)
+
+        # Cálculo de errores muestra a muestra
+        err_sin_filtrar = d - x  # Esto es simplemente -v(n)
+        err_wiener = d - d_hat_wiener
+        err_lp = d - d_hat_lp
+
+        mse_raw = float(np.mean(err_sin_filtrar[burn_in:] ** 2))
+        mse_w = float(np.mean(err_wiener[burn_in:] ** 2))
+        mse_lp = float(np.mean(err_lp[burn_in:] ** 2))
+
+        mse_teoricos.append(mse_teorico)
+        mse_wiener_sim.append(mse_w)
+        mse_lp_sim.append(mse_lp)
+        mse_sin_filtrar.append(mse_raw)
+
+        print(f"{alpha:6.2f} | {w[0]:8.4f} | {w[1]:8.4f} | {mse_teorico:10.5f} | {mse_w:10.5f} | {mse_lp:10.5f}")
+
+        # Gráfico 1: Módulos
+        _, W_freq = signal.freqz(w, worN=w_grid)
+        ax_mag.plot(w_grid / np.pi, np.abs(W_freq), label=rf"Wiener $\alpha={alpha}$")
+
+        # Gráficos 2 y 3: Dominio temporal para alpha=0.9
+        if np.isclose(alpha, 0.9):
+            ax_est.plot(idx, x[idx], ":", color="gray", alpha=0.7, label=r"Observación $x(n) = d(n) + v(n)$")
+            ax_est.plot(idx, d[idx], "k-", linewidth=2.0, label=r"$d(n)$ real ($\alpha=0.9$)")
+            ax_est.plot(idx, d_hat_wiener[idx], "--", color="tab:blue", linewidth=1.8, label=r"$\hat{d}_{\mathrm{W}}(n)$ Wiener")
+            ax_est.plot(idx, d_hat_lp[idx], "-", color="tab:red", linewidth=2, label=r"$\hat{d}_{\mathrm{LP}}(n)$ Pasabajos")
+
+            # Gráfico 3: Errores e(n) en el tiempo
+            ax_err.plot(idx, err_sin_filtrar[idx], ":", color="gray", alpha=0.75, label=rf"Sin filtrar $d(n)-x(n)$ (MSE={mse_raw:.2f})")
+            ax_err.plot(idx, err_lp[idx], "-", color="tab:red", linewidth=2, label=rf"Error Pasabajos $e_{{\mathrm{{LP}}}}(n)$ (MSE={mse_lp:.2f})")
+            ax_err.plot(idx, err_wiener[idx], "-", color="tab:blue", linewidth=2.0, label=rf"Error Wiener $e_{{\mathrm{{W}}}}(n)$ (MSE={mse_w:.2f})")
+            ax_err.axhline(0, color="black", linewidth=2, linestyle="--")
+
+    # Formato Gráfico 1
+    ax_mag.plot(w_grid / np.pi, np.abs(H_lp_freq), "k-", linewidth=2.0, label=r"Pasabajos clásico $|H(e^{j\omega})|$")
+    ax_mag.set_title(r"Comparación de módulos $|W(e^{j\omega})|$ vs $|H(e^{j\omega})|$")
+    ax_mag.set_xlabel(r"Frecuencia normalizada ($\omega / \pi$)")
+    ax_mag.set_ylabel("Magnitud")
+    ax_mag.grid(True, alpha=0.3)
+    ax_mag.legend(fontsize=15)
+    fig_mag.tight_layout()
+
+    # Formato Gráfico 2
+    ax_est.set_title(r"Señal $d(n)$ y estimaciones $\hat{d}(n)$ ($\alpha = 0.9$, $\sigma_v^2 = 1.0$)")
+    ax_est.set_xlabel("Muestra $n$")
+    ax_est.set_ylabel("Amplitud")
+    ax_est.grid(True, alpha=0.3)
+    ax_est.legend(fontsize=15, ncol=2)
+    fig_est.tight_layout()
+
+    # Formato Gráfico 3 (Error temporal)
+    ax_err.set_title(r"Evolución temporal del error $e(n) = d(n) - \hat{d}(n)$ para $\alpha = 0.9$")
+    ax_err.set_xlabel("Muestra $n$")
+    ax_err.set_ylabel("Error de estimación $e(n)$")
+    ax_err.grid(True, alpha=0.3)
+    ax_err.legend(fontsize=15)
+    fig_err.tight_layout()
+
+    # Formato Gráfico 4 (Barras comparativas de MSE para todos los alpha)
+    x_pos = np.arange(len(alphas))
+    width = 0.26
+
+    ax_mse.bar(x_pos - width, mse_sin_filtrar, width, color="lightgray", edgecolor="gray", label=r"Sin filtrar ($\sigma_v^2 = 1.0$)")
+    ax_mse.bar(x_pos, mse_lp_sim, width, color="tab:red", alpha=0.85, label="Pasabajos clásico (simulado)")
+    ax_mse.bar(x_pos + width, mse_wiener_sim, width, color="tab:blue", alpha=0.9, label="Filtro de Wiener (simulado)")
+    ax_mse.plot(x_pos + width, mse_teoricos, "ko", markersize=6, label=r"$\mathrm{MSE}_{\min}$ teórico de Wiener")
+
+    ax_mse.set_title(r"Bondad de estimación: Error Cuadrático Medio (MSE) según $\alpha$")
+    ax_mse.set_xlabel(r"Parámetro $\alpha$ del proceso AR(1)")
+    ax_mse.set_ylabel(r"MSE = $\mathbb{E}[e^2(n)]$")
+    ax_mse.set_xticks(x_pos)
+    ax_mse.set_xticklabels([rf"$\alpha = {a}$" for a in alphas])
+    ax_mse.grid(True, axis="y", alpha=0.3)
+    ax_mse.legend(fontsize=15)
+    fig_mse.tight_layout()
+
+    plt.show()
 
 
-print("Coeficientes de w(k):")
-print(w)
-
-
-
-print("d(n):")
-print(d)
-
-
-print("estimacion hat d(n):")
-print(hat_n)
+if __name__ == "__main__":
+    main()

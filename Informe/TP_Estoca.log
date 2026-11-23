@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.1.2)  23 NOV 2026 14:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.1.2)  23 NOV 2026 15:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1135,7 +1135,7 @@ File: img/7_2_1_Filtering/1._Módulos_|W(e^{jw})|_vs_Pasabajos.png Graphic file
  (type png)
 <use img/7_2_1_Filtering/1._Módulos_|W(e^{jw})|_vs_Pasabajos.png>
 Package pdftex.def Info: img/7_2_1_Filtering/1._Módulos_|W(e^{jw})|_vs_Pasabaj
-os.png  used on input line 808.
+os.png  used on input line 804.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
 <img/7_2_1_Filtering/2._Señal_d(n)_y_estimaciones_(alpha=0.9).png, id=65, 987.
 2082pt x 471.9231pt>
@@ -1143,7 +1143,7 @@ File: img/7_2_1_Filtering/2._Señal_d(n)_y_estimaciones_(alpha=0.9).png Graphic
  file (type png)
 <use img/7_2_1_Filtering/2._Señal_d(n)_y_estimaciones_(alpha=0.9).png>
 Package pdftex.def Info: img/7_2_1_Filtering/2._Señal_d(n)_y_estimaciones_(alp
-ha=0.9).png  used on input line 815.
+ha=0.9).png  used on input line 811.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
  [9 <./img/7_2_1_Filtering/1._Módulos_|W(e^{jw})|_vs_Pasabajos.png>]
 <img/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_hat(n).png, id=70, 987.2
@@ -1152,7 +1152,7 @@ File: img/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_hat(n).png Graphic
 file (type png)
 <use img/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_hat(n).png>
 Package pdftex.def Info: img/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_
-hat(n).png  used on input line 822.
+hat(n).png  used on input line 818.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
 <img/7_2_1_Filtering/4._Comparación_de_MSE_por_alpha.png, id=71, 987.2082pt x 
 471.9231pt>
@@ -1160,7 +1160,7 @@ File: img/7_2_1_Filtering/4._Comparación_de_MSE_por_alpha.png Graphic file (ty
 pe png)
 <use img/7_2_1_Filtering/4._Comparación_de_MSE_por_alpha.png>
 Package pdftex.def Info: img/7_2_1_Filtering/4._Comparación_de_MSE_por_alpha.p
-ng  used on input line 829.
+ng  used on input line 825.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
  [10 <./img/7_2_1_Filtering/2._Señal_d(n)_y_estimaciones_(alpha=0.9).png> <./i
 mg/7_2_1_Filtering/3._Error_temporal_e(n)_=_d(n)_-_d_hat(n).png>] [11 <./img/7_
@@ -1174,10 +1174,10 @@ Package logreq Info: Writing requests to 'TP_Estoca.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 30920 strings out of 476091
- 603471 string characters out of 5794082
- 2354330 words of memory out of 5000000
- 50840 multiletter control sequences out of 15000+600000
+ 30905 strings out of 476091
+ 603310 string characters out of 5794082
+ 2359330 words of memory out of 5000000
+ 50825 multiletter control sequences out of 15000+600000
  542872 words of font info for 114 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  83i,14n,89p,1198b,1799s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1205,7 +1205,7 @@ fb></usr/share/texmf/fonts/type1/public/cm-super/sfti1000.pfb></usr/share/texmf
 /fonts/type1/public/cm-super/sftt0900.pfb></usr/share/texmf/fonts/type1/public/
 cm-super/sftt1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pf
 b>
-Output written on TP_Estoca.pdf (12 pages, 802538 bytes).
+Output written on TP_Estoca.pdf (12 pages, 802068 bytes).
 PDF statistics:
  194 PDF objects out of 1000 (max. 8388607)
  114 compressed objects within 2 object streams
