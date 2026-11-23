@@ -1,0 +1,25 @@
+# Archivos auxiliares y temporales de LaTeX
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bcf
+*.blg
+*.bbl
+*.run.xml
+*.toc
+*.lof
+*.lot
+*.out
+*.nav
+*.snm
+*.vrb
+
+# PDF compilado del informe (descomentar si acuerdan no subirlo)
+# Informe/TP_Estoca.pdf
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
