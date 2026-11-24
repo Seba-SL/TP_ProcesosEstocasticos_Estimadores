@@ -847,7 +847,84 @@ En las siguientes figuras se encuentran los gráficos obtenidos, estos nos ayuda
 
 \subsubsection*{7.2.2 : Predicción lineal}
 
+Ahora el enfoque difiere, tenemos observaciones libres de ruido, pero se quiere estimar las próximas realizaciones, es decir, predecirlas.
+Entonces se define un predictor lineal de tipo FIR utilizando valores actuales y previos, de orden $p-1$ de la forma:
 
+\begin{equation}
+	\hat{x}(n+1) = \sum_{k=0}^{p-1} w(k) \cdot  x(n-k)
+\end{equation}
+
+
+Se puede pensar como el caso de filtro de Wiener en donde la señal a recuperar no es otra que la señal a predecir : $d(n) = x(n+1)$. 
+
+
+\begin{figure}[H]
+	\begin{tikzpicture}[transform shape]
+	% Paths, nodes and wires:
+	\node[shape=rectangle, draw, line width=1pt, minimum width=4.215cm, minimum height=2.215cm] at (38.625, 24.125){} node[anchor=center, align=center, text width=3.777cm, inner sep=6.7pt] at (38.625, 24.125){\Huge $W(z)$};
+	\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (29.875, 25){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (28.75, 25.625){\Huge $x(n)$\\};
+	\draw[line width=2pt, -latex] (29.5, 24.125) -- (32, 24.125);
+	\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (32.75, 27.625){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (31.625, 28.25){\huge $v(n)$\\};
+	\draw[line width=2pt, -latex] (32.49, 27.115) -| (32.49, 24.615);
+	\draw[line width=2pt, -latex] (32.98, 24.125) -- (36.5, 24.125);
+	\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (35.375, 25.125){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (34.25, 25.75){\huge $y(n)$\\};
+	\node[shape=rectangle, minimum width=0.965cm, minimum height=0.465cm] at (33.25, 24.75){} node[anchor=north west, align=left, text width=0.668cm, inner sep=4.7pt] at (32.75, 25){\Large +};
+	\node[shape=circle, draw, line width=1pt, minimum width=0.715cm](N1) at (32.5, 24.125){} node[anchor=center] at (N1.text){$+$};
+	\node[shape=rectangle, minimum width=0.965cm, minimum height=0.465cm] at (31.75, 23.75){} node[anchor=north west, align=left, text width=0.668cm, inner sep=4.7pt] at (31.25, 24){\Large +};
+	\draw[line width=2pt, -latex] (40.75, 24.125) -- (43.25, 24.125);
+	\node[shape=rectangle, minimum width=3.465cm, minimum height=1.215cm] at (42.75, 25){} node[anchor=north west, align=left, text width=3.077cm, inner sep=6pt] at (41, 25.625){\Huge $\hat{x}(n+1)$\\};
+	\end{tikzpicture}
+\end{figure}
+
+
+Para reutilizar las ecuaciónes de Wiener-Hopf, lo que se necesita es evaluar en la correlación cruzada entre $d(n)$ y $x(n)$.
+
+
+\begin{equation}
+	r_{dx}(k) = E\{d(n)x^*(n-k)\}
+	= E\{x(n+1)x^*(n-k)\}
+	= r_x(k+1)
+\end{equation}
+
+
+Obteniendo asi, los coeficientes para el predictor optimo:
+
+
+
+\begin{equation}
+	\begin{bmatrix}
+		r_x(0) & r_x^*(1) & r_x^*(2) & \cdots & r_x^*(p-1) \\
+		r_x(1) & r_x(0) & r_x^*(1) & \cdots & r_x^*(p-2) \\
+		r_x(2) & r_x(1) & r_x(0) & \cdots & r_x^*(p-3) \\
+		\vdots & \vdots & \vdots & \ddots & \vdots \\
+		r_x(p-1) & r_x(p-2) & r_x(p-3) & \cdots & r_x(0)
+	\end{bmatrix}
+	\begin{bmatrix}
+		w(0) \\
+		w(1) \\
+		w(2) \\
+		\vdots \\
+		w(p-1)
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		r_x(1) \\
+		r_x(2) \\
+		r_x(3) \\
+		\vdots \\
+		r_x(p)
+	\end{bmatrix}
+\end{equation}
+
+y un error :
+
+\begin{equation}
+	MSE = r_x(0) -
+	\sum_{k=0}^{p-1} w(k)r_x^*(k+1)
+\end{equation}
+
+
+Utilizando como ejemplo el caso de un proceso $x(n)$ autorregresivo de orden 1 AR(1), con función de autocorrelación $r_x(k) = \alpha ^{|k|}$, se llega a el estimador :  $\hat{x}(n+ 1) = \alpha x(n) $
 
  \subsubsection*{7.2.6 : Cancelación de ruido y simulación}
  
