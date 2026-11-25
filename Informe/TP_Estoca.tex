@@ -1008,11 +1008,61 @@ En la frecuencia $\frac{\pi}{2}$ se obvserva como tiende a convertirse en una se
  
  En esta actividad se presenta otra aplicación de la estimación, esta vez en el área de las comunicaciones estudiando el \textit{paper} titulado "\textit{OFDM Channel Estimation by Singular Value Descomposition}" \cite{edfors1996} y la bibliografía \cite{bahai2002}. En particular nos centramos en la modulación OFDM (\textit{Orthogonal Frequency División Modulation}), en donde se transmite la información en forma simultanea a través de muchos canales disjuntos que están separados en frecuencia.
  
+ \paragraph{Introducción a OFDM}
+ Este tipo de modulación busca aprovechar el ancho de banda sin que el solapamiento genere distorsión, para eso utiliza subportadoras de tal forma que al momento de recuperar el subcanal las demás subportadoras se anulan debido a la ortogonalidad de la distribución espectral.
+
+ Comenzando con la modulación mas simple, la modulación de frecuencia FM es un método para codificar información variando la frecuencia de una onda portadora, FDM en su lugar es una técnica para dividir un ancho de banda en varios canales separados, y OFDM es una versión avanzada de FDM que usa múltiples subportadoras ortogonales (que no interfieren entre sí) para transmitir aprovechando el ancho de banda.
  
  
  
- 
- 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{img/Actividad2/ofdm}
+	\caption{Diagrama representativo de OFDM.}
+	\label{fig:ofdm}
+\end{figure}
+
+
+En la figura \ref{fig:ofdm} se representa la evolución desde la división por frecuencia y la división por frecuencia utilizando la ortogonalidad de las señales aprovechando mas ancho de banda. Para modelar la señal transmitida por un canal OFDM de N subcanales se tiene a expresión:
+
+\begin{equation}
+	x(n) = p(t) \cdot \sum_{i = 1}^{N} x_i cos(\omega_i t + \phi_i)
+\end{equation}
+
+Siendo : $	x(n) : \text{Señal transmitida} \quad 	xi : \text{Simbolo de la información del subcanal i } \\ \quad \phi_i : \text{fase del i-nesimo canal }\quad p(t) \text{Respuesta de un filtro FIR llamado pulso.} $
+
+
+Se modela el canal que atraviesa la se{añ como un sistema LTI de respuesta al impulso $h$.
+	
+	
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[
+		scale=0.65,
+		every node/.style={transform shape},
+		adder/.style={circle, draw, line width=1pt, minimum size=0.85cm, inner sep=0pt, fill=white}
+		]
+		% Bloque del canal
+		\node[shape=rectangle, draw, line width=1pt, minimum width=4.215cm, minimum height=2.215cm, align=center] at (37.125, 33.875) {\Huge $h(t)$};
+		\node[anchor=south, align=center] at (37.125, 35.1) {\large Canal};
+		
+		% Etiquetas de señales
+		\node[anchor=south] at (33.125, 34.1) {\Huge $x(t)$};
+		\node[anchor=south] at (46.0, 34.1) {\Huge $y(t)$};
+		\node[anchor=south] at (43.24, 38.2) {\Huge $n(t)$};
+		
+		% Sumador (adder)
+		\node[adder] (SUM) at (43.24, 33.875) {$+$};
+		
+		% Conexiones
+		\draw[line width=1.4pt, -Latex] (31.5, 33.875) -- (35.0, 33.875);
+		\draw[line width=1.4pt, -Latex] (39.25, 33.875) -- (SUM.west);
+		\draw[line width=1.4pt, -Latex] (43.24, 37.865) -- (SUM.north);
+		\draw[line width=1.4pt, -Latex] (SUM.east) -- (47.23, 33.875);
+	\end{tikzpicture}
+\end{figure}
+	 
+La señal recibida sera : $y(t) = h(t) \ast x(t) + n(t)$ , siendo $n(t)$ una componente de ruido. Debido a que la comunicación es digital el diagrama simplifica la conversión y conversión en digital pero sirve a modo ilustrativo.
  
  \section*{Conclusión}
   \addcontentsline{toc}{section}{Conclusión}
