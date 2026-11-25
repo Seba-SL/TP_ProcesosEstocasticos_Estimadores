@@ -21,8 +21,6 @@
 \usepackage{xcolor}
 
 \appendix
-% Si usás clase 'article' y querés que diga "Anexo A" en lugar de solo "A":
-\renewcommand{\thesection}{Anexo \Alph{section}}
 
 \lstset{
 	language=Python,
@@ -140,12 +138,15 @@
 		
 	\end{titlepage}
  \newpage
- 
+ \tableofcontents
+ \newpage 
  \section*{Introducción}
+ \addcontentsline{toc}{section}{Introducción}
  
  El informe describe el desarrollo de un taller dentro del ámbito de la materia Procesos estocásticos en el cual se abarca a nivel teórico y práctico la metodología de estimación de procesos aleatorios. Se encuentra dividido en tres actividades principales, en la primera actividad, utilizando bibliografía especifica, se estudian, simulan y analizan diferentes ejemplos, la segunda actividad se utiliza un \textit{paper} acerca de la modulación OFDM se relaciona con lo previo y se propone un experimento numérico que permita evaluar la bondad de dichas aproximaciones. La actividad tres finalmente es el desarrollo del informe.
  
  \subsection*{Contexto}
+ 
  
 Un proceso aleatorio (o estocástico) es una familia de variables aleatorias ${X(t, \omega) : t \in T}$ definida sobre un mismo espacio de probabilidad $(\Omega, F, P)$, indexada por un parámetro t en un conjunto T (usualmente el tiempo) o n perteneciente al conjunto $\mathbb{Z}$ describiendo usualmente tiempo discreto:
 
@@ -197,11 +198,17 @@ Siendo:
 
 
  \section*{Actividad 1: Análisis y simulación de sistemas de filtrado óptimo }
+  \addcontentsline{toc}{section}{Actividad 1: Análisis y simulación de sistemas de filtrado óptimo }
+ 
  Se utiliza la bibliografía \cite{hayes1996} en donde se menciona la estimación en el ámbito de las señales, tomando cada proceso estocástico como un conjunto de señales relacionadas con variables aleatorias. 
  
  Se toma como ejemplo la recuperación de una señal que se envío a través de un medio no ideal en una comunicación digital. En situaciones simples, es posible utilizar filtros clásicos, como los pasabajos, pasaaltos o pasabandas, para recuperar la señal. Sin embargo, estos filtros no necesariamente proporcionan la mejor estimación posible. Por este motivo, la bibliografía introduce el diseño de filtros digitales óptimos, entre ellos el filtro de Wiener y el filtro de Kalman discreto.
  
  \subsection*{Filtros Wiener}
+  
+ \addcontentsline{toc}{subsection}{Filtros Wiener }
+ 
+ 
  
  Se introduce a Norbert Wiener quien investigo el problema del diseño de filtros para producir una estimación óptima de la señal desde una observación con ruido. Se define $x(n)$ como la observación con ruido, $d(n)$ la señal a recuperar, $\hat{d}(n)$ la estimación obtenida, $v(n)$ el ruido y $e(n) = d(n) - \hat{d}(n)$ como el error en la estimación.
  
@@ -244,6 +251,8 @@ Se debe diseñar un filtro lineal invariante en el tiempo LTI, $W(z)$, que filtr
 
 
 \subsubsection*{7.2 : Filtros Wiener de respuesta al impulso finita (FIR)}
+ \addcontentsline{toc}{subsection}{7.2 : Filtros Wiener de respuesta al impulso finita (FIR) }
+
 
 Se considera el tipo de filtros de Wiener FIR $W(z)$, obteniendo el MMSE, para esta sección se asumen nuevamente $x(n)$ y $d(n)$ procesos ESA y con funciones de autocorrelación conocidas $r_x(k)$ , $r_{d}(k)$ y la función de auto-correlación cruzada $r_{dx}(k)$.
 
@@ -451,6 +460,7 @@ Formando las matrices con todos los valores de k, se obtiene :
 
 
  \subsubsection*{7.2.1 : Ejemplo de filtro y simulación}
+  \addcontentsline{toc}{subsection}{7.2.1 : Ejemplo de filtro y simulación }
  
  
  Sea $d(n)$ un proceso $\mathrm{AR}$ (autorregresivo de orden N = 1), el cual se modela como la salida de un sistema LTI excitado por un proceso blanco $B(n)$ que cumple la ecuación en diferencias:
@@ -558,7 +568,10 @@ Por lo tanto, el filtro de Wiener es
 \end{equation}
 
 
+\addcontentsline{toc}{subsection}{Simulación y resultados obtenidos}
 \paragraph{Simulación}
+ \addcontentsline{toc}{subsection}{Simulación y resultados obtenidos}
+
 
 Utilizando el código detallado en el anexo \ref{anexo:codigo_python} se obtienen distintos filtros Wiener $W(z)$ de valores diferentes de $\alpha$ y se los compara con un filtro pasa bajos clásico, en particular un filtro digital FIR (Respuesta Impulsiva Finita) pasabajos diseñado por el método de ventanas (por defecto una ventana de Hamming).
 
@@ -657,6 +670,9 @@ En cuanto las similitudes, ambos son filtros de respuesta finita ante el impulso
 
 \subsubsection*{7.2.2 : Predicción lineal}
 
+
+\addcontentsline{toc}{subsection}{7.2.2 : Predicción lineal}
+
 Ahora el enfoque difiere, tenemos observaciones libres de ruido, pero se quiere estimar las próximas realizaciones, es decir, predecirlas.
 Entonces se define un predictor lineal de tipo FIR utilizando valores actuales y previos, de orden $p-1$ de la forma:
 
@@ -735,6 +751,7 @@ y un error :
 
 \paragraph{Ejemplo de predicción sin ruido}
 
+\addcontentsline{toc}{subsection}{Ejemplo de predicción sin ruido}
 Utilizando como ejemplo el caso de un proceso $x(n)$ autorregresivo de orden 1 AR(1), con función de autocorrelación $r_x(k) = \alpha ^{|k|}$, se llega a el estimador de primer orden:  $\hat{x}(n+ 1) = \alpha x(n) $.
 
 El paso a paso hasta llegar al estimador es utilizando : 
@@ -814,6 +831,8 @@ En la siguiente figura (\ref{fig:sinruido}) se obvserva como la predicción obti
 
 \paragraph{Ejemplo de predicción con ruido}
 
+\addcontentsline{toc}{subsection}{Ejemplo de predicción con ruido}
+
 Se reconsidera el problema de predicción lineal del ejemplo previo cuando la medición de $x(n)$ es ruidosa. Supongamos que
 \[
 y(n) = x(n) + v(n)
@@ -867,6 +886,9 @@ Al resolver para los coeficientes del predictor, encontramos
 Cuando $\sigma_v^2 \rightarrow 0$, los coeficientes del predictor se aproximan a la solución en el caso libre de ruido, es decir, $\mathbf{w} = [\alpha, 0]^T$.
 
  \subsubsection*{7.2.3 : Cancelación de ruido }
+ 
+ 
+ \addcontentsline{toc}{subsection}{7.2.3 : Cancelación de ruido}
  
  En esta sección se presenta una nueva aplicación de los filtros Wiener, en este caso para la cancelación el ruido. Puede parecer exactamente igual a los casos anteriores, pero aquí a diferencia de los casos previos se busca conocer el ruido, por lo cual se busca cancelar exactamente respecto a la señal. El hecho de conocer el ruido en realidad infiere en nuevamente estimarlo y luego restarlo de la observación, esto implica obtener la fuente del ruido aislada de la señal, estimarlo de la mejor forma y luego restarlo, el siguiente gráfico puede ser de ayuda para comprender la situación.
 
@@ -934,6 +956,8 @@ Por lo tanto se puede utilizar la relación:
 
 \subsubsection*{7.2.6: Ejemplo y simulación de cancelación de ruido}
 
+\addcontentsline{toc}{subsection}{7.2.6: Ejemplo y simulación de cancelación de ruido}
+
 En este ejemplo se utiliza como señal deseada $d(n)$ una sinusoide $$d(n) = \sin(n\omega_0 + \phi)$$ con $\omega_0 = 0{,}05\pi$, y que las secuencias de ruido $v_1(n)$ y $v_2(n)$ son procesos $\mathrm{AR}(1)$ generados por las ecuaciones en diferencias de primer orden $$v_1(n) = 0{,}8\,v_1(n-1) + g(n)$$ $$v_2(n) = -0{,}6\,v_2(n-1) + g(n)$$ donde $g(n)$ es ruido blanco de media nula y varianza unitaria, no correlacionado con $d(n)$. En la Fig. 7.9a se muestra una gráfica de $200$ muestras de $x(n) = d(n) + v_1(n)$ junto con la señal deseada $d(n)$ indicada con línea punteada/discontinua, y en la Fig. 7.9b se muestra la señal de referencia $v_2(n)$ utilizada para estimar $v_1(n)$. 
 
 Estimando $r_{v_2}(k)$ mediante la autocorrelación muestral $$\hat{r}_{v_2}(k) = \frac{1}{N} \sum_{n=0}^{N-1} v_2(n)\,v_2(n-k)$$ y $r_{xv_2}(k)$ mediante la correlación cruzada muestral $$\hat{r}_{xv_2}(k) = \frac{1}{N} \sum_{n=0}^{N-1} x(n)\,v_2(n-k)$$
@@ -941,6 +965,8 @@ Estimando $r_{v_2}(k)$ mediante la autocorrelación muestral $$\hat{r}_{v_2}(k) 
  
 Se simula para diferentes valores de $\omega_0$.
 
+
+\addcontentsline{toc}{subsection}{Simulación y resultados obtenidos}
 \paragraph{Simulación}
 
 La simulación utiliza las mismas librerías previas y sigue la siguiente estructura para obtener cada señal y obtener gráficos de las mismas, para cada omega se ejecuta una función que se detalla en conjunto con el código completo en el anexo \ref{anexo:codigo_python} .
@@ -979,10 +1005,15 @@ En la frecuencia $\frac{\pi}{2}$ se obvserva como tiende a convertirse en una se
  
  \section*{Actividad 2}
  
+ \addcontentsline{toc}{section}{Actividad 2: Estimación de un canal de comunicación }
+ 
+ 
  
  
  
  \section*{Conclusión}
+  \addcontentsline{toc}{section}{Conclusión}
+ 
  
  
  \section{Códigos de simulación en Python}
