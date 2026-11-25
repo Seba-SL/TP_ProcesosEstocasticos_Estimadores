@@ -1076,7 +1076,7 @@ Al resolver para los coeficientes del predictor, encontramos
 
 Cuando $\sigma_v^2 \rightarrow 0$, los coeficientes del predictor se aproximan a la solución en el caso libre de ruido, es decir, $\mathbf{w} = [\alpha, 0]^T$.
 
- \subsubsection*{7.2.6 : Cancelación de ruido y simulación}
+ \subsubsection*{7.2.3 : Cancelación de ruido }
  
  En esta sección se presenta una nueva aplicación de los filtros Wiener, en este caso para la cancelación el ruido. Puede parecer exactamente igual a los casos anteriores, pero aquí a diferencia de los casos previos se busca conocer el ruido, por lo cual se busca cancelar exactamente respecto a la señal. El hecho de conocer el ruido en realidad infiere en nuevamente estimarlo y luego restarlo de la observación, esto implica obtener la fuente del ruido aislada de la señal, estimarlo de la mejor forma y luego restarlo, el siguiente gráfico puede ser de ayuda para comprender la situación.
 
@@ -1097,7 +1097,7 @@ Cuando $\sigma_v^2 \rightarrow 0$, los coeficientes del predictor se aproximan a
 		\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (30.375, 32.25){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (29.25, 32.875){\Huge $d(n)$\\};
 		\node[shape=rectangle, minimum width=8.715cm, minimum height=1.215cm] at (39.5, 32.25){} node[anchor=north west, align=left, text width=8.327cm, inner sep=6pt] at (35.125, 32.875){\Huge $x(n) =d(n) + v_1(n)$\\};
 		\draw[line width=2pt, -latex] (46.86, 31.265) -- (50.38, 31.265);
-		\node[shape=rectangle, minimum width=2.465cm, minimum height=1.215cm] at (49, 32){} node[anchor=north west, align=left, text width=8.327cm, inner sep=6pt] at (47.75, 32.625){\Huge $x(n)- \hat{v_1}(n)$\\};
+		\node[shape=rectangle, minimum width=2.465cm, minimum height=1.215cm] at (49, 32){} node[anchor=north west, align=left, text width=8.327cm, inner sep=6pt] at (47.75, 32.625){\Huge $\hat {d} = x(n)- \hat{v_1}(n)$\\};
 		
 		\node[shape=circle, draw, line width=1pt, minimum width=0.715cm](N2) at (32.015, 31.265){} node[anchor=center] at (N2.text){$+$};
 		\draw[line width=2pt, -latex] (32.39, 31.265) -- (46.11, 31.265);
@@ -1105,6 +1105,45 @@ Cuando $\sigma_v^2 \rightarrow 0$, los coeficientes del predictor se aproximan a
 	\end{tikzpicture}
 \end{figure}
  
+ 
+ Se difieren dos mediciones del ruido por medio de dos sensores, $v_1(n)$ y $v_2(n)$, estas al ser mediciones efectuadas por diferentes sensores no son consideradas iguales.
+ 
+ Las ecuaciones de Wiener-Hopf se obtienen partiendo de:
+ 
+ \begin{equation}
+ 	R_{v_2} \cdot w = r_{v_1 v_2}
+ \end{equation} 
+ 
+ 
+ Donde $R_{v2}$ es la matriz de autocorrelación de $v_2(n)$ y $r_{v_1 v_2}$ es el vector de correlación cruzada entre  $v_1(n)$ y $v_2(n)$.
+ 
+ Este vector se encuentra comenzando por su definición e ir desarrollando:
+ 
+ \begin{equation}
+ 	r_{v_1 v_2} (k) = \mathbb{E} \{ v_1(n)v_2^{\ast} (n-k) \} =  \mathbb{E}\{ [x(n) - d(N)]v_2^{\ast} (n-k) \}
+ \end{equation}
+
+\begin{equation}
+	r_{v_1 v_2} (k) =  \mathbb{E} \{ x(n) v_2^{\ast} (n-k) \} -  \mathbb{E}\{ d(n)v_2^{\ast} (n-k) \}
+\end{equation}
+ 
+ 
+Se asume que $v_2(n)$ es descorrelaciónado respecto a $d(n)$ or lo tanto el segundo termino es nulo.
+
+\begin{equation}
+	r_{v_1 v_2} (k) =  \mathbb{E} \{ x(n) v_2^{\ast} (n-k) \}  = r_{x v_2}(k)
+\end{equation}
+
+ 
+Por lo tanto se puede utilizar la relación:
+
+ \begin{equation}
+	R_{v_2} \cdot w = r_{x v_2}
+\end{equation} 
+
+
+\subsubsection*{7.2.6: Ejemplo y simulación de cancelación de ruido}
+
  
  \section*{Actividad 2}
  
