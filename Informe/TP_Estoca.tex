@@ -1009,7 +1009,7 @@ En la frecuencia $\frac{\pi}{2}$ se obvserva como tiende a convertirse en una se
  En esta actividad se presenta otra aplicación de la estimación, esta vez en el área de las comunicaciones estudiando el \textit{paper} titulado "\textit{OFDM Channel Estimation by Singular Value Descomposition}" \cite{edfors1996} y la bibliografía \cite{bahai2002}. En particular nos centramos en la modulación OFDM (\textit{Orthogonal Frequency División Modulation}), en donde se transmite la información en forma simultanea a través de muchos canales disjuntos que están separados en frecuencia.
  
  \paragraph{Introducción a OFDM}
- Este tipo de modulación busca aprovechar el ancho de banda sin que el solapamiento genere distorsión, para eso utiliza subportadoras de tal forma que al momento de recuperar el subcanal las demás subportadoras se anulan debido a la ortogonalidad de la distribución espectral.
+ Este tipo de modulación busca aprovechar el ancho de banda sin que el solapamiento genere distorsión, para eso utiliza subportadoras de tal forma que al momento de recuperar el subcanal las demás subportadoras se anulan debido a la ortogonalidad de la distribución espectral. Lo que permite aprovechar mejor el ancho de banda y tener mas canales disponibles.
 
  Comenzando con la modulación mas simple, la modulación de frecuencia FM es un método para codificar información variando la frecuencia de una onda portadora, FDM en su lugar es una técnica para dividir un ancho de banda en varios canales separados, y OFDM es una versión avanzada de FDM que usa múltiples subportadoras ortogonales (que no interfieren entre sí) para transmitir aprovechando el ancho de banda.
  
@@ -1023,16 +1023,16 @@ En la frecuencia $\frac{\pi}{2}$ se obvserva como tiende a convertirse en una se
 \end{figure}
 
 
-En la figura \ref{fig:ofdm} se representa la evolución desde la división por frecuencia y la división por frecuencia utilizando la ortogonalidad de las señales aprovechando mas ancho de banda. Para modelar la señal transmitida por un canal OFDM de N subcanales se tiene a expresión:
+En la figura \ref{fig:ofdm} se representa la evolución desde la división por frecuencia y la división por frecuencia utilizando la ortogonalidad de las señales aprovechando mas ancho de banda. Para modelar la señal transmitida por un canal OFDM de N subcanales se tiene la siguiente expresión:
 
 \begin{equation}
 	x(n) = p(t) \cdot \sum_{i = 1}^{N} x_i cos(\omega_i t + \phi_i)
 \end{equation}
 
-Siendo : $	x(n) : \text{Señal transmitida} \quad 	xi : \text{Simbolo de la información del subcanal i } \\ \quad \phi_i : \text{fase del i-nesimo canal }\quad p(t) \text{Respuesta de un filtro FIR llamado pulso.} $
+Siendo : $	x(n) : \text{Señal transmitida} \quad 	xi : \text{Simbolo de la información del subcanal i } \\ \quad \phi_i : \text{fase del i-esimo canal }\quad p(t) : \text{Respuesta de un filtro FIR llamado pulso.} $
 
 
-Se modela el canal que atraviesa la se{añ como un sistema LTI de respuesta al impulso $h$.
+Se modela el canal que atraviesa la señal como un sistema LTI de respuesta al impulso $h$.
 	
 	
 \begin{figure}[H]
@@ -1062,7 +1062,7 @@ Se modela el canal que atraviesa la se{añ como un sistema LTI de respuesta al i
 	\end{tikzpicture}
 \end{figure}
 	 
-La señal recibida sera : $y(t) = h(t) \ast x(t) + n(t)$ , siendo $n(t)$ una componente de ruido. Debido a que la comunicación es digital el diagrama simplifica la conversión y conversión en digital pero sirve a modo ilustrativo.
+La señal recibida sera : $y(t) = h(t) \ast x(t) + n(t)$ , siendo $n(t)$ una componente de ruido gaussiano iid para cada subportadora. Recordando que la comunicación es digital, el diagrama presentado es a modo ilustrativo, omitiendo los bloques D/A y A/D. 
  
 
 La estructura de la señalización OFDM permite que un estimador de canal utilice la correlación tanto en el dominio del tiempo como en el de la frecuencia. Por lo general, una estructura de estimador bidimensional de este tipo resulta demasiado compleja para una implementación práctica. Para reducir dicha complejidad, se ha propuesto en \cite{bahai2002} separar el uso de la correlación en el tiempo y en la frecuencia. Este esquema combinado emplea dos filtros de Wiener de respuesta al impulso finita (FIR) independientes: uno en la dirección de la frecuencia y otro en la dirección del tiempo.
