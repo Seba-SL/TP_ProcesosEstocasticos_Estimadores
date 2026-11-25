@@ -1184,6 +1184,8 @@ La simulación utiliza las mismas librerías previas y sigue la siguiente estruc
 La función \textit{simular\_cancelacion\_ruido} se detalla en el siguiente fragmento :
 
 
+
+
 \begin{lstlisting}[caption={Librerias utilizadas}, label={lst:wiener_ar1}]
 	
 	
@@ -1238,12 +1240,17 @@ La función \textit{simular\_cancelacion\_ruido} se detalla en el siguiente frag
 	return n, d, x, v2, d_hat, mse
 \end{lstlisting}
 
+
+Las siguientes figuras \ref{fig:omega01}, \ref{fig:omega02} y \ref{fig:omega05} corresponden con los gráficos que comparan la señal observada $x(n)$ , la señal a recuperar original $d(n)$ y finalmente la estimación obtenida luego de cancelar el ruido $v(n)$ para los casos donde $d(n)$ es una senoidal de frecuencia  $\frac{\pi}{20}$ ,  $\frac{\pi}{5}$ y $\frac{\pi}{2}$   . 
+ 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/7_2_6_CancelacionRuido/omega0_1}
 	\caption{Comparación temporal con $\omega_0 = 0.05 \pi $.}
 	\label{fig:omega01}
 \end{figure}
+
+En la frecuencia   $\frac{\pi}{20}$ se obvserva una buena estimación con cierto ruido de pequeña amplitud respecto a la original, pero de mayor frecuencia.
 
 \begin{figure}[H]
 	\centering
@@ -1252,6 +1259,8 @@ La función \textit{simular\_cancelacion\_ruido} se detalla en el siguiente frag
 	\label{fig:omega02}
 \end{figure}
 
+En la frecuencia  $\frac{\pi}{5}$ se obvserva una disminución en dicho ruido y un desplazamiento mayor respecto a la amplitud original para ciertos tiempos.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/7_2_6_CancelacionRuido/omega0_5}
@@ -1259,7 +1268,7 @@ La función \textit{simular\_cancelacion\_ruido} se detalla en el siguiente frag
 	\label{fig:omega05}
 \end{figure}
 
-
+En la frecuencia $\frac{\pi}{2}$ se obvserva como tiende a convertirse en una señal triangular perdiendo en gran medida la fidelidad de la señal original pero conservando de mejor forma la frecuencia fundamental.
 
  
  \section*{Actividad 2}
