@@ -57,7 +57,10 @@
 }
 
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta, positioning}
+\usepackage{float}
+\usetikzlibrary{arrows.meta, shapes.arrows, circuits.ee.IEC, positioning}
+
+
 \usetikzlibrary{babel}
 
 \usepackage{csquotes}
@@ -806,6 +809,8 @@ En las siguientes figuras se encuentran los gráficos obtenidos, estos nos ayuda
 	\label{fig:1}
 \end{figure}
 
+En el caso de la comparación de la magnitud de cada filtro obtenido en la figura \ref{fig:1} , observamos como el pasabajos clásico conserva gran amplitud y ancho de banda mientras que los filtros optimos Wiener atenuan de forma mas uniforme y forman curvas mas suaves con respecto al clásico, el filtro óptimo de $\alpha = 0.9$ es el mas similar el filtro clásico.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/7_2_1_Filtering/Comparacion_signals.png}
@@ -813,12 +818,17 @@ En las siguientes figuras se encuentran los gráficos obtenidos, estos nos ayuda
 	\label{fig:2}
 \end{figure}
 
+Con el gráfico apreciable en la figura \ref{fig:2} de la señal original y la observada en comparación con las estimaciones, se puede ver como la estimación mediante el filtro Wiener se acerca a la original respecto del filtro clásico. Ambas atenúan el ruido en gran medida pero cometiendo errores en gran parte de la estimación. 
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/7_2_1_Filtering/comparacion_errores.png}
 	\caption{Errores en función del tiempo, correspondientes a cada estimación.}
 	\label{fig:3}
 \end{figure}
+
+Los gráficos de las figuras \ref{fig:3} y \ref{fig:4} corresponden a la medición y comparación de los errores MSE, en estos si es posible verificar de forma ágil como el filtro óptimo Wiener disminuye considerablemente el error. 
+
 
 \begin{figure}[H]
 	\centering
@@ -829,21 +839,31 @@ En las siguientes figuras se encuentran los gráficos obtenidos, estos nos ayuda
 
 
 
+Los últimos dos gráficos de las figuras \ref{fig:psdxndnyvn-alpha0_3} y \ref{fig:psdxndnyvn-alpha0_9} corresponden a la densidad espectral de potencia para dos casos, el caso de $\alpha = 0.3 $ y el caso de $\alpha = 0.9$, son de utilidad ya que se verifica la similitud respecto al gráfico que se ejemplifica en la bibliografía.
+
+
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/7_2_1_Filtering/PSD_03.png}
-	\caption{}
+	\caption{Densidad espectral de potencia, caso $\alpha = 0.3$. }
 	\label{fig:psdxndnyvn-alpha0_3}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/7_2_1_Filtering/PSD_09.png}
-	\caption{}
+	\caption{Densidad espectral de potencia, caso $\alpha = 0.9$.}
 	\label{fig:psdxndnyvn-alpha0_9}
 \end{figure}
 
+\paragraph{Diferencias y similitudes de ambos enfoques}
 
+El filtro clásico se diseña para cumplir una respuesta en frecuencia determinada, mientras que el filtro de Wiener se diseña para minimizar el error cuadrático medio entre una señal deseada y su estimación considerando las propiedades estadísticas de la señal y del ruido.
+
+El filtro clásico no utiliza información estadística específica de la señal que se desea recuperar. En cambio, el filtro de Wiener incorpora esa información en su diseño, por lo que sus coeficientes dependen de las características de los procesos involucrados.
+
+En cuanto las similitudes, ambos son filtros de respuesta finita ante el impulso FIR y tienen como objetivo atenuar de la observación el ruido. 
 
 \subsubsection*{7.2.2 : Predicción lineal}
 
@@ -1004,8 +1024,86 @@ En la siguiente figura (\ref{fig:sinruido}) se obvserva como la predicción obti
 
 \paragraph{Ejemplo de predicción con ruido}
 
+Se reconsidera el problema de predicción lineal del ejemplo previo cuando la medición de $x(n)$ es ruidosa. Supongamos que
+\[
+y(n) = x(n) + v(n)
+\]
+donde $v(n)$ es ruido blanco de media cero con una varianza de $\sigma_v^2$. Suponiendo que $v(n)$ no está correlacionado con $x(n)$, las ecuaciones de Wiener-Hopf son
+\[
+\left[\mathbf{R}_x + \sigma_v^2 \mathbf{I}\right] \mathbf{w} = \mathbf{r}_{dy}
+\]
+donde
+\[
+r_{dy}(k) = r_x(k + 1)
+\]
+Si $x(n)$ es un proceso AR(1) con una secuencia de autocorrelación
+\[
+r_x(k) = \alpha^{|k|}
+\]
+para un predictor de primer orden
+\[
+W(z) = w(0) + w(1)z^{-1}
+\]
+las ecuaciones de Wiener-Hopf son
+\[
+\begin{bmatrix}
+	1 + \sigma_v^2 & \alpha \\
+	\alpha & 1 + \sigma_v^2
+\end{bmatrix}
+\begin{bmatrix}
+	w(0) \\
+	w(1)
+\end{bmatrix}
+=
+\begin{bmatrix}
+	\alpha \\
+	\alpha^2
+\end{bmatrix}
+\]
+Al resolver para los coeficientes del predictor, encontramos
+\begin{equation}
+	\begin{bmatrix}
+		w(0) \\
+		w(1)
+	\end{bmatrix}
+	= \frac{\alpha}{(1 + \sigma_v^2)^2 - \alpha^2}
+	\begin{bmatrix}
+		1 + \sigma_v^2 - \alpha^2 \\
+		\alpha \sigma_v^2
+	\end{bmatrix}
+	\tag{7.18}
+\end{equation}
+
+Cuando $\sigma_v^2 \rightarrow 0$, los coeficientes del predictor se aproximan a la solución en el caso libre de ruido, es decir, $\mathbf{w} = [\alpha, 0]^T$.
 
  \subsubsection*{7.2.6 : Cancelación de ruido y simulación}
+ 
+ En esta sección se presenta una nueva aplicación de los filtros Wiener, en este caso para la cancelación el ruido. Puede parecer exactamente igual a los casos anteriores, pero aquí a diferencia de los casos previos se busca conocer el ruido, por lo cual se busca cancelar exactamente respecto a la señal. El hecho de conocer el ruido en realidad infiere en nuevamente estimarlo y luego restarlo de la observación, esto implica obtener la fuente del ruido aislada de la señal, estimarlo de la mejor forma y luego restarlo, el siguiente gráfico puede ser de ayuda para comprender la situación.
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[scale=0.45, every node/.style={transform shape}]
+		% Paths, nodes and wires:
+		\node[shape=rectangle, draw, line width=1pt, minimum width=4.215cm, minimum height=2.215cm] at (38.625, 24.125){} node[anchor=center, align=center, text width=3.777cm, inner sep=6.7pt] at (38.625, 24.125){\Huge $W(z)$};
+		\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (30, 24.875){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (28.875, 25.5){\Huge $v(n)$\\};
+		\draw[line width=2pt, -latex] (32, 24.125) -- (36.5, 24.125);
+		\node[shape=rectangle, minimum width=2.465cm, minimum height=1.215cm] at (43.25, 25.25){} node[anchor=north west, align=left, text width=2.077cm, inner sep=6pt] at (42, 25.875){\Huge $\hat{v_1}(n)$\\};
+		\node[shape=circle, draw, line width=1pt, minimum width=0.715cm](N1) at (46.485, 31.265){} node[anchor=center] at (N1.text){$+$};
+		\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (35, 25){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (33.875, 25.625){\Huge $v_2(n)$\\};
+		\node[shape=rectangle, draw, line width=1pt, minimum width=4.215cm, minimum height=2.215cm] at (26.25, 24.125){} node[anchor=center, align=center, text width=3.777cm, inner sep=6.7pt] at (26.25, 24.125){\Huge Fuente de Ruido};
+		\node[shape=rectangle, draw, line width=1pt, minimum width=4.215cm, minimum height=2.215cm] at (25.995, 31.265){} node[anchor=center, align=center, text width=3.777cm, inner sep=6.7pt] at (25.995, 31.265){\Huge Fuente de señal};
+		\draw[line width=2pt, -latex] (40.735, 24.265) -| (46.485, 30.89);
+		\draw[line width=2pt, -latex] (28.375, 24.125) -| (32, 31);
+		\node[shape=rectangle, minimum width=2.215cm, minimum height=1.215cm] at (30.375, 32.25){} node[anchor=north west, align=left, text width=1.827cm, inner sep=6pt] at (29.25, 32.875){\Huge $d(n)$\\};
+		\node[shape=rectangle, minimum width=8.715cm, minimum height=1.215cm] at (39.5, 32.25){} node[anchor=north west, align=left, text width=8.327cm, inner sep=6pt] at (35.125, 32.875){\Huge $x(n) =d(n) + v_1(n)$\\};
+		\draw[line width=2pt, -latex] (46.86, 31.265) -- (50.38, 31.265);
+		\node[shape=rectangle, minimum width=2.465cm, minimum height=1.215cm] at (49, 32){} node[anchor=north west, align=left, text width=8.327cm, inner sep=6pt] at (47.75, 32.625){\Huge $x(n)- \hat{v_1}(n)$\\};
+		
+		\node[shape=circle, draw, line width=1pt, minimum width=0.715cm](N2) at (32.015, 31.265){} node[anchor=center] at (N2.text){$+$};
+		\draw[line width=2pt, -latex] (32.39, 31.265) -- (46.11, 31.265);
+		\draw[line width=2pt, -latex] (28.12, 31.265) -- (31.64, 31.265);
+	\end{tikzpicture}
+\end{figure}
  
  
  \section*{Actividad 2}
