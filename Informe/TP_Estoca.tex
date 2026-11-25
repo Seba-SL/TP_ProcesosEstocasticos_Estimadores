@@ -1007,7 +1007,8 @@ En la frecuencia $\frac{\pi}{2}$ se obvserva como tiende a convertirse en una se
  
  En esta actividad se presenta otra aplicación de la estimación, esta vez en el área de las comunicaciones estudiando el \textit{paper} titulado "\textit{OFDM Channel Estimation by Singular Value Descomposition}" \cite{edfors1996} y la bibliografía \cite{bahai2002}. En particular nos centramos en la modulación OFDM (\textit{Orthogonal Frequency División Modulation}), en donde se transmite la información en forma simultanea a través de muchos canales disjuntos que están separados en frecuencia.
  
- \paragraph{Introducción a OFDM}
+\subsection{Introducción a OFDM}
+ \addcontentsline{toc}{subsection}{Introducción a OFDM}
  Este tipo de modulación busca aprovechar el ancho de banda sin que el solapamiento genere distorsión, para eso utiliza subportadoras de tal forma que al momento de recuperar el subcanal las demás subportadoras se anulan debido a la ortogonalidad de la distribución espectral. Lo que permite aprovechar mejor el ancho de banda y tener mas canales disponibles.
 
  Comenzando con la modulación mas simple, la modulación de frecuencia FM es un método para codificar información variando la frecuencia de una onda portadora, FDM en su lugar es una técnica para dividir un ancho de banda en varios canales separados, y OFDM es una versión avanzada de FDM que usa múltiples subportadoras ortogonales (que no interfieren entre sí) para transmitir aprovechando el ancho de banda.
@@ -1101,9 +1102,24 @@ La Sección III.A plantea el problema de estimación lineal óptima del vector a
 \paragraph{Estimador LMMSE}
 Dado el modelo $y = X \cdot h+n$ con $X$ conocida tanto \textbf{h} como \textbf{n} tienen media nula es decir: $ \mathbb{E} [h] = 0 $, $ \mathbb{E}[n] = 0$, por propiedad de linealizacion del operador esperanza tenemos que: $\mathbb{E}[y]=0$ por lo tanto las matrices de covarianza coinciden con las de autocorrelación $C=R$.
 
-De la teoria de estimacion lineal de minimo error cuadrático medio para vectores complejos de media nula, el LMMSE esta dado por: $$\hat{\mathbf{h}}_{lmmse} = \mathbf{R}_{hy} \mathbf{R}_{yy}^{-1} \mathbf{y}$$
+De la teoria de estimacion lineal de minimo error cuadrático medio para vectores complejos de media nula, el LMMSE esta dado por: $$\hat{\mathbf{h}}_{lmmse} = \mu_h + \mathbf{C}_{hy} \mathbf{C}_{y}^{-1} \mathbf{y} = \mathbf{R}_{hy} \mathbf{R}_{y}^{-1} \mathbf{y}$$
 
-% la teoría general de estimación lineal de mínimo error cuadrático medio para vectores complejos de media nula, el estimador LMMSE viene dado por:$$\hat{\mathbf{h}}_{lmmse} = \mathbf{R}_{hy} \mathbf{R}_{yy}^{-1} \mathbf{y}$$Calculamos las matrices de correlación utilizando la Ec. (1) y el hecho de que $\mathbf{h}$ y $\mathbf{n}$ son descorrelacionados ($\mathbb{E}[\mathbf{h}\mathbf{n}^H] = \mathbf{0}$) y $\mathbf{R}_{nn} = \sigma_n^2 \mathbf{I}$
+Ahora calcularemos la correlacion cruzada y la autocorrelación de la observacions \textbf{y}, recordemos que como \textbf{h} y \textbf{n} son descorrelacionadas ($\mathbb{E}[\mathbf{h}\mathbf{n}^H] = \mathbf{0}$) y por ser ruido gaussiano se da que: $\mathbf{R}_{n} = \sigma_n^2 \mathbf{I}$.
+
+$$\mathbf{R}_{hy} = \mathbb{E}\left\{\mathbf{h}\mathbf{y}^H\right\} = \mathbb{E}\left\{\mathbf{h}(\mathbf{X}\mathbf{h} + \mathbf{n})^H\right\} = \mathbb{E}\left\{\mathbf{h}\mathbf{h}^H\right\}\mathbf{X}^H + \underbrace{\mathbb{E}\left\{\mathbf{h}\mathbf{n}^H\right\}}_{\mathbf{0}} = \mathbf{R}_{hh}\mathbf{X}^H$$
+
+Para la autocorrelación de las observaciones tenemos:
+
+$$\mathbf{R}_{y} = \mathbb{E}\left\{\mathbf{y}\mathbf{y}^H\right\} = \mathbb{E}\left\{(\mathbf{X}\mathbf{h} + \mathbf{n})(\mathbf{X}\mathbf{h} + \mathbf{n})^H\right\} = \mathbf{X}\mathbf{R}_{hh}\mathbf{X}^H + \sigma_n^2 \mathbf{I}$$
+
+
+Dado que $\mathbf{X}$ es diagonal e invertible ($x_k \ne 0$), si factorizamos $\mathbf{X}$ a izquierda y $\mathbf{X}^H$ a derecha en:
+
+$$\mathbf{R}_{y} = \mathbf{X}\left(\mathbf{R}_{hh} + \sigma_n^2 \mathbf{X}^{-1}(\mathbf{X}^H)^{-1}\right)\mathbf{X}^H = \mathbf{X}\left(\mathbf{R}_{hh} + \sigma_n^2 (\mathbf{X}^H\mathbf{X})^{-1}\right)\mathbf{X}^H$$
+
+Al ser $\mathbf{X}$ diagonal, conmuta con $\mathbf{X}^H$, por lo que $\mathbf{X}^H\mathbf{X} = \mathbf{X}\mathbf{X}^H = \text{diag}(\vert{}x_0\vert{}^2, \dots, \vert{}x_{N-1}\vert{}^2)$. 
+
+Invirtiendo el producto matricial:$$\mathbf{R}_{y}^{-1} = (\mathbf{X}^H)^{-1}\left(\mathbf{R}_{hh} + \sigma_n^2 (\mathbf{X}\mathbf{X}^H)^{-1}\right)^{-1}\mathbf{X}^{-1}$$
 
 
 %%%% APENDICES 
