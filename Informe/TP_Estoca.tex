@@ -116,7 +116,7 @@
 		{\large
 			106213  Sebastián Lazo\\
 			\texttt{slazo@fi.uba.ar}\\[0.6cm]
-			Kevin Steling\\
+			105488  Kevin Steling\\
 			\texttt{ksteling@fi.uba.ar}\\[0.6cm]
 			\par}
 		
@@ -1003,7 +1003,6 @@ En la frecuencia $\frac{\pi}{2}$ se obvserva como tiende a convertirse en una se
 
  
  \section*{Actividad 2}
- 
  \addcontentsline{toc}{section}{Actividad 2: Estimación de un canal de comunicación }
  
  En esta actividad se presenta otra aplicación de la estimación, esta vez en el área de las comunicaciones estudiando el \textit{paper} titulado "\textit{OFDM Channel Estimation by Singular Value Descomposition}" \cite{edfors1996} y la bibliografía \cite{bahai2002}. En particular nos centramos en la modulación OFDM (\textit{Orthogonal Frequency División Modulation}), en donde se transmite la información en forma simultanea a través de muchos canales disjuntos que están separados en frecuencia.
@@ -1070,24 +1069,37 @@ La estructura de la señalización OFDM permite que un estimador de canal utilic
 
 En el \textit{paper} \cite{edfors1996} se utiliza solamente el estimador en dominio de frecuencia mediante una aproximación de baja complejidad el cual recurre a la teoría de la reducción óptima de rango. Esto difiere en estimadores basados en la transformada discreta de Fourier, lo cuales ofrecen un rendimiento limitado en canales cuyos retardos no coinciden con los instantes de muestreo, especialmente ante relaciones señal-ruido (SNR) elevadas.
 
-\paragraph{Descripción del sistema}
+\subsection*{Modelo del Sistema y del Canal}
+\addcontentsline{toc}{subsection}{Modelo del Sistema y del Canal}
 
-Se describir el sistema como un conjunto de canales gaussianos paralelos, con atenuación correlacionada $h_k$ dada por la expresión.
-
+Bajo las hipótesis de prefijo cíclico (CP) de longitud $L$ suficiente para eliminar la interferencia entre símbolos (ISI) y desvanecimiento lento (\textit{slow fading}), el sistema OFDM de $N$ subportadoras (tonos) se modela como $N$ canales gaussianos paralelos con atenuaciones correlacionadas en frecuencia:
 \begin{equation}
-	h_k = G  ( \frac{k}{NT_s} ) , \quad k = 0,...,N-1 
+    \mathbf{y} = \mathbf{X}\mathbf{h} + \mathbf{n}
+    \label{eq:modelo_sistema}
 \end{equation}
- 
- Donde $G()$ es la respuesta en frecuencia del canal $g(\tau)$ , $T_s$ es el periodo de muestreo y $N$ es el número de sub-canales.
- 
- En notación matricial se describe el sistema como:
- 
- \begin{equation}
- 	\textbf{y} = \textbf{X} \cdot \textbf{h}+ \textbf{n}
-\end{equation}
+donde:
+\begin{itemize}
+    \item $\mathbf{y} \in \mathbb{C}^{N \times 1}$: vector recibido tras la DFT en el receptor.
+    \item $\mathbf{X} = \operatorname{diag}(x_0, x_1, \dots, x_{N-1}) \in \mathbb{C}^{N \times N}$: matriz diagonal con los símbolos transmitidos.
+    \item $\mathbf{h} \in \mathbb{C}^{N \times 1}$: vector de atenuaciones del canal en frecuencia, con $h_k = G\left(\frac{k}{N T_s}\right)$.
+    \item $\mathbf{n} \in \mathbb{C}^{N \times 1}$: ruido complejo gaussiano i.i.d.\ de media nula, covarianza $\mathbf{R}_{nn} = \sigma_n^2 \mathbf{I}$ y descorrelacionado con $\mathbf{h}$.
+\end{itemize}
 
-Donde 	\textbf{y} es el vector recibido, \textbf{X} es la matriz diagonal que contiene la señal recibida, \textbf{h} es el vector de atenuación del canal y \textbf{n} el vector de ruido \textit{iid} de varianza $\sigma_n^2 y media nula$.
- 
+El canal físico multicamino se modela en tiempo continuo mediante $M$ impulsos (Ec.~\eqref{eq:canal_multicamino}):
+\begin{equation}
+    g(\tau) = \sum_{k=0}^{M-1} \alpha_k \delta(\tau - \tau_k T_s)
+    \label{eq:canal_multicamino}
+\end{equation}
+donde $\alpha_k$ son variables aleatorias gaussianas complejas de media nula con perfil de potencia-retardo exponencial $\theta(\tau_k) = C e^{-\tau_k / \tau_{\mathrm{rms}}}$, y los retardos $\tau_k$ son variables aleatorias continuas, independientes y uniformemente distribuidas en $[0, L]$. El escenario de evaluación fija $N=64$ tonos, $L=4$ muestras de CP, $M=5$ impulsos, $\tau_{\mathrm{rms}}=1$ muestra y modulación 16-QAM. 
+
+
+\subsection*{Estimación lineal óptima del vector aleatorio de atenuaciones del canal: $\mathbf{h}$}
+\addcontentsline{toc}{subsection}{Estimación lineal óptima del vector aleatorio de atenuaciones del canal: $\mathbf{h}$}
+
+La Sección III.A plantea el problema de estimación lineal óptima del vector aleatorio de atenuaciones del canal $\mathbf{h}$ a partir del vector observado $\mathbf{y}$, asumiendo conocida la matriz de símbolos transmitidos $\mathbf{X}$ (ya sea por data de entrenamiento o decisiones previas del receptor)
+
+%%%% APENDICES 
+
  \section{Códigos de simulación en Python}
  \label{anexo:codigo_python}
 
