@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.1.2)  25 NOV 2026 11:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.1.2)  25 NOV 2026 11:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1201,40 +1201,40 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: img/7_2_1_Filtering/Modulos_comparacion.png Graphic file (type png)
 <use img/7_2_1_Filtering/Modulos_comparacion.png>
 Package pdftex.def Info: img/7_2_1_Filtering/Modulos_comparacion.png  used on i
-nput line 610.
+nput line 609.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
 <img/7_2_1_Filtering/Comparacion_signals.png, id=56, 987.2082pt x 471.9231pt>
 File: img/7_2_1_Filtering/Comparacion_signals.png Graphic file (type png)
 <use img/7_2_1_Filtering/Comparacion_signals.png>
 Package pdftex.def Info: img/7_2_1_Filtering/Comparacion_signals.png  used on i
-nput line 619.
+nput line 618.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
  [7 <./img/7_2_1_Filtering/Modulos_comparacion.png>]
 <img/7_2_1_Filtering/comparacion_errores.png, id=61, 987.2082pt x 471.9231pt>
 File: img/7_2_1_Filtering/comparacion_errores.png Graphic file (type png)
 <use img/7_2_1_Filtering/comparacion_errores.png>
 Package pdftex.def Info: img/7_2_1_Filtering/comparacion_errores.png  used on i
-nput line 628.
+nput line 627.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
 <img/7_2_1_Filtering/Comparacion_MSE_Barras.png, id=62, 987.2082pt x 471.9231pt
 >
 File: img/7_2_1_Filtering/Comparacion_MSE_Barras.png Graphic file (type png)
 <use img/7_2_1_Filtering/Comparacion_MSE_Barras.png>
 Package pdftex.def Info: img/7_2_1_Filtering/Comparacion_MSE_Barras.png  used o
-n input line 638.
+n input line 637.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
  [8 <./img/7_2_1_Filtering/Comparacion_signals.png> <./img/7_2_1_Filtering/comp
 aracion_errores.png>]
 <img/7_2_1_Filtering/PSD_03.png, id=68, 578.16pt x 346.896pt>
 File: img/7_2_1_Filtering/PSD_03.png Graphic file (type png)
 <use img/7_2_1_Filtering/PSD_03.png>
-Package pdftex.def Info: img/7_2_1_Filtering/PSD_03.png  used on input line 651
+Package pdftex.def Info: img/7_2_1_Filtering/PSD_03.png  used on input line 650
 .
 (pdftex.def)             Requested size: 512.14963pt x 307.3073pt.
 <img/7_2_1_Filtering/PSD_09.png, id=69, 578.16pt x 346.896pt>
 File: img/7_2_1_Filtering/PSD_09.png Graphic file (type png)
 <use img/7_2_1_Filtering/PSD_09.png>
-Package pdftex.def Info: img/7_2_1_Filtering/PSD_09.png  used on input line 658
+Package pdftex.def Info: img/7_2_1_Filtering/PSD_09.png  used on input line 657
 .
 (pdftex.def)             Requested size: 512.14963pt x 307.3073pt.
  [9 <./img/7_2_1_Filtering/Comparacion_MSE_Barras.png> <./img/7_2_1_Filtering/P
@@ -1243,10 +1243,10 @@ SD_03.png>] [10 <./img/7_2_1_Filtering/PSD_09.png>]
 File: img/7.2.2 Prediccion/sinRuido.png Graphic file (type png)
 <use img/7.2.2 Prediccion/sinRuido.png>
 Package pdftex.def Info: img/7.2.2 Prediccion/sinRuido.png  used on input line 
-826.
+825.
 (pdftex.def)             Requested size: 409.72125pt x 195.85883pt.
  [11]
-Overfull \hbox (1.9697pt too wide) in paragraph at lines 904--904
+Overfull \hbox (1.9697pt too wide) in paragraph at lines 903--903
 [][]$\OML/cmm/m/it/24.88 v[]\OT1/cmr/m/n/24.88 (\OML/cmm/m/it/24.88 n\OT1/cmr/m
 /n/24.88 )$  
  []
@@ -1256,20 +1256,20 @@ Overfull \hbox (1.9697pt too wide) in paragraph at lines 904--904
 File: img/7_2_6_CancelacionRuido/omega0_1.png Graphic file (type png)
 <use img/7_2_6_CancelacionRuido/omega0_1.png>
 Package pdftex.def Info: img/7_2_6_CancelacionRuido/omega0_1.png  used on input
- line 980.
+ line 979.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
  [13]
 <img/7_2_6_CancelacionRuido/omega0_2.png, id=92, 987.2082pt x 471.9231pt>
 File: img/7_2_6_CancelacionRuido/omega0_2.png Graphic file (type png)
 <use img/7_2_6_CancelacionRuido/omega0_2.png>
 Package pdftex.def Info: img/7_2_6_CancelacionRuido/omega0_2.png  used on input
- line 989.
+ line 988.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
 <img/7_2_6_CancelacionRuido/omega0_5.png, id=93, 987.2082pt x 471.9231pt>
 File: img/7_2_6_CancelacionRuido/omega0_5.png Graphic file (type png)
 <use img/7_2_6_CancelacionRuido/omega0_5.png>
 Package pdftex.def Info: img/7_2_6_CancelacionRuido/omega0_5.png  used on input
- line 998.
+ line 997.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
  [14 <./img/7_2_6_CancelacionRuido/omega0_1.png> <./img/7_2_6_CancelacionRuido/
 omega0_2.png>] [15 <./img/7_2_6_CancelacionRuido/omega0_5.png>] [16] [17] [18] 
@@ -1279,18 +1279,24 @@ LaTeX Info: Redefining \. on input line 9.
 LaTeX Info: Redefining \% on input line 9.
 )
 
+LaTeX Warning: There were undefined references.
+
+
 LaTeX Warning: There were multiply-defined labels.
+
+
+Package biblatex Warning: Please rerun LaTeX.
 
 Package logreq Info: Writing requests to 'TP_Estoca.run.xml'.
 \openout1 = `TP_Estoca.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 32940 strings out of 476091
- 664388 string characters out of 5794082
- 2387330 words of memory out of 5000000
- 52811 multiletter control sequences out of 15000+600000
- 542872 words of font info for 114 fonts, out of 8000000 for 9000
+ 32958 strings out of 476091
+ 664822 string characters out of 5794082
+ 2373330 words of memory out of 5000000
+ 52828 multiletter control sequences out of 15000+600000
+ 543545 words of font info for 115 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  83i,14n,89p,1198b,1915s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texliv
@@ -1309,18 +1315,18 @@ xmf/fonts/type1/public/cm-super/sfbi1000.pfb></usr/share/texmf/fonts/type1/publ
 ic/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200
 .pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/tex
 mf/fonts/type1/public/cm-super/sfbx2488.pfb></usr/share/texmf/fonts/type1/publi
-c/cm-super/sfcc1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0500.
-pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texm
-f/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public
-/cm-super/sfrm1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm2488.p
-fb></usr/share/texmf/fonts/type1/public/cm-super/sfti1000.pfb></usr/share/texmf
-/fonts/type1/public/cm-super/sftt0900.pfb></usr/share/texmf/fonts/type1/public/
-cm-super/sftt1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pf
-b>
-Output written on TP_Estoca.pdf (21 pages, 1288278 bytes).
+c/cm-super/sfcc1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfcc1440.
+pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0500.pfb></usr/share/texm
+f/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public
+/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.p
+fb></usr/share/texmf/fonts/type1/public/cm-super/sfrm2488.pfb></usr/share/texmf
+/fonts/type1/public/cm-super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/
+cm-super/sftt0900.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pf
+b></usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on TP_Estoca.pdf (21 pages, 1303498 bytes).
 PDF statistics:
- 235 PDF objects out of 1000 (max. 8388607)
- 134 compressed objects within 2 object streams
+ 240 PDF objects out of 1000 (max. 8388607)
+ 137 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  68 words of extra memory for PDF output out of 10000 (max. 10000000)
 
