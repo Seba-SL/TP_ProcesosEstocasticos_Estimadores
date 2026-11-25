@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.1.2)  25 NOV 2026 10:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.1.2)  25 NOV 2026 11:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1066,23 +1066,26 @@ LaTeX Warning: Label `lst:wiener_ar1' multiply defined.
 
 LaTeX Warning: Label `lst:wiener_ar1' multiply defined.
 
+
+LaTeX Warning: Label `lst:wiener_ar1' multiply defined.
+
 )
 \openout1 = `TP_Estoca.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1143,8 +1146,8 @@ e
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Info: Redefining \. on input line 76.
-LaTeX Info: Redefining \% on input line 76.
+LaTeX Info: Redefining \. on input line 79.
+LaTeX Info: Redefining \% on input line 79.
 \c@lstlisting=\count472
 Package biblatex Info: Trying to load language 'spanish'...
 Package biblatex Info: ... file 'spanish.lbx' found.
@@ -1161,110 +1164,112 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'TP_Estoca.bbl' found.
 
 (./TP_Estoca.bbl)
-Package biblatex Info: Reference section=0 on input line 76.
-Package biblatex Info: Reference segment=0 on input line 76.
+Package biblatex Info: Reference section=0 on input line 79.
+Package biblatex Info: Reference segment=0 on input line 79.
 <img/logofiuba.png, id=4, 366.36874pt x 138.5175pt>
 File: img/logofiuba.png Graphic file (type png)
 <use img/logofiuba.png>
-Package pdftex.def Info: img/logofiuba.png  used on input line 84.
+Package pdftex.def Info: img/logofiuba.png  used on input line 87.
 (pdftex.def)             Requested size: 112.87993pt x 42.67912pt.
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
-17.
+20.
  (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 )
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./img/logofiuba.png>]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 147
+LaTeX Font Info:    Trying to load font information for U+msa on input line 150
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 147
+LaTeX Font Info:    Trying to load font information for U+msb on input line 150
 .
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1] [2] [3] [4]
-[5] [6] [7] [8]
-<img/7_2_1_Filtering/Modulos_comparacion.png, id=63, 987.2082pt x 471.9231pt>
+[5]
+<img/7_2_1_Filtering/Modulos_comparacion.png, id=50, 987.2082pt x 471.9231pt>
 File: img/7_2_1_Filtering/Modulos_comparacion.png Graphic file (type png)
 <use img/7_2_1_Filtering/Modulos_comparacion.png>
 Package pdftex.def Info: img/7_2_1_Filtering/Modulos_comparacion.png  used on i
-nput line 807.
+nput line 597.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
-<img/7_2_1_Filtering/Comparacion_signals.png, id=65, 987.2082pt x 471.9231pt>
+<img/7_2_1_Filtering/Comparacion_signals.png, id=52, 987.2082pt x 471.9231pt>
 File: img/7_2_1_Filtering/Comparacion_signals.png Graphic file (type png)
 <use img/7_2_1_Filtering/Comparacion_signals.png>
 Package pdftex.def Info: img/7_2_1_Filtering/Comparacion_signals.png  used on i
-nput line 816.
+nput line 606.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
- [9 <./img/7_2_1_Filtering/Modulos_comparacion.png>]
-<img/7_2_1_Filtering/comparacion_errores.png, id=70, 987.2082pt x 471.9231pt>
+ [6 <./img/7_2_1_Filtering/Modulos_comparacion.png>]
+<img/7_2_1_Filtering/comparacion_errores.png, id=58, 987.2082pt x 471.9231pt>
 File: img/7_2_1_Filtering/comparacion_errores.png Graphic file (type png)
 <use img/7_2_1_Filtering/comparacion_errores.png>
 Package pdftex.def Info: img/7_2_1_Filtering/comparacion_errores.png  used on i
-nput line 825.
+nput line 615.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
-<img/7_2_1_Filtering/Comparacion_MSE_Barras.png, id=71, 987.2082pt x 471.9231pt
+<img/7_2_1_Filtering/Comparacion_MSE_Barras.png, id=59, 987.2082pt x 471.9231pt
 >
 File: img/7_2_1_Filtering/Comparacion_MSE_Barras.png Graphic file (type png)
 <use img/7_2_1_Filtering/Comparacion_MSE_Barras.png>
 Package pdftex.def Info: img/7_2_1_Filtering/Comparacion_MSE_Barras.png  used o
-n input line 835.
+n input line 625.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
- [10 <./img/7_2_1_Filtering/Comparacion_signals.png> <./img/7_2_1_Filtering/com
-paracion_errores.png>]
-<img/7_2_1_Filtering/PSD_03.png, id=77, 578.16pt x 346.896pt>
+ [7 <./img/7_2_1_Filtering/Comparacion_signals.png> <./img/7_2_1_Filtering/comp
+aracion_errores.png>]
+<img/7_2_1_Filtering/PSD_03.png, id=65, 578.16pt x 346.896pt>
 File: img/7_2_1_Filtering/PSD_03.png Graphic file (type png)
 <use img/7_2_1_Filtering/PSD_03.png>
-Package pdftex.def Info: img/7_2_1_Filtering/PSD_03.png  used on input line 848
+Package pdftex.def Info: img/7_2_1_Filtering/PSD_03.png  used on input line 638
 .
 (pdftex.def)             Requested size: 512.14963pt x 307.3073pt.
-<img/7_2_1_Filtering/PSD_09.png, id=78, 578.16pt x 346.896pt>
+<img/7_2_1_Filtering/PSD_09.png, id=66, 578.16pt x 346.896pt>
 File: img/7_2_1_Filtering/PSD_09.png Graphic file (type png)
 <use img/7_2_1_Filtering/PSD_09.png>
-Package pdftex.def Info: img/7_2_1_Filtering/PSD_09.png  used on input line 855
+Package pdftex.def Info: img/7_2_1_Filtering/PSD_09.png  used on input line 645
 .
 (pdftex.def)             Requested size: 512.14963pt x 307.3073pt.
- [11 <./img/7_2_1_Filtering/Comparacion_MSE_Barras.png> <./img/7_2_1_Filtering/
-PSD_03.png>] [12 <./img/7_2_1_Filtering/PSD_09.png>]
-<img/7.2.2 Prediccion/sinRuido.png, id=89, 987.2082pt x 471.9231pt>
+
+[8 <./img/7_2_1_Filtering/Comparacion_MSE_Barras.png> <./img/7_2_1_Filtering/PS
+D_03.png>] [9 <./img/7_2_1_Filtering/PSD_09.png>]
+<img/7.2.2 Prediccion/sinRuido.png, id=76, 987.2082pt x 471.9231pt>
 File: img/7.2.2 Prediccion/sinRuido.png Graphic file (type png)
 <use img/7.2.2 Prediccion/sinRuido.png>
 Package pdftex.def Info: img/7.2.2 Prediccion/sinRuido.png  used on input line 
-1019.
+809.
 (pdftex.def)             Requested size: 409.72125pt x 195.85883pt.
- [13]
-Overfull \hbox (1.9697pt too wide) in paragraph at lines 1092--1092
+ [10]
+Overfull \hbox (1.9697pt too wide) in paragraph at lines 882--882
 [][]$\OML/cmm/m/it/24.88 v[]\OT1/cmr/m/n/24.88 (\OML/cmm/m/it/24.88 n\OT1/cmr/m
 /n/24.88 )$  
  []
 
-[14 <./img/7.2.2 Prediccion/sinRuido.png>] [15] [16]
-<img/7_2_6_CancelacionRuido/omega0_1.png, id=103, 987.2082pt x 471.9231pt>
+[11 <./img/7.2.2 Prediccion/sinRuido.png>]
+<img/7_2_6_CancelacionRuido/omega0_1.png, id=84, 987.2082pt x 471.9231pt>
 File: img/7_2_6_CancelacionRuido/omega0_1.png Graphic file (type png)
 <use img/7_2_6_CancelacionRuido/omega0_1.png>
 Package pdftex.def Info: img/7_2_6_CancelacionRuido/omega0_1.png  used on input
- line 1248.
+ line 954.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
-<img/7_2_6_CancelacionRuido/omega0_2.png, id=104, 987.2082pt x 471.9231pt>
+ [12]
+<img/7_2_6_CancelacionRuido/omega0_2.png, id=89, 987.2082pt x 471.9231pt>
 File: img/7_2_6_CancelacionRuido/omega0_2.png Graphic file (type png)
 <use img/7_2_6_CancelacionRuido/omega0_2.png>
 Package pdftex.def Info: img/7_2_6_CancelacionRuido/omega0_2.png  used on input
- line 1257.
+ line 963.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
-<img/7_2_6_CancelacionRuido/omega0_5.png, id=105, 987.2082pt x 471.9231pt>
+<img/7_2_6_CancelacionRuido/omega0_5.png, id=90, 987.2082pt x 471.9231pt>
 File: img/7_2_6_CancelacionRuido/omega0_5.png Graphic file (type png)
 <use img/7_2_6_CancelacionRuido/omega0_5.png>
 Package pdftex.def Info: img/7_2_6_CancelacionRuido/omega0_5.png  used on input
- line 1266.
+ line 972.
 (pdftex.def)             Requested size: 512.14963pt x 244.82533pt.
- [17 <./img/7_2_6_CancelacionRuido/omega0_1.png> <./img/7_2_6_CancelacionRuido/
-omega0_2.png>] [18 <./img/7_2_6_CancelacionRuido/omega0_5.png>] (./TP_Estoca.au
-x
+ [13 <./img/7_2_6_CancelacionRuido/omega0_1.png> <./img/7_2_6_CancelacionRuido/
+omega0_2.png>] [14 <./img/7_2_6_CancelacionRuido/omega0_5.png>] [15] [16] [17] 
+[18] [19] (./TP_Estoca.aux
 LaTeX Info: Redefining \sptext on input line 9.
 LaTeX Info: Redefining \. on input line 9.
 LaTeX Info: Redefining \% on input line 9.
@@ -1277,10 +1282,10 @@ Package logreq Info: Writing requests to 'TP_Estoca.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 32915 strings out of 476091
- 664078 string characters out of 5794082
- 2389330 words of memory out of 5000000
- 52789 multiletter control sequences out of 15000+600000
+ 32934 strings out of 476091
+ 664312 string characters out of 5794082
+ 2387330 words of memory out of 5000000
+ 52808 multiletter control sequences out of 15000+600000
  542872 words of font info for 114 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  83i,14n,89p,1198b,1803s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1308,10 +1313,10 @@ fb></usr/share/texmf/fonts/type1/public/cm-super/sfti1000.pfb></usr/share/texmf
 /fonts/type1/public/cm-super/sftt0900.pfb></usr/share/texmf/fonts/type1/public/
 cm-super/sftt1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pf
 b>
-Output written on TP_Estoca.pdf (19 pages, 1281777 bytes).
+Output written on TP_Estoca.pdf (20 pages, 1285359 bytes).
 PDF statistics:
- 229 PDF objects out of 1000 (max. 8388607)
- 130 compressed objects within 2 object streams
+ 232 PDF objects out of 1000 (max. 8388607)
+ 132 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  68 words of extra memory for PDF output out of 10000 (max. 10000000)
 

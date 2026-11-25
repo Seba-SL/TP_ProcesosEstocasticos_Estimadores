@@ -20,6 +20,9 @@
 \usepackage{listings}
 \usepackage{xcolor}
 
+\appendix
+% Si usás clase 'article' y querés que diga "Anexo A" en lugar de solo "A":
+\renewcommand{\thesection}{Anexo \Alph{section}}
 
 \lstset{
 	language=Python,
@@ -557,220 +560,7 @@ Por lo tanto, el filtro de Wiener es
 
 \paragraph{Simulación}
 
-Utilizamos un código en \textit{Python} para obtener distintos filtros Wiener $W(z)$ para distintos valores $\alpha$ y compararlo con un filtro pasa bajos clásico, en particular un filtro digital FIR (Respuesta Impulsiva Finita) pasabajos diseñado por el método de ventanas (por defecto una ventana de Hamming).
-
-Se utilizan librerías para el manejo algebraico, procesamiento de señales y visualización de los gráficos 2D.
-\begin{lstlisting}[caption={Librerias utilizadas}, label={lst:wiener_ar1}]
-
-import numpy as np
-from scipy import signal
-import matplotlib.pyplot as plt
-
-\end{lstlisting}
-
-
-Se definen las constantes a utilizar a lo largo del código.
-
-\begin{lstlisting}[caption={Definición de constantes.}, label={lst:wiener_ar1_constantes}]
-	alphas = [0.1, 0.3, 0.4, 0.5, 0.9]
-	sigma_v = 1.0
-	p = 2          # Cantidad de coeficientes del filtro Wiener
-	N = 10000      # Cantidad de muestras de la simulacion
-\end{lstlisting}
-
-Luego se definen las funciones a utilizar, para formar las diferentes funciones de autocovarianza, vectores y matrices a utilizar.
-
-\begin{lstlisting}[caption={Definicion de funciones.}, label={lst:wiener_ar1_funciones}]
-	def generar_ar1(alpha: float, N: int, rng: np.random.Generator) -> np.ndarray:
-
-	sigma_u = np.sqrt(1.0 - alpha**2)
-	u = rng.normal(loc=0.0, scale=sigma_u, size=N)
-	
-	d = np.zeros(N, dtype=np.float64)
-	d[0] = rng.normal(loc=0.0, scale=1.0)
-	
-	for n in range(1, N):
-	d[n] = alpha * d[n - 1] + u[n]
-	
-	return d
-	
-	
-	def r_d(k: int, alpha: float) -> float:
-	return float(alpha ** np.abs(k))
-	
-	
-	def r_v(k: int) -> float:
-	return float(sigma_v**2) if k == 0 else 0.0
-	
-	
-	def r_x(k: int, alpha: float) -> float:
-	return r_d(k, alpha) + r_v(k)
-	
-	
-	def construir_matriz_rx(p: int, alpha: float) -> np.ndarray:
-	R_x = np.zeros((p, p), dtype=np.float64)
-	for i in range(p):
-	for j in range(p):
-	R_x[i, j] = r_x(i - j, alpha)
-	return R_x
-	
-	
-	def construir_vector_rdx(p: int, alpha: float) -> np.ndarray:
-	return np.array([r_d(i, alpha) for i in range(p)], dtype=np.float64)
-	
-	
-	def resolver_wiener(p: int, alpha: float) -> tuple[np.ndarray, float]:
-	R_x = construir_matriz_rx(p, alpha)
-	r_dx = construir_vector_rdx(p, alpha)
-	w = np.linalg.solve(R_x, r_dx)
-	mse_teorico = r_d(0, alpha) - float(np.dot(r_dx, w))
-	return w, mse_teorico
-	
-	
-	def verificar_caso_alpha_08() -> None:
-	
-	global sigma_v
-	sigma_v_anterior = sigma_v
-	sigma_v = 1.0  # Asegura sigma_v**2 = 1.0 para esta verificacion puntual
-	
-	w_calc, mse_teorico = resolver_wiener(p=2, alpha=0.8)
-	w_esperado = np.array([17.0 / 42.0, 5.0 / 21.0])
-	w_redondeado_libro = np.array([0.4048, 0.2381])
-	
-	coincide_exacto = np.allclose(w_calc, w_esperado, atol=1e-12)
-	coincide_libro = np.allclose(w_calc, w_redondeado_libro, atol=1e-4)
-	
-	print("\n--- Verificacion puntual (alpha = 0.8, sigma_v**2 = 1.0) ---")
-	print(f"w calculado en codigo : w(0) = {w_calc[0]:.6f}, w(1) = {w_calc[1]:.6f}")
-	print(f"w teorico exacto      : w(0) = {w_esperado[0]:.6f}, w(1) = {w_esperado[1]:.6f}")
-	print(f"W(e^{{jw}}) expresado   : {w_calc[0]:.4f} + {w_calc[1]:.4f} * e^(-jw)")
-	print(f"MSE minimo teorico    : {mse_teorico:.6f}")
-	print(f"Coincide con fraccion exacta (17/42, 5/21): {coincide_exacto}")
-	print(f"Coincide con valores del enunciado (4 dec.): {coincide_libro}\n")
-	
-	sigma_v = sigma_v_anterior
-	
-	
-	def estimar_d_producto_interno(w: np.ndarray, x: np.ndarray) -> np.ndarray:
-	p_len = len(w)
-	d_hat = np.zeros(len(x), dtype=np.float64)
-	x_pad = np.concatenate([np.zeros(p_len - 1), x])
-	
-	for n in range(len(x)):
-	x_vec = x_pad[n : n + p_len][::-1]
-	d_hat[n] = float(np.dot(w, x_vec))
-	
-	return d_hat
-\end{lstlisting}
-
-
-Luego en el código principal se efectúa paso a paso el calculo de cada filtro, y se gráfican los módulos de cada filtro, comparación de señales estimadas con la original, evolución temporal del error, y bondad de cada estimación comparadas en gráfico de barras.
-
-
-\begin{lstlisting}[caption={Inicialización y preparación de figuras en \texttt{main}.}, label={lst:main_init}]
-	def main() -> None:
-	rng = np.random.default_rng(42)
-	v = rng.normal(0.0, sigma_v, size=N)
-	
-	verificar_caso_alpha_08()
-	
-	# Filtro pasabajos clasico de igual cantidad de coeficientes
-	h_lp = signal.firwin(numtaps=p, cutoff=0.25)
-	
-	w_grid = np.linspace(0.0, np.pi, 512)
-	_, H_lp_freq = signal.freqz(h_lp, worN=w_grid)
-	
-	fig_mag, ax_mag = plt.subplots(figsize=(7.5, 4.5))
-	fig_est, ax_est = plt.subplots(figsize=(8.5, 4.5))
-	fig_err, ax_err = plt.subplots(figsize=(8.5, 4.5))
-	fig_mse, ax_mse = plt.subplots(figsize=(8.5, 4.8))
-	
-	burn_in = 50
-	idx = np.arange(100, 160)
-	
-	mse_teoricos = []
-	mse_wiener_sim = []
-	mse_lp_sim = []
-	mse_sin_filtrar = []
-\end{lstlisting}
-
-
-Para cada valor de $\alpha$, se calcula el filtro de Wiener, se genera el proceso AR(1), se aplican ambos filtros y se registran los errores y MSE.
-
-\begin{lstlisting}[caption={Bucle de evaluación para distintos valores de \texttt{alpha}.}, label={lst:main_loop}]
-	for alpha in alphas:
-	w, mse_teorico = resolver_wiener(p, alpha)
-	d = generar_ar1(alpha, N, rng)
-	x = d + v
-	
-	d_hat_wiener = estimar_d_producto_interno(w, x)
-	d_hat_lp = signal.lfilter(h_lp, [1.0], x)
-	
-	err_sin_filtrar = d - x
-	err_wiener = d - d_hat_wiener
-	err_lp = d - d_hat_lp
-	
-	mse_raw = float(np.mean(err_sin_filtrar[burn_in:] ** 2))
-	mse_w = float(np.mean(err_wiener[burn_in:] ** 2))
-	mse_lp = float(np.mean(err_lp[burn_in:] ** 2))
-	
-	mse_teoricos.append(mse_teorico)
-	mse_wiener_sim.append(mse_w)
-	mse_lp_sim.append(mse_lp)
-	mse_sin_filtrar.append(mse_raw)
-	
-	_, W_freq = signal.freqz(w, worN=w_grid)
-	ax_mag.plot(w_grid / np.pi, np.abs(W_freq), label=rf"Wiener $\alpha={alpha}$")
-	
-	if np.isclose(alpha, 0.9):
-	ax_est.plot(idx, x[idx], ":", color="gray", alpha=0.7, label=r"$x(n)$")
-	ax_est.plot(idx, d[idx], "k-", linewidth=2.0, label=r"$d(n)$")
-	ax_est.plot(idx, d_hat_wiener[idx], "--", label=r"$\hat{d}_W(n)$")
-	ax_est.plot(idx, d_hat_lp[idx], "-", label=r"$\hat{d}_{LP}(n)$")
-	
-	ax_err.plot(idx, err_sin_filtrar[idx], ":", color="gray", label=r"$d(n)-x(n)$")
-	ax_err.plot(idx, err_lp[idx], "-", label=r"$e_{LP}(n)$")
-	ax_err.plot(idx, err_wiener[idx], "-", label=r"$e_W(n)$")
-	ax_err.axhline(0, color="black", linewidth=0.8, linestyle="--")
-\end{lstlisting}
-
-Se configuran etiquetas, leyendas y ejes de las cuatro figuras comparativas y se invoca main() al ejecutar el script.
-\begin{lstlisting}[caption={Formato de gráficas y punto de entrada del script.}, label={lst:main_plots}]
-	ax_mag.plot(w_grid / np.pi, np.abs(H_lp_freq), "k-", linewidth=2.0, label=r"Pasabajos")
-	ax_mag.set_xlabel(r"Frecuencia normalizada ($\omega / \pi$)")
-	ax_mag.set_ylabel("Magnitud")
-	ax_mag.grid(True, alpha=0.3)
-	ax_mag.legend(fontsize=8)
-	
-	ax_est.set_xlabel("Muestra $n$")
-	ax_est.set_ylabel("Amplitud")
-	ax_est.grid(True, alpha=0.3)
-	ax_est.legend(fontsize=8, ncol=2)
-	
-	ax_err.set_xlabel("Muestra $n$")
-	ax_err.set_ylabel("Error $e(n)$")
-	ax_err.grid(True, alpha=0.3)
-	ax_err.legend(fontsize=8.5)
-	
-	x_pos = np.arange(len(alphas))
-	width = 0.26
-	ax_mse.bar(x_pos - width, mse_sin_filtrar, width, label="Sin filtrar")
-	ax_mse.bar(x_pos, mse_lp_sim, width, label="Pasabajos")
-	ax_mse.bar(x_pos + width, mse_wiener_sim, width, label="Wiener sim.")
-	ax_mse.plot(x_pos + width, mse_teoricos, "ko", label="Wiener teor.")
-	ax_mse.set_xticks(x_pos)
-	ax_mse.set_xticklabels([rf"$\alpha={a}$" for a in alphas])
-	ax_mse.set_ylabel("MSE")
-	ax_mse.grid(True, axis="y", alpha=0.3)
-	ax_mse.legend(fontsize=8.5)
-	
-	plt.show()
-	
-	
-	if __name__ == "__main__":
-	main()
-\end{lstlisting}
-
+Utilizando el código detallado en el anexo \ref{anexo:codigo_python} se obtienen distintos filtros Wiener $W(z)$ de valores diferentes de $\alpha$ y se los compara con un filtro pasa bajos clásico, en particular un filtro digital FIR (Respuesta Impulsiva Finita) pasabajos diseñado por el método de ventanas (por defecto una ventana de Hamming).
 
 
 \paragraph{Resultados obtenidos}
@@ -1153,93 +943,9 @@ Se simula para diferentes valores de $\omega_0$.
 
 \paragraph{Simulación}
 
-La simulación utiliza las mismas librerías previas y sigue la siguiente estructura para obtener cada señal y obtener gráficos de las mismas, para cada omega se ejecuta una función que se detalla a continuación.
+La simulación utiliza las mismas librerías previas y sigue la siguiente estructura para obtener cada señal y obtener gráficos de las mismas, para cada omega se ejecuta una función que se detalla en conjunto con el código completo en el anexo \ref{anexo:codigo_python} .
 
-\begin{lstlisting}[caption={Librerias utilizadas}, label={lst:wiener_ar1}]
- 	
-	omegas = [0.05 * np.pi, 0.20 * np.pi, 0.50 * np.pi]
-	
-	for idx, w0 in enumerate(omegas, start=1):
-	n, d, x, v2, d_hat, mse = simular_cancelacion_ruido(omega0=w0, N=200, L=12)
-	N=200
-	n_fine = np.linspace(0, N-1, 10*N)
-	d_fine = np.sin(n_fine * w0 )
-	
-	plt.figure(num=f"omega0_{idx}", figsize=(9, 4))
-	plt.plot(n, x, color="orange",alpha= 0.6, lw=2, label="$x(n) = d(n) + v_1(n)$")
-	plt.plot(n_fine, d_fine, "k--", lw=2, label="$d(n)$ real")
-	plt.plot(n,d_hat,color="tab:blue",lw=1.3,label=rf"$\hat{{d}}(n)$ (MSE={mse:.3f})",)
-	plt.xlabel("Muestra $n$")
-	plt.ylabel("Amplitud")
-	plt.title(rf"Cancelacion de ruido para $\omega_0 = {w0/np.pi:.2f}\pi$")
-	plt.grid(True, alpha=0.3)
-	plt.legend(loc="upper right", fontsize=8)
-	plt.tight_layout()
-	
-	plt.show()
- 	
-\end{lstlisting}
-
-
-La función \textit{simular\_cancelacion\_ruido} se detalla en el siguiente fragmento :
-
-
-
-
-\begin{lstlisting}[caption={Librerias utilizadas}, label={lst:wiener_ar1}]
-	
-	
-	def simular_cancelacion_ruido(omega0: float,N: int = 200,L: int = 12,phi: float = 0.0,seed: int = 42,):
-	rng = np.random.default_rng(seed)
-	
-	n = np.arange(N)
-	d = np.sin(n * omega0 + phi)
-	g = rng.standard_normal(N)
-	
-	# Procesos AR(1) acoplados por g(n)
-	v1 = np.zeros(N)
-	v2 = np.zeros(N)
-	for k in range(N):
-	v1_prev = v1[k - 1] if k > 0 else 0.0
-	v2_prev = v2[k - 1] if k > 0 else 0.0
-	v1[k] = 0.8 * v1_prev + g[k]
-	v2[k] = -0.6 * v2_prev + g[k]
-	
-	x = d + v1
-	
-	# Estimadores muestrales para lags k = 0, ..., L-1
-	lags = np.arange(L)
-	r_v2 = np.zeros(L)
-	r_xv2 = np.zeros(L)
-	
-	for idx, lag in enumerate(lags):
-	v2_shifted = np.zeros(N)
-	if lag == 0:
-	v2_shifted[:] = v2
-	elif lag < N:
-	v2_shifted[lag:] = v2[: N - lag]
-	
-	r_v2[idx] = np.mean(v2 * v2_shifted)
-	r_xv2[idx] = np.mean(x * v2_shifted)
-	
-	# Matriz de Toeplitz R_v2 y resolucion de las ecuaciones normales
-	R_v2 = np.array([[r_v2[abs(i - j)] for j in range(L)] for i in range(L)], dtype=float)
-	w = np.linalg.solve(R_v2 + 1e-8 * np.eye(L), r_xv2)
-	
-	# Filtrado FIR para estimar v1(n) y luego d(n)
-	v1_hat = np.zeros(N)
-	for k in range(N):
-	acc = 0.0
-	for m in range(L):
-	if k - m >= 0:
-	acc += w[m] * v2[k - m]
-	v1_hat[k] = acc
-	
-	d_hat = x - v1_hat
-	mse = np.mean((d - d_hat) ** 2)
-	return n, d, x, v2, d_hat, mse
-\end{lstlisting}
-
+\paragraph{Resultados obtenidos}
 
 Las siguientes figuras \ref{fig:omega01}, \ref{fig:omega02} y \ref{fig:omega05} corresponden con los gráficos que comparan la señal observada $x(n)$ , la señal a recuperar original $d(n)$ y finalmente la estimación obtenida luego de cancelar el ruido $v(n)$ para los casos donde $d(n)$ es una senoidal de frecuencia  $\frac{\pi}{20}$ ,  $\frac{\pi}{5}$ y $\frac{\pi}{2}$   . 
  
@@ -1278,6 +984,367 @@ En la frecuencia $\frac{\pi}{2}$ se obvserva como tiende a convertirse en una se
  
  \section*{Conclusión}
  
+ 
+ \section{Códigos de simulación en Python}
+ \label{anexo:codigo_python}
+
+ 
+ \paragraph{Simulación: Filtro Wiener}
+  
+ 
+ 
+ Se utilizan librerías para el manejo algebraico, procesamiento de señales y visualización de los gráficos 2D.
+ \begin{lstlisting}[caption={Librerias utilizadas}, label={lst:wiener_ar1}]
+ 	
+ 	import numpy as np
+ 	from scipy import signal
+ 	import matplotlib.pyplot as plt
+ 	
+ \end{lstlisting}
+ 
+ 
+ Se definen las constantes a utilizar a lo largo del código.
+ 
+ \begin{lstlisting}[caption={Definición de constantes.}, label={lst:wiener_ar1_constantes}]
+ 	alphas = [0.1, 0.3, 0.4, 0.5, 0.9]
+ 	sigma_v = 1.0
+ 	p = 2          # Cantidad de coeficientes del filtro Wiener
+ 	N = 10000      # Cantidad de muestras de la simulacion
+ \end{lstlisting}
+ 
+ Luego se definen las funciones a utilizar, para formar las diferentes funciones de autocovarianza, vectores y matrices a utilizar.
+ 
+ \begin{lstlisting}[caption={Definicion de funciones.}, label={lst:wiener_ar1_funciones}]
+ 	def generar_ar1(alpha: float, N: int, rng: np.random.Generator) -> np.ndarray:
+ 	
+ 	sigma_u = np.sqrt(1.0 - alpha**2)
+ 	u = rng.normal(loc=0.0, scale=sigma_u, size=N)
+ 	
+ 	d = np.zeros(N, dtype=np.float64)
+ 	d[0] = rng.normal(loc=0.0, scale=1.0)
+ 	
+ 	for n in range(1, N):
+ 	d[n] = alpha * d[n - 1] + u[n]
+ 	
+ 	return d
+ 	
+ 	
+ 	def r_d(k: int, alpha: float) -> float:
+ 	return float(alpha ** np.abs(k))
+ 	
+ 	
+ 	def r_v(k: int) -> float:
+ 	return float(sigma_v**2) if k == 0 else 0.0
+ 	
+ 	
+ 	def r_x(k: int, alpha: float) -> float:
+ 	return r_d(k, alpha) + r_v(k)
+ 	
+ 	
+ 	def construir_matriz_rx(p: int, alpha: float) -> np.ndarray:
+ 	R_x = np.zeros((p, p), dtype=np.float64)
+ 	for i in range(p):
+ 	for j in range(p):
+ 	R_x[i, j] = r_x(i - j, alpha)
+ 	return R_x
+ 	
+ 	
+ 	def construir_vector_rdx(p: int, alpha: float) -> np.ndarray:
+ 	return np.array([r_d(i, alpha) for i in range(p)], dtype=np.float64)
+ 	
+ 	
+ 	def resolver_wiener(p: int, alpha: float) -> tuple[np.ndarray, float]:
+ 	R_x = construir_matriz_rx(p, alpha)
+ 	r_dx = construir_vector_rdx(p, alpha)
+ 	w = np.linalg.solve(R_x, r_dx)
+ 	mse_teorico = r_d(0, alpha) - float(np.dot(r_dx, w))
+ 	return w, mse_teorico
+ 	
+ 	
+ 	def verificar_caso_alpha_08() -> None:
+ 	
+ 	global sigma_v
+ 	sigma_v_anterior = sigma_v
+ 	sigma_v = 1.0  # Asegura sigma_v**2 = 1.0 para esta verificacion puntual
+ 	
+ 	w_calc, mse_teorico = resolver_wiener(p=2, alpha=0.8)
+ 	w_esperado = np.array([17.0 / 42.0, 5.0 / 21.0])
+ 	w_redondeado_libro = np.array([0.4048, 0.2381])
+ 	
+ 	coincide_exacto = np.allclose(w_calc, w_esperado, atol=1e-12)
+ 	coincide_libro = np.allclose(w_calc, w_redondeado_libro, atol=1e-4)
+ 	
+ 	print("\n--- Verificacion puntual (alpha = 0.8, sigma_v**2 = 1.0) ---")
+ 	print(f"w calculado en codigo : w(0) = {w_calc[0]:.6f}, w(1) = {w_calc[1]:.6f}")
+ 	print(f"w teorico exacto      : w(0) = {w_esperado[0]:.6f}, w(1) = {w_esperado[1]:.6f}")
+ 	print(f"W(e^{{jw}}) expresado   : {w_calc[0]:.4f} + {w_calc[1]:.4f} * e^(-jw)")
+ 	print(f"MSE minimo teorico    : {mse_teorico:.6f}")
+ 	print(f"Coincide con fraccion exacta (17/42, 5/21): {coincide_exacto}")
+ 	print(f"Coincide con valores del enunciado (4 dec.): {coincide_libro}\n")
+ 	
+ 	sigma_v = sigma_v_anterior
+ 	
+ 	
+ 	def estimar_d_producto_interno(w: np.ndarray, x: np.ndarray) -> np.ndarray:
+ 	p_len = len(w)
+ 	d_hat = np.zeros(len(x), dtype=np.float64)
+ 	x_pad = np.concatenate([np.zeros(p_len - 1), x])
+ 	
+ 	for n in range(len(x)):
+ 	x_vec = x_pad[n : n + p_len][::-1]
+ 	d_hat[n] = float(np.dot(w, x_vec))
+ 	
+ 	return d_hat
+ \end{lstlisting}
+ 
+ 
+ Luego en el código principal se efectúa paso a paso el calculo de cada filtro, y se gráfican los módulos de cada filtro, comparación de señales estimadas con la original, evolución temporal del error, y bondad de cada estimación comparadas en gráfico de barras.
+ 
+ 
+ \begin{lstlisting}[caption={Inicialización y preparación de figuras en \texttt{main}.}, label={lst:main_init}]
+ 	def main() -> None:
+ 	rng = np.random.default_rng(42)
+ 	v = rng.normal(0.0, sigma_v, size=N)
+ 	
+ 	verificar_caso_alpha_08()
+ 	
+ 	# Filtro pasabajos clasico de igual cantidad de coeficientes
+ 	h_lp = signal.firwin(numtaps=p, cutoff=0.25)
+ 	
+ 	w_grid = np.linspace(0.0, np.pi, 512)
+ 	_, H_lp_freq = signal.freqz(h_lp, worN=w_grid)
+ 	
+ 	fig_mag, ax_mag = plt.subplots(figsize=(7.5, 4.5))
+ 	fig_est, ax_est = plt.subplots(figsize=(8.5, 4.5))
+ 	fig_err, ax_err = plt.subplots(figsize=(8.5, 4.5))
+ 	fig_mse, ax_mse = plt.subplots(figsize=(8.5, 4.8))
+ 	
+ 	burn_in = 50
+ 	idx = np.arange(100, 160)
+ 	
+ 	mse_teoricos = []
+ 	mse_wiener_sim = []
+ 	mse_lp_sim = []
+ 	mse_sin_filtrar = []
+ \end{lstlisting}
+ 
+ 
+ Para cada valor de $\alpha$, se calcula el filtro de Wiener, se genera el proceso AR(1), se aplican ambos filtros y se registran los errores y MSE.
+ 
+ \begin{lstlisting}[caption={Bucle de evaluación para distintos valores de \texttt{alpha}.}, label={lst:main_loop}]
+ 	for alpha in alphas:
+ 	w, mse_teorico = resolver_wiener(p, alpha)
+ 	d = generar_ar1(alpha, N, rng)
+ 	x = d + v
+ 	
+ 	d_hat_wiener = estimar_d_producto_interno(w, x)
+ 	d_hat_lp = signal.lfilter(h_lp, [1.0], x)
+ 	
+ 	err_sin_filtrar = d - x
+ 	err_wiener = d - d_hat_wiener
+ 	err_lp = d - d_hat_lp
+ 	
+ 	mse_raw = float(np.mean(err_sin_filtrar[burn_in:] ** 2))
+ 	mse_w = float(np.mean(err_wiener[burn_in:] ** 2))
+ 	mse_lp = float(np.mean(err_lp[burn_in:] ** 2))
+ 	
+ 	mse_teoricos.append(mse_teorico)
+ 	mse_wiener_sim.append(mse_w)
+ 	mse_lp_sim.append(mse_lp)
+ 	mse_sin_filtrar.append(mse_raw)
+ 	
+ 	_, W_freq = signal.freqz(w, worN=w_grid)
+ 	ax_mag.plot(w_grid / np.pi, np.abs(W_freq), label=rf"Wiener $\alpha={alpha}$")
+ 	
+ 	if np.isclose(alpha, 0.9):
+ 	ax_est.plot(idx, x[idx], ":", color="gray", alpha=0.7, label=r"$x(n)$")
+ 	ax_est.plot(idx, d[idx], "k-", linewidth=2.0, label=r"$d(n)$")
+ 	ax_est.plot(idx, d_hat_wiener[idx], "--", label=r"$\hat{d}_W(n)$")
+ 	ax_est.plot(idx, d_hat_lp[idx], "-", label=r"$\hat{d}_{LP}(n)$")
+ 	
+ 	ax_err.plot(idx, err_sin_filtrar[idx], ":", color="gray", label=r"$d(n)-x(n)$")
+ 	ax_err.plot(idx, err_lp[idx], "-", label=r"$e_{LP}(n)$")
+ 	ax_err.plot(idx, err_wiener[idx], "-", label=r"$e_W(n)$")
+ 	ax_err.axhline(0, color="black", linewidth=0.8, linestyle="--")
+ \end{lstlisting}
+ 
+ Se configuran etiquetas, leyendas y ejes de las cuatro figuras comparativas y se invoca main() al ejecutar el script.
+ \begin{lstlisting}[caption={Formato de gráficas y punto de entrada del script.}, label={lst:main_plots}]
+ 	ax_mag.plot(w_grid / np.pi, np.abs(H_lp_freq), "k-", linewidth=2.0, label=r"Pasabajos")
+ 	ax_mag.set_xlabel(r"Frecuencia normalizada ($\omega / \pi$)")
+ 	ax_mag.set_ylabel("Magnitud")
+ 	ax_mag.grid(True, alpha=0.3)
+ 	ax_mag.legend(fontsize=8)
+ 	
+ 	ax_est.set_xlabel("Muestra $n$")
+ 	ax_est.set_ylabel("Amplitud")
+ 	ax_est.grid(True, alpha=0.3)
+ 	ax_est.legend(fontsize=8, ncol=2)
+ 	
+ 	ax_err.set_xlabel("Muestra $n$")
+ 	ax_err.set_ylabel("Error $e(n)$")
+ 	ax_err.grid(True, alpha=0.3)
+ 	ax_err.legend(fontsize=8.5)
+ 	
+ 	x_pos = np.arange(len(alphas))
+ 	width = 0.26
+ 	ax_mse.bar(x_pos - width, mse_sin_filtrar, width, label="Sin filtrar")
+ 	ax_mse.bar(x_pos, mse_lp_sim, width, label="Pasabajos")
+ 	ax_mse.bar(x_pos + width, mse_wiener_sim, width, label="Wiener sim.")
+ 	ax_mse.plot(x_pos + width, mse_teoricos, "ko", label="Wiener teor.")
+ 	ax_mse.set_xticks(x_pos)
+ 	ax_mse.set_xticklabels([rf"$\alpha={a}$" for a in alphas])
+ 	ax_mse.set_ylabel("MSE")
+ 	ax_mse.grid(True, axis="y", alpha=0.3)
+ 	ax_mse.legend(fontsize=8.5)
+ 	
+ 	plt.show()
+ 	
+ 	
+ 	if __name__ == "__main__":
+ 	main()
+ \end{lstlisting} 
+\vspace{1cm}
+
+ 
+ \paragraph{Predicción lineal}
+ 
+ Se obtiene una predicción de una señal sin ruido.
+ 
+ \begin{lstlisting}[caption={Librerias utilizadas}, label={lst:wiener_ar1}]
+ 	
+ 	
+ import numpy as np
+ import matplotlib.pyplot as plt
+ 
+ # Parametros del proceso AR(1)
+ N = 200
+ alpha = 0.9
+ sigma = 1
+ 
+ # Generacion del proceso AR(1)
+ np.random.seed(10)
+ v = np.random.normal(0, sigma, N)
+ x = np.zeros(N)
+ 
+ for n in range(1, N):
+ x[n] = alpha*x[n-1] + v[n]
+ 
+ # Predictor lineal de orden 2
+ w0 = alpha
+ w1 = 0
+ 
+ x_pred = np.zeros(N)
+ 
+ for n in range(1, N-1):
+ x_pred[n+1] = w0*x[n] + w1*x[n-1]
+ 
+ # Grafico
+ plt.figure(figsize=(11, 5))
+ plt.plot(x,linewidth = 3, label='Proceso AR(1)')
+ plt.plot(x_pred,linewidth=3,linestyle='--',label=r'Prediccion lineal (orden 2): $\hat{x}[n+1] = w_0 x[n] + w_1 x[n-1]$')
+ plt.xlabel('n')
+ plt.ylabel('Amplitud')
+ plt.title(f'Prediccion de un proceso AR(1) ($\\alpha={alpha}$)')
+ plt.grid()
+ plt.legend()
+ plt.tight_layout()
+ plt.show()
+  \end{lstlisting} 
+ 
+ \paragraph{Cancelación de ruido }
+ 
+
+ Se recorre un ciclo para cada valor de frecuencia, obteniendo las señales y produciendo sus gráficos comparativos.
+ 
+ \begin{lstlisting}[caption={Librerias utilizadas}, label={lst:wiener_ar1}]
+ 	
+ 	omegas = [0.05 * np.pi, 0.20 * np.pi, 0.50 * np.pi]
+ 	
+ 	for idx, w0 in enumerate(omegas, start=1):
+ 	n, d, x, v2, d_hat, mse = simular_cancelacion_ruido(omega0=w0, N=200, L=12)
+ 	N=200
+ 	n_fine = np.linspace(0, N-1, 10*N)
+ 	d_fine = np.sin(n_fine * w0 )
+ 	
+ 	plt.figure(num=f"omega0_{idx}", figsize=(9, 4))
+ 	plt.plot(n, x, color="orange",alpha= 0.6, lw=2, label="$x(n) = d(n) + v_1(n)$")
+ 	plt.plot(n_fine, d_fine, "k--", lw=2, label="$d(n)$ real")
+ 	plt.plot(n,d_hat,color="tab:blue",lw=1.3,label=rf"$\hat{{d}}(n)$ (MSE={mse:.3f})",)
+ 	plt.xlabel("Muestra $n$")
+ 	plt.ylabel("Amplitud")
+ 	plt.title(rf"Cancelacion de ruido para $\omega_0 = {w0/np.pi:.2f}\pi$")
+ 	plt.grid(True, alpha=0.3)
+ 	plt.legend(loc="upper right", fontsize=8)
+ 	plt.tight_layout()
+ 	
+ 	plt.show()
+ 	
+ \end{lstlisting}
+ 
+ La función \textit{simular\_cancelacion\_ruido} se detalla en el siguiente fragmento :
+ 
+ 
+ 
+ 
+ \begin{lstlisting}[caption={Librerias utilizadas}, label={lst:wiener_ar1}]
+ 	
+ 	
+ 	def simular_cancelacion_ruido(omega0: float,N: int = 200,L: int = 12,phi: float = 0.0,seed: int = 42,):
+ 	rng = np.random.default_rng(seed)
+ 	
+ 	n = np.arange(N)
+ 	d = np.sin(n * omega0 + phi)
+ 	g = rng.standard_normal(N)
+ 	
+ 	# Procesos AR(1) acoplados por g(n)
+ 	v1 = np.zeros(N)
+ 	v2 = np.zeros(N)
+ 	for k in range(N):
+ 	v1_prev = v1[k - 1] if k > 0 else 0.0
+ 	v2_prev = v2[k - 1] if k > 0 else 0.0
+ 	v1[k] = 0.8 * v1_prev + g[k]
+ 	v2[k] = -0.6 * v2_prev + g[k]
+ 	
+ 	x = d + v1
+ 	
+ 	# Estimadores muestrales para lags k = 0, ..., L-1
+ 	lags = np.arange(L)
+ 	r_v2 = np.zeros(L)
+ 	r_xv2 = np.zeros(L)
+ 	
+ 	for idx, lag in enumerate(lags):
+ 	v2_shifted = np.zeros(N)
+ 	if lag == 0:
+ 	v2_shifted[:] = v2
+ 	elif lag < N:
+ 	v2_shifted[lag:] = v2[: N - lag]
+ 	
+ 	r_v2[idx] = np.mean(v2 * v2_shifted)
+ 	r_xv2[idx] = np.mean(x * v2_shifted)
+ 	
+ 	# Matriz de Toeplitz R_v2 y resolucion de las ecuaciones normales
+ 	R_v2 = np.array([[r_v2[abs(i - j)] for j in range(L)] for i in range(L)], dtype=float)
+ 	w = np.linalg.solve(R_v2 + 1e-8 * np.eye(L), r_xv2)
+ 	
+ 	# Filtrado FIR para estimar v1(n) y luego d(n)
+ 	v1_hat = np.zeros(N)
+ 	for k in range(N):
+ 	acc = 0.0
+ 	for m in range(L):
+ 	if k - m >= 0:
+ 	acc += w[m] * v2[k - m]
+ 	v1_hat[k] = acc
+ 	
+ 	d_hat = x - v1_hat
+ 	mse = np.mean((d - d_hat) ** 2)
+ 	return n, d, x, v2, d_hat, mse
+ \end{lstlisting}
+ 
+ 
+ 
+ \section{Uso de inteligencia artificial}
+ \label{anexo:Uso_IA}
  
 \printbibliography
  
