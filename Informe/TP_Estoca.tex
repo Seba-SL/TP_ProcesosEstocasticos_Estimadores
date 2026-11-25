@@ -923,8 +923,87 @@ y un error :
 	\sum_{k=0}^{p-1} w(k)r_x^*(k+1)
 \end{equation}
 
+\paragraph{Ejemplo de predicción sin ruido}
 
-Utilizando como ejemplo el caso de un proceso $x(n)$ autorregresivo de orden 1 AR(1), con función de autocorrelación $r_x(k) = \alpha ^{|k|}$, se llega a el estimador :  $\hat{x}(n+ 1) = \alpha x(n) $
+Utilizando como ejemplo el caso de un proceso $x(n)$ autorregresivo de orden 1 AR(1), con función de autocorrelación $r_x(k) = \alpha ^{|k|}$, se llega a el estimador de primer orden:  $\hat{x}(n+ 1) = \alpha x(n) $.
+
+El paso a paso hasta llegar al estimador es utilizando : 
+
+\begin{equation}
+	r_x(0) = 1 \; ,\; r_x^*(1) = \alpha \;,\;	r_x(1) = \alpha \; ,\; r_x^*(2) = \alpha^2 
+\end{equation}
+
+Formando:
+
+\begin{equation}
+	\begin{bmatrix}
+		1  &  \alpha \\
+		 \alpha &  1 \\
+	\end{bmatrix}
+	\begin{bmatrix}
+		w(0) \\
+		w(1) \\
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		\alpha \\
+		\alpha^2 \\
+	\end{bmatrix}
+\end{equation}
+
+Despejando el vector de coeficientes:
+
+\begin{equation}
+	\begin{aligned}
+		\begin{bmatrix}
+			w(0)\\
+			w(1)
+		\end{bmatrix}
+		&=
+		\begin{bmatrix}
+			1 & \alpha\\
+			\alpha & 1
+		\end{bmatrix}^{-1}
+		\begin{bmatrix}
+			\alpha\\
+			\alpha^2
+		\end{bmatrix}\\[6pt]
+		&=
+		\frac{1}{1-\alpha^2}
+		\begin{bmatrix}
+			1 & -\alpha\\
+			-\alpha & 1
+		\end{bmatrix}
+		\begin{bmatrix}
+			\alpha\\
+			\alpha^2
+		\end{bmatrix}\\[6pt]
+		&=
+		\frac{1}{1-\alpha^2}
+		\begin{bmatrix}
+			\alpha-\alpha^3\\
+			-\alpha^2+\alpha^2
+		\end{bmatrix}\\[6pt]
+		&=
+		\begin{bmatrix}
+			\alpha\\
+			0
+		\end{bmatrix}
+	\end{aligned}
+\end{equation}
+
+En la siguiente figura (\ref{fig:sinruido}) se obvserva como la predicción obtiene la misma forma de señal $x(n)$ desplazada en donde solo se modifica su amplitud, esa modificación de amplitud es una suavización por parte del filtro.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/7.2.2 Prediccion/sinRuido}
+	\caption[Simulación de predición lineal sin ruido.]{}
+	\label{fig:sinruido}
+\end{figure}
+
+
+\paragraph{Ejemplo de predicción con ruido}
+
 
  \subsubsection*{7.2.6 : Cancelación de ruido y simulación}
  
