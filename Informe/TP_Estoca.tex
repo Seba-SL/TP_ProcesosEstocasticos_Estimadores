@@ -1064,10 +1064,29 @@ Se modela el canal que atraviesa la se{añ como un sistema LTI de respuesta al i
 	 
 La señal recibida sera : $y(t) = h(t) \ast x(t) + n(t)$ , siendo $n(t)$ una componente de ruido. Debido a que la comunicación es digital el diagrama simplifica la conversión y conversión en digital pero sirve a modo ilustrativo.
  
- \section*{Conclusión}
-  \addcontentsline{toc}{section}{Conclusión}
+
+La estructura de la señalización OFDM permite que un estimador de canal utilice la correlación tanto en el dominio del tiempo como en el de la frecuencia. Por lo general, una estructura de estimador bidimensional de este tipo resulta demasiado compleja para una implementación práctica. Para reducir dicha complejidad, se ha propuesto en \cite{bahai2002} separar el uso de la correlación en el tiempo y en la frecuencia. Este esquema combinado emplea dos filtros de Wiener de respuesta al impulso finita (FIR) independientes: uno en la dirección de la frecuencia y otro en la dirección del tiempo.
+
+
+En el \textit{paper} \cite{edfors1996} se utiliza solamente el estimador en dominio de frecuencia mediante una aproximación de baja complejidad el cual recurre a la teoría de la reducción óptima de rango. Esto difiere en estimadores basados en la transformada discreta de Fourier, lo cuales ofrecen un rendimiento limitado en canales cuyos retardos no coinciden con los instantes de muestreo, especialmente ante relaciones señal-ruido (SNR) elevadas.
+
+\paragraph{Descripción del sistema}
+
+Se describir el sistema como un conjunto de canales gaussianos paralelos, con atenuación correlacionada $h_k$ dada por la expresión.
+
+\begin{equation}
+	h_k = G  ( \frac{k}{NT_s} ) , \quad k = 0,...,N-1 
+\end{equation}
  
+ Donde $G()$ es la respuesta en frecuencia del canal $g(\tau)$ , $T_s$ es el periodo de muestreo y $N$ es el número de sub-canales.
  
+ En notación matricial se describe el sistema como:
+ 
+ \begin{equation}
+ 	\textbf{y} = \textbf{X} \cdot \textbf{h}+ \textbf{n}
+\end{equation}
+
+Donde 	\textbf{y} es el vector recibido, \textbf{X} es la matriz diagonal que contiene la señal recibida, \textbf{h} es el vector de atenuación del canal y \textbf{n} el vector de ruido \textit{iid} de varianza $\sigma_n^2 y media nula$.
  
  \section{Códigos de simulación en Python}
  \label{anexo:codigo_python}

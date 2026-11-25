@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.1.2)  25 NOV 2026 12:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.1.2)  25 NOV 2026 15:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1280,7 +1280,7 @@ Package pdftex.def Info: img/Actividad2/ofdm.jpg  used on input line 1020.
 (pdftex.def)             Requested size: 204.85672pt x 212.40343pt.
  [15 <./img/7_2_6_CancelacionRuido/omega0_5.png> <./img/Actividad2/ofdm.jpg>] [
 16] [17] [18]
-[19] [20] [21] (./TP_Estoca.aux
+[19] [20] [21] [22] (./TP_Estoca.aux
 LaTeX Info: Redefining \sptext on input line 9.
 LaTeX Info: Redefining \. on input line 9.
 LaTeX Info: Redefining \% on input line 9.
@@ -1297,13 +1297,13 @@ Package logreq Info: Writing requests to 'TP_Estoca.run.xml'.
 ### simple group (level 1) entered at line 1035 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 32997 strings out of 476091
- 665614 string characters out of 5794082
- 2377330 words of memory out of 5000000
- 52864 multiletter control sequences out of 15000+600000
+ 32999 strings out of 476091
+ 665644 string characters out of 5794082
+ 2332330 words of memory out of 5000000
+ 52866 multiletter control sequences out of 15000+600000
  543545 words of font info for 115 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 83i,14n,89p,1198b,1937s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 83i,14n,89p,1198b,1939s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
@@ -1328,10 +1328,10 @@ per/sfrm1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm2488.pfb></u
 sr/share/texmf/fonts/type1/public/cm-super/sfti1000.pfb></usr/share/texmf/fonts
 /type1/public/cm-super/sftt0900.pfb></usr/share/texmf/fonts/type1/public/cm-sup
 er/sftt1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on TP_Estoca.pdf (22 pages, 1371211 bytes).
+Output written on TP_Estoca.pdf (23 pages, 1374106 bytes).
 PDF statistics:
- 244 PDF objects out of 1000 (max. 8388607)
- 139 compressed objects within 2 object streams
+ 247 PDF objects out of 1000 (max. 8388607)
+ 141 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  73 words of extra memory for PDF output out of 10000 (max. 10000000)
 
