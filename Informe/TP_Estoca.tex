@@ -1,5 +1,4 @@
 \documentclass[a4paper]{article}
-\usepackage[margin=1.5cm,top=1.5cm,bottom=1.5cm,a4paper]{geometry}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{titlesec} % Required for customizing section titles
 \usepackage[margin=1.5cm,top=1.5cm, bottom=1.5cm]{geometry} % Ajusta los márgenes aquí
@@ -1135,6 +1134,33 @@ $$\hat{\mathbf{h}}_{ls} = \mathbf{X}^{-1}\mathbf{y} = \left[\frac{y_0}{x_0}, \fr
 %% OJO ESTO LO ESCRIBIO LA IA PERO NO SE: 
 En resumen, las ecuaciones de la Sección III.A dependen directamente de lo planteado antes: el prefijo cíclico y el canal lento permiten usar el modelo simple $\mathbf{y} = \mathbf{X}\mathbf{h} + \mathbf{n}$ con $\mathbf{X}$ diagonal, lo que deja separar el estimador LMMSE (Ec. 3) en un paso LS tono a tono seguido de un filtrado lineal. Al asumir además que el ruido y el canal tienen media nula y están descorrelacionados, la fórmula se simplifica y aprovecha la correlación en frecuencia del canal ($\mathbf{R}_{hh}$) para mejorar al LS. Por último, como usar 16-QAM en $64$ tonos hace que $\vert{}x_k\vert{}^2$ varíe en cada símbolo e invertir una matriz de $64 \times 64$ cada $136\,\mu\text{s}$ es impracticable, se promedia sobre la constelación en la Ec. (5) ($\beta = 17/9$) para poder aplicar SVD en la Sección III.B.
 
+\paragraph{De donde sale la ecuacion 5? CAMBIAR TITULO}
+El estimador LMMSE tiene una complejida de calculo considerable debido a la inversion de la matriz de  $N \times N$ $\mathbb{X}$ la cual debe ser calculado cada vez que los datos en $\mathbb{X}$ cambian, esto en tiempo real. Los autores del paper propone reducir la compeljidad del estimador promediando sobre los datos transmitidos, reemplazando el termino problematico; $(\mathbf{X}\mathbf{X}^H)^{-1}$ por su esperanza en la ecuacion del estimador tal que:
+$$(\mathbf{X}\mathbf{X}^H)^{-1} \approx \mathbb{E}\left\{(\mathbf{X}\mathbf{X}^H)^{-1}\right\}$$
+
+Argumentan que las simulaciones indican que la degradacion del rendimiento es despreciable. Siempre que se asuma lo siguiente:
+
+(a) todos los tonos emplean la misma constelación \\
+(b) todos los puntos de la constelación son equiprobables. 
+
+Bajo estas condiciones se tiene que, la esperanza de la matriz diagonal resulta un múltiplo escalar de la matriz identidad:
+
+$$\mathbb{E}\left\{(\mathbf{X}\mathbf{X}^H)^{-1}\right\} = \mathbb{E}\left\{\left\vert{}\frac{1}{x_k}\right\vert{}^2\right\}\mathbf{I}$$
+
+Definiendo la relación señal a ruido promedio como $\text{SNR} = \dfrac{\mathbb{E}\{\vert{}x_k\vert{}^2\}}{\sigma_n^2}$, 
+
+despejamos la varianza del ruido $\sigma_n^2 = \dfrac{\mathbb{E}\{\vert{}x_k\vert{}^2\}}{\text{SNR}}$.
+
+Multiplicando y sustituyendo ambos resultados en el término de ruido de la Ec. (3):
+$$\sigma_n^2 \mathbb{E}\left\{(\mathbf{X}\mathbf{X}^H)^{-1}\right\} = \frac{\mathbb{E}\{\vert{}x_k\vert{}^2\}\,\mathbb{E}\{\vert{}1/x_k\vert{}^2\}}{\text{SNR}}\mathbf{I} = \frac{\beta}{\text{SNR}}\mathbf{I}$$
+
+Obteniendo asi el estimador simplificado:
+
+$$\hat{\mathbf{h}} = \mathbf{R}_{hh}\left(\mathbf{R}_{hh} + \frac{\beta}{\text{SNR}}\mathbf{I}\right)^{-1} \hat{\mathbf{h}}_{ls} \qquad \text{(Ec. 5)}$$
+
+donde $\beta$ es una constante que depende de la constelación, $$\beta = \mathbb{E}\{\vert{}x_k\vert{}^2\}\,\mathbb{E}\left\{\left\vert{}\frac{1}{x_k}\right\vert{}^2\right\}$$
+
+Para una transmisión 16-QAM, este parámetro toma el valor $\beta = 17/9$. Dado que $\bm{X}$ deja de intervenir en el cálculo matricial, ya no es necesario invertir $\bm{R}_{hh} + (\beta/\mathrm{SNR})\bm{I}$ cada vez que varían los datos transmitidos en $\bm{X}$. Adicionalmente, si $\bm{R}_{hh}$ y la $\mathrm{SNR}$ se conocen de antemano o se fijan en valores nominales constantes, la matriz $\bm{R}_{hh}(\bm{R}_{hh} + (\beta/\mathrm{SNR})\bm{I})^{-1}$ solo debe computarse una única vez. Bajo este escenario, el proceso de estimación demanda $N$ multiplicaciones por tono.
 
 %%%% APENDICES 
 
