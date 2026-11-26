@@ -1134,7 +1134,7 @@ $$\hat{\mathbf{h}}_{ls} = \mathbf{X}^{-1}\mathbf{y} = \left[\frac{y_0}{x_0}, \fr
 %% OJO ESTO LO ESCRIBIO LA IA PERO NO SE: 
 En resumen, las ecuaciones de la Sección III.A dependen directamente de lo planteado antes: el prefijo cíclico y el canal lento permiten usar el modelo simple $\mathbf{y} = \mathbf{X}\mathbf{h} + \mathbf{n}$ con $\mathbf{X}$ diagonal, lo que deja separar el estimador LMMSE (Ec. 3) en un paso LS tono a tono seguido de un filtrado lineal. Al asumir además que el ruido y el canal tienen media nula y están descorrelacionados, la fórmula se simplifica y aprovecha la correlación en frecuencia del canal ($\mathbf{R}_{hh}$) para mejorar al LS. Por último, como usar 16-QAM en $64$ tonos hace que $\vert{}x_k\vert{}^2$ varíe en cada símbolo e invertir una matriz de $64 \times 64$ cada $136\,\mu\text{s}$ es impracticable, se promedia sobre la constelación en la Ec. (5) ($\beta = 17/9$) para poder aplicar SVD en la Sección III.B.
 
-\paragraph{De donde sale la ecuacion 5? CAMBIAR TITULO}
+\paragraph{Estimador Simplificado}
 El estimador LMMSE tiene una complejida de calculo considerable debido a la inversion de la matriz de  $N \times N$ $\mathbb{X}$ la cual debe ser calculado cada vez que los datos en $\mathbb{X}$ cambian, esto en tiempo real. Los autores del paper propone reducir la compeljidad del estimador promediando sobre los datos transmitidos, reemplazando el termino problematico; $(\mathbf{X}\mathbf{X}^H)^{-1}$ por su esperanza en la ecuacion del estimador tal que:
 $$(\mathbf{X}\mathbf{X}^H)^{-1} \approx \mathbb{E}\left\{(\mathbf{X}\mathbf{X}^H)^{-1}\right\}$$
 
@@ -1161,6 +1161,10 @@ $$\hat{\mathbf{h}} = \mathbf{R}_{hh}\left(\mathbf{R}_{hh} + \frac{\beta}{\text{S
 donde $\beta$ es una constante que depende de la constelación, $$\beta = \mathbb{E}\{\vert{}x_k\vert{}^2\}\,\mathbb{E}\left\{\left\vert{}\frac{1}{x_k}\right\vert{}^2\right\}$$
 
 Para una transmisión 16-QAM, este parámetro toma el valor $\beta = 17/9$. Dado que $\bm{X}$ deja de intervenir en el cálculo matricial, ya no es necesario invertir $\bm{R}_{hh} + (\beta/\mathrm{SNR})\bm{I}$ cada vez que varían los datos transmitidos en $\bm{X}$. Adicionalmente, si $\bm{R}_{hh}$ y la $\mathrm{SNR}$ se conocen de antemano o se fijan en valores nominales constantes, la matriz $\bm{R}_{hh}(\bm{R}_{hh} + (\beta/\mathrm{SNR})\bm{I})^{-1}$ solo debe computarse una única vez. Bajo este escenario, el proceso de estimación demanda $N$ multiplicaciones por tono.
+
+\subsection*{Experimento: Estimador LMMSE vs Estimador Simplificado}
+\addcontentsline{toc}{subsection}{Experimento: Estimador LMMSE vs Estimador Simplificado}
+
 
 %%%% APENDICES 
 
