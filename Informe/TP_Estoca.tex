@@ -1213,22 +1213,8 @@ El estudio y la simulación de filtros de Wiener FIR permitieron validar la vent
 \paragraph{Actividad 2}
 La formulación del estimador $LMMSE$ en el dominio de la frecuencia para un sistema OFDM ($y = Xh + n$) demostró que explotar la matriz de autocorrelación del canal $R_{hh}$ reduce el $MSE$ entre $10$ y $12\text{ dB}$ en comparación con el estimador por mínimos cuadrados ($LS$) tono a tono. Mediante simulación Monte Carlo sobre una constelación $16\text{-QAM}$ ($N = 64$, $L = 4$, $\beta = 17/9$), se confirmó la coincidencia exacta del estimador $LMMSE$ simplificado con su curva analítica teórica y se cuantificó una penalización constante de $2{,}1$ a $2{,}4\text{ dB}$ respecto del $LMMSE$ exacto, sin piso de error a alta $SNR$. Dado que dicha brecha representa apenas $\approx 0{,}3\text{ dB}$ de pérdida en $SNR$ efectiva a $20\text{ dB}$ y produce un seguimiento prácticamente idéntico de la magnitud del canal $\vert{}h_k\vert{}$, se concluye que promediar sobre la constelación valida un compromiso óptimo de ingeniería al eliminar la inversión matricial de $N \times N$ en tiempo real por cada símbolo OFDM transmitido
 
-
+\newpage
 %%%% APENDICES 
-
-<<<<<<< HEAD
-=======
-Donde 	\textbf{y} es el vector recibido, \textbf{X} es la matriz diagonal que contiene la señal recibida, \textbf{h} es el vector de atenuación del canal y \textbf{n} el vector de ruido \textit{iid} de varianza $\sigma_n^2 $ y media nula.
-
-
-\paragraph{Modelo del canal}
-Se considera un atenuación de M impulsos:
-
-\begin{equation}
-	contenidos...
-\end{equation}
- 
->>>>>>> 9c4cd1d (Informe : Actividad 2, hasta aca)
  \section{Códigos de simulación en Python}
  \label{anexo:codigo_python}
 
@@ -1706,16 +1692,41 @@ plt.tight_layout()
 plt.show()
 \end{lstlisting}
 
+
+\newpage
  
 \section{Uso de inteligencia artificial}
 \label{anexo:Uso_IA}
-
+\begin{comment}
 En la actualidad, la inteligencia artificial (IA) facilita de manera considerable la realización de trabajos prácticos, tareas académicas, experimentación, programación y síntesis de informes, artículos o libros. Al acelerar procesos que antes resultaban tediosos o demandaban mucho tiempo, permite enfocar el esfuerzo en problemas y proyectos de mayor complejidad.
 
 No obstante, su incorporación plantea riesgos concretos para el proceso de aprendizaje. Aprovecharla exige honestidad intelectual y un pensamiento crítico constante: es indispensable validar sus respuestas mediante fuentes confiables, ya que estos sistemas suelen ser complacientes y generar afirmaciones convincentes pero erróneas. Asimismo, resulta clave no delegar tareas formativas esenciales —como intentar resolver un problema antes de pedir ayuda—, priorizando un uso ético basado en el aprendizaje guiado, donde la herramienta orienta el razonamiento en lugar de sustituirlo. En cualquier proceso o proyecto asistido por IA es fundamental mantener una validación humana activa (human-in-the-loop).
 
 En el caso particular de este trabajo práctico integrador, la IA resultó una herramienta valiosa para agilizar el desarrollo, comprender temas complejos, sintetizar información y generar código de forma eficiente. Su uso estuvo siempre acompañado de una revisión crítica de los resultados, entendiendo sus límites como los de una "supercalculadora" que asiste el trabajo técnico pero no reemplaza el criterio propio. Más allá de las reticencias iniciales que pueda generar, resulta conveniente adoptar y adaptarse con criterio al nuevo paradigma que esta tecnología introduce en el ámbito académico y profesional.
+\end{comment}
 
+Este trabajo hizo uso de herramientas de inteligencia artificial (IA), cuya utilización puede clasificarse en dos categorías.
+
+La primera estuvo orientada a agilizar tareas de carácter metodológico que no interferían con los objetivos de aprendizaje del taller, tales como la generación de tablas, la corrección ortográfica, la detección de errores generales de redacción y la validación de contenidos.
+
+La segunda categoría correspondió al uso de herramientas de IA como complemento del proceso de estudio. En determinados casos, fue necesario recurrir a fuentes y enfoques alternativos a la bibliografía del taller, con el objetivo de repasar contenidos previos y profundizar en su comprensión. Para ello, se emplearon herramientas de IA en la elaboración de resúmenes de la bibliografía y en la generación de distintas plantillas de código, que permitieron realizar pruebas preliminares antes de llevar a cabo las simulaciones finales.
+
+A continuación se detallan principales \textit{promteos} utilizados en el desarrollo del taller:
+
+\begin{tcolorbox}[colframe=black!50,title=Elaboración de resúmenen \cite{edfors1996} ]
+	User prompt: Resume el contenido de este paper y explicame las ideas principales, ecuaciones y conceptos aplicados Haz especial enfasis en la seccion III.A y dime como se relaciona lo visto con las secciones anteriores del paper
+\end{tcolorbox}
+
+
+
+\begin{tcolorbox}[colframe=black!50,title= Consulta acerca del documento \cite{edfors1996}.]
+ 	 User prompt: Dado el modelo  esto es asi porque se pasa al dominio de la frecuencia? no era X convolucionado con h?
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[colframe=black!50,title= Consulta acerca del documento \cite{edfors1996}.]
+	User prompt: Como podemos probar de donde sale esto: $$\mathbb{E}\left\{(\mathbf{X}\mathbf{X}^H)^{-1}\right\} = \mathbb{E}\left\{\left\vert{}\frac{1}{x_k}\right\vert{}^2\right\}\mathbf{I}$$
+\end{tcolorbox}
 
 \printbibliography
  
