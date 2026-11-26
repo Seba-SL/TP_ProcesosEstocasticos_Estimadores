@@ -1007,7 +1007,7 @@ En la frecuencia $\frac{\pi}{2}$ se obvserva como tiende a convertirse en una se
  
  En esta actividad se presenta otra aplicación de la estimación, esta vez en el área de las comunicaciones estudiando el \textit{paper} titulado "\textit{OFDM Channel Estimation by Singular Value Descomposition}" \cite{edfors1996} y la bibliografía \cite{bahai2002}. En particular nos centramos en la modulación OFDM (\textit{Orthogonal Frequency División Modulation}), en donde se transmite la información en forma simultanea a través de muchos canales disjuntos que están separados en frecuencia.
  
-\subsection{Introducción a OFDM}
+\subsection*{Introducción a OFDM}
  \addcontentsline{toc}{subsection}{Introducción a OFDM}
  Este tipo de modulación busca aprovechar el ancho de banda sin que el solapamiento genere distorsión, para eso utiliza subportadoras de tal forma que al momento de recuperar el subcanal las demás subportadoras se anulan debido a la ortogonalidad de la distribución espectral. Lo que permite aprovechar mejor el ancho de banda y tener mas canales disponibles.
 
@@ -1100,7 +1100,7 @@ donde $\alpha_k$ son variables aleatorias gaussianas complejas de media nula con
 La Sección III.A plantea el problema de estimación lineal óptima del vector aleatorio de atenuaciones del canal $\mathbf{h}$ a partir del vector observado $\mathbf{y}$, asumiendo conocida la matriz de símbolos transmitidos $\mathbf{X}$ (ya sea por data de entrenamiento o decisiones previas del receptor)
 
 \paragraph{Estimador LMMSE}
-Dado el modelo $y = X \cdot h+n$ con $X$ conocida tanto \textbf{h} como \textbf{n} tienen media nula es decir: $ \mathbb{E} [h] = 0 $, $ \mathbb{E}[n] = 0$, por propiedad de linealizacion del operador esperanza tenemos que: $\mathbb{E}[y]=0$ por lo tanto las matrices de covarianza coinciden con las de autocorrelación $C=R$.
+Dado el modelo $\mathbf{y} = \mathbf{X}\mathbf{h} + \mathbf{n}$ con $\mathbf{X}$ conocida tanto \textbf{h} como \textbf{n} tienen media nula es decir: $ \mathbb{E} [h] = 0 $, $ \mathbb{E}[n] = 0$, por propiedad de linealizacion del operador esperanza tenemos que: $\mathbb{E}[y]=0$ por lo tanto las matrices de covarianza coinciden con las de autocorrelación $C=R$.
 
 De la teoria de estimacion lineal de minimo error cuadrático medio para vectores complejos de media nula, el LMMSE esta dado por: $$\hat{\mathbf{h}}_{lmmse} = \mu_h + \mathbf{C}_{hy} \mathbf{C}_{y}^{-1} \mathbf{y} = \mathbf{R}_{hy} \mathbf{R}_{y}^{-1} \mathbf{y}$$
 
@@ -1120,6 +1120,20 @@ $$\mathbf{R}_{y} = \mathbf{X}\left(\mathbf{R}_{hh} + \sigma_n^2 \mathbf{X}^{-1}(
 Al ser $\mathbf{X}$ diagonal, conmuta con $\mathbf{X}^H$, por lo que $\mathbf{X}^H\mathbf{X} = \mathbf{X}\mathbf{X}^H = \text{diag}(\vert{}x_0\vert{}^2, \dots, \vert{}x_{N-1}\vert{}^2)$. 
 
 Invirtiendo el producto matricial:$$\mathbf{R}_{y}^{-1} = (\mathbf{X}^H)^{-1}\left(\mathbf{R}_{hh} + \sigma_n^2 (\mathbf{X}\mathbf{X}^H)^{-1}\right)^{-1}\mathbf{X}^{-1}$$
+
+Luego sustituyendo $\mathbf{R}_{hy}$ y $\mathbf{R}_{y}^{-1}$ en el estimador LMMSE:
+
+$$\hat{\mathbf{h}}_{lmmse} = \mathbf{R}_{hh}\underbrace{\mathbf{X}^H(\mathbf{X}^H)^{-1}}_{\mathbf{I}}\left(\mathbf{R}_{hh} + \sigma_n^2 (\mathbf{X}\mathbf{X}^H)^{-1}\right)^{-1}\underbrace{\mathbf{X}^{-1}\mathbf{y}}_{\hat{\mathbf{h}}_{ls}}$$
+
+Obteniendo las ecuaciones del paper del estimador LMMSE y del estimador de cuadrado-minimo de \textbf{h}
+
+$$\hat{\mathbf{h}}_{lmmse} = \mathbf{R}_{hh}\left(\mathbf{R}_{hh} + \sigma_n^2 (\mathbf{X}\mathbf{X}^H)^{-1}\right)^{-1} \hat{\mathbf{h}}_{ls} \qquad \text{(Ec. 3)}$$
+
+$$\hat{\mathbf{h}}_{ls} = \mathbf{X}^{-1}\mathbf{y} = \left[\frac{y_0}{x_0}, \frac{y_1}{x_1}, \dots, \frac{y_{N-1}}{x_{N-1}}\right]^T \qquad \text{(Ec. 4)}$$
+
+
+%% OJO ESTO LO ESCRIBIO LA IA PERO NO SE: 
+En resumen, las ecuaciones de la Sección III.A dependen directamente de lo planteado antes: el prefijo cíclico y el canal lento permiten usar el modelo simple $\mathbf{y} = \mathbf{X}\mathbf{h} + \mathbf{n}$ con $\mathbf{X}$ diagonal, lo que deja separar el estimador LMMSE (Ec. 3) en un paso LS tono a tono seguido de un filtrado lineal. Al asumir además que el ruido y el canal tienen media nula y están descorrelacionados, la fórmula se simplifica y aprovecha la correlación en frecuencia del canal ($\mathbf{R}_{hh}$) para mejorar al LS. Por último, como usar 16-QAM en $64$ tonos hace que $\vert{}x_k\vert{}^2$ varíe en cada símbolo e invertir una matriz de $64 \times 64$ cada $136\,\mu\text{s}$ es impracticable, se promedia sobre la constelación en la Ec. (5) ($\beta = 17/9$) para poder aplicar SVD en la Sección III.B.
 
 
 %%%% APENDICES 
